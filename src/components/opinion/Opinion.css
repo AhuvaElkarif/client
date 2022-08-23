@@ -1,0 +1,19 @@
+.fullStar{
+    color: yellow;
+    border:black;
+}
+.full{
+   color: pink;
+}
+.opinion{
+    height:20%;
+    width: 45%;
+    border: solid 2px black;
+    border-radius: 5px;
+}
+
+.list{
+    background-color: aliceblue;
+    border: 2px white solid;
+    border-radius: 20px;
+}

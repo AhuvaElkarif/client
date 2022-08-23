@@ -1,0 +1,31 @@
+.order-list{   
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: normal;
+    position: relative;
+    top: 5rem;
+    margin-right: 102px;
+}
+
+.contain{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content:space-around;
+    position: relative;
+    top: 5rem;
+    margin-right: 102px;
+    border:2px solid rgb(160, 138, 15); 
+    border-radius: 24px;
+    /* width: 20vw;  */
+    margin: 5px;
+    text-align: center;
+}
+.rating{
+    direction: ltr;
+}
+.btn{
+    height:8vh;
+    width: 10vw;
+    position: relative;
+    top:1.5rem;
+}

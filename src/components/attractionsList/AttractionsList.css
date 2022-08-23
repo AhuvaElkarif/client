@@ -1,0 +1,64 @@
+.product-list{   
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: normal;
+    position: relative;
+    top: 5rem;
+    margin-right: 102px;
+}
+
+.container{
+    /* border:2px solid rgb(160, 138, 15); */
+    /* border-radius: 24px; */
+    width: 20vw; 
+    margin: 5px;
+    text-align: center;
+}
+body ,html{
+    height: 100%;
+    font-family: "Roboto Slab SBN", "Palatino Linotype", "Palatino";
+}
+h1 , h3{
+    text-align: center;
+   font-size: xx-large;
+   color: rgb(56, 54, 54);
+}
+p{
+    color:#412e17;
+    font-weight: 300px;
+}
+input[type=button] {
+    margin: 5px;
+    width: 85px;
+    height: 30px;
+    text-align: center;
+    /* background-color: rgb(192, 168, 97); */
+    /* color: white; */
+    font-weight: bolder;
+    font-size: medium;
+  }
+
+  .heart{
+    width: 85px;
+    height: 30px;
+  }
+
+.agree , .update , .order{
+    background-color: rgb(181, 195, 238);
+    color: royalblue;
+}
+
+.delete{
+    background-color: rgb(210, 231, 179);
+    color: rgb(121, 204, 39);
+}
+
+/* .like{
+    background-color: rgb(245, 160, 160);
+} */
+
+.search{
+position: relative;
+right:60rem;
+bottom:3.5rem;
+}

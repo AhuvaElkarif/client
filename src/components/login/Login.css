@@ -1,0 +1,24 @@
+
+
+.link {
+    color: blue;
+    text-decoration: underline;
+}
+
+.login{
+    background-color: rgb(181, 195, 238);
+    color: royalblue;
+    border-radius: 20px;
+}
+ /* .move{
+     position: relative;
+     top:3rem;
+     border:2px white solid;
+     background-color: white;;
+     width:30vw;
+     align-items: center;
+     text-align: center;
+     padding: 2%;
+     margin: auto;
+     border-radius: 20px;
+ } */

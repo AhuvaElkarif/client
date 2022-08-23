@@ -1,0 +1,23 @@
+body{
+  direction: rtl;
+  text-align: center; 
+  background-color: white;
+}
+/*
+.logo{
+  width: 15vw;
+  height: 15vh;
+  position: relative;
+  right:3rem;
+}
+ .head{
+  text-align: center;
+} */
+
+footer{
+  background-color: black;
+  color: white;
+  text-align: center;
+  position: relative;
+  bottom: -30rem;
+}

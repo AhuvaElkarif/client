@@ -39,14 +39,10 @@ export const storeReducer = (state = initialState, action) => {
             }
 
         case actionType.ADDED_ATTRACTION_TO_WISH_LIST:
-            const b = [...state.wishesArr];
-            if (b.find(x => x.AttractionId == action.payload.AttractionId)) {
-                alert("מוצר זה כבר קיים!")
-                break;
-            }
+            const x = state.attractionArr.find(x=>x.Id==action.payload.AttractionId);
             return {
                 ...state,
-                wishesArr: [...state.wishesArr, action.payload]
+                wishesArr: [...state.wishesArr, x]
             }
 
         case actionType.WISH_LIST_ACCEPTED:
@@ -56,6 +52,7 @@ export const storeReducer = (state = initialState, action) => {
             }
         case actionType.ATTRACTION_DELETED_FROM_WISH_LIST:
             const array = [...state.wishesArr];
+            console.log(array)
             array.splice(action.payload, 1);
             return {
                 ...state,

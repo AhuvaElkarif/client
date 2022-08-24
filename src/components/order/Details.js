@@ -75,7 +75,6 @@ const Details = () => {
         navigate("/message" + "/" + product.Id + "/" + 3 + "/" + false);
 
     }
-    console.log(id)
     return (<>
         <form onSubmit={handleSubmit(onSubmit)} className="location">
 

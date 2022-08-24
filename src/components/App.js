@@ -23,13 +23,19 @@ import  Mail  from './order/Mail';
 import Steppers from './order/Stepper';
 import SelectTickets from './order/SelectTickets';
 import  Details  from './order/Details';
+import TransitionAlerts from './wishList/SweetAlert';
+import Poppers from './attractionsList/popper/Popper';
+import MyCalender from './order/Calender';
 
 function App() {
   return (<>
-    {/* <WishList/>*/}
+  {/* <MyCalender/> */}
+    <AttractionsList/>
     {/* <Mail/>  */}
     {/* <SelectTickets/> */}
-   <AttractionsList/>
+
+   <WishList/>
+   {/* <TransitionAlerts/> */}
     {/* <header className="head">
   </header> */}
    

@@ -15,6 +15,8 @@ import { useSelector } from 'react-redux'
 import AdbIcon from '@mui/icons-material/Adb';
 import { SvgIcon } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
+import { AirlineSeatLegroomReducedTwoTone } from '@material-ui/icons';
+import AutoGrid from './components/order/AutoGrid';
 
 
 
@@ -117,4 +119,15 @@ const ResponsiveAppBar = () => {
         </AppBar>
     );
 };
+// const selctDate={date:2022-09-08, start:"8:00", end:"14:00",minits:15};
+//     let time=new Date(selctDate.date,selctDate.start)
+//     while( time.getHours()<=end){
+//         arr.push({...x, houer:time})
+//         time=time.setMinutes(minits)
+//     }
+שעתת
+// const interval = setInterval(()=> {
+//    setState(true)
+//   }, 5000);
+{/* <StateNOTSAve onClick={()=>setState(false)}></div> */}
 export default ResponsiveAppBar;

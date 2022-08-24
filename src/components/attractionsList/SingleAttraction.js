@@ -15,16 +15,17 @@ import Buttons from './Buttons';
 
 export default function SingleAttraction({ product }) {
     const navigate = useNavigate();
+
     return (
         <Card sx={{ maxWidth: 345 }}>
             <CardHeader
-                title={product.Name}
-            // subheader="September 14, 2016"
+                title={product.CategoryName}
+                subheader={product.Name}
             />
             <CardMedia
                 component="img"
                 height="194"
-                image="./boat.JPG"
+                image={`C:\\inetpub\\wwwroot\\image\\${product.Images.slice(0, 14)}`}
                 alt={product.Address}
                 onClick={() => { navigate("/detailsAttraction/" + product.Id) }}
             />
@@ -34,10 +35,9 @@ export default function SingleAttraction({ product }) {
                 </Typography>
 
                 <Typography variant="body2" color="text.secondary">
-                    {product.Price} {'ש"ח'}
+                    {'₪'}{product.Price}
                 </Typography>
             </CardContent>
-
             <CardActions disableSpacing>
                 <Buttons id={product.Id} />
             </CardActions>

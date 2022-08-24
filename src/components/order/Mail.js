@@ -7,9 +7,9 @@ export default function Mail() {
     e.preventDefault();    //This is important, i'm not sure why, but the email won't send without it
     console.log("jjkn");
 
-    emailjs.sendForm('service_146nhwb', 'template_1vdryqh', e.target, 'oSzOP-e84dKOfdFUl')
+    emailjs.sendForm('service_146nhwb', 'template_1vdryqh',"sara5780272@gmail.com",  'oSzOP-e84dKOfdFUl',)
       .then((result) => {
-          window.location.reload()  //This is if you still want the page to reload (since e.preventDefault() cancelled that behavior) 
+          //window.location.reload()  //This is if you still want the page to reload (since e.preventDefault() cancelled that behavior) 
           console.log(result);
         }, (error) => {
           console.log(error.text);

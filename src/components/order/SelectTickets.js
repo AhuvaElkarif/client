@@ -20,7 +20,7 @@ const SelectTickets = ({ date, attractionId }) => {
             בחרו את כמות הכרטיסים
             {/* <h1>יום {date.getDay()} {date.toLocaleDateString('en-GB')}</h1> */}
             {image.map((item, ind) => {
-                return <span key={item.Id}> {ind <= 5 ? <img src={`C:\inetpub\wwwroot\image\${item.Img}`}
+                return <span key={item.Id}> {ind <= 5 ? <img src={`C:\\inetpub\\wwwroot\\image\\${item.Img}`}
                     className="imgOrder" /> : null} </span>
             })}
             <br/><br/>

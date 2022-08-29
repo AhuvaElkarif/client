@@ -10,19 +10,12 @@ import Paper from '@mui/material/Paper';
 import User from '../../models/User';
 import { IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { getUsers, deleteUser } from "../../store/actions/UserActions";
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { getManagersUsers, deleteUser } from "../../store/actions/UserActions";
+import {  shallowEqual, useSelector } from 'react-redux';
 import Alerts from '../alert/Alerts';
 import AlertMessage from './AlertMessage';
-import { IndeterminateCheckBox } from '@material-ui/icons';
 
 const UsersList = () => {
-
-    const dispatch = useDispatch();
-    // function createData(name, email, phone) {
-    //     return { name, email, phone };
-    // }
-
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
             backgroundColor: theme.palette.common.black,
@@ -48,18 +41,17 @@ const UsersList = () => {
             user: state.user
         }
     }, shallowEqual);
-
     const [users, setUsers] = React.useState([]);
     let tempUsers = [];
     const [id, setId] = React.useState(null);
     // let rows = [];
     React.useEffect(() => {
-        getUsers()
+        getManagersUsers()
             .then(x => setUsers(x.data))
             .catch(err => console.log(err));
-
-
     }, []);
+    React.useEffect(() => {
+    }, [users]);
     const deleteU = (index) => {
         tempUsers = users;
         tempUsers.splice(index, 1);
@@ -67,9 +59,7 @@ const UsersList = () => {
     }
 
     return (
-        users.length ? <TableContainer component={Paper}>
-            {console.log(users)}
-
+        users.length > 0 ? <TableContainer component={Paper}>
             <Table sx={{ minWidth: 700 }} aria-label="customized table">
                 <TableHead>
                     <TableRow>
@@ -77,19 +67,20 @@ const UsersList = () => {
                         <StyledTableCell align="right">מייל</StyledTableCell>
                         <StyledTableCell align="right">פלאפון</StyledTableCell>
                         <StyledTableCell align="right">
-
+                                     סטטוס
                         </StyledTableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {users.map((row, index) => <StyledTableRow key={row.name}>
+                    {users.map((row, index) => <StyledTableRow key={row.Id}>
                         {/* <StyledTableCell component="th" scope="row">
                                 {row.name}
                             </StyledTableCell> */}
                         <StyledTableCell align="right">{row.Name}</StyledTableCell>
                         <StyledTableCell align="right">{row.Email}</StyledTableCell>
                         <StyledTableCell align="right">{row.Phone}</StyledTableCell>
-                        {user.status == 3 ?
+                        <StyledTableCell align="right">{row.Active?<span>פעיל</span>:<span>לא פעיל</span>} <input type="button" value="שנה"/></StyledTableCell>
+                        {user.Status == 3 ?
                             <StyledTableCell align="right">
                                 <IconButton aria-label="delete" size="large">
                                     {id != row.Id && <DeleteIcon fontSize="inherit"
@@ -102,7 +93,7 @@ const UsersList = () => {
                                                 })
                                                 .catch(err => console.log(err));
                                         }} />}
-                                    {id == row.Id && <AlertMessage variant={'success'} children={<Alerts message={"המשתמש נמחק בהצלחה!"} />} />}
+                                    {id == row.Id && <AlertMessage variant={'success'} children={<Alerts message={"המשתמש עודכן בהצלחה!"} />} />}
                                 </IconButton>
                             </StyledTableCell> : null}
                     </StyledTableRow>

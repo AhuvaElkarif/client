@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
@@ -26,9 +26,9 @@ const currencies = [
   },
 ];
 
-export default function SelectTextFields({handleChange}) {
+export default function SelectTextFields({ handleChange }) {
   const [currency, setCurrency] = useState('REC');
-  useEffect(()=>{},[currency])
+  useEffect(() => { }, [currency])
   return (<>
     <Box
       component="form"
@@ -37,7 +37,6 @@ export default function SelectTextFields({handleChange}) {
       }}
       noValidate
       autoComplete="off">
-
       <TextField
         id="standard-select-currency"
         select

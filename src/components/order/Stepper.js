@@ -7,14 +7,21 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import SelectDate from './SelectDate';
 import SelectTickets from './SelectTickets';
-import { Details } from '@material-ui/icons';
+import  Details from './Details';
+import swal from "sweetalert";
+import { useNavigate } from 'react-router-dom';
+import { Link } from '@material-ui/core';
+import "./Order.css";
 
-const steps = ['בחירת מועד', 'בחירת כרטיסים', 'מילוי פרטים'];
+const steps = ['בחירת כרטיסים', 'בחירת מועד', 'מילוי פרטים'];
 
 const Steppers = ({id}) => {
     const [activeStep, setActiveStep] = React.useState(0);
     const [skipped, setSkipped] = React.useState(new Set());
-
+    const [flag,setFlag] = React.useState(false);
+    const [date,setDate] = React.useState(new Date());
+    const [price,setPrice] = React.useState(0);
+    const navigate= useNavigate();
     const isStepOptional = (step) => {
         return step === 1;
     };
@@ -24,6 +31,14 @@ const Steppers = ({id}) => {
     };
 
     const handleNext = () => {
+        if(!flag){
+            swal({
+                title: "לא נבחרה כמות",
+                icon: "warning"
+              });
+            return;
+        }
+          
         let newSkipped = skipped;
         if (isStepSkipped(activeStep)) {
             newSkipped = new Set(newSkipped.values());
@@ -32,6 +47,7 @@ const Steppers = ({id}) => {
 
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
         setSkipped(newSkipped);
+        // setFlag(false);
     };
 
     const handleBack = () => {
@@ -56,8 +72,11 @@ const Steppers = ({id}) => {
     const handleReset = () => {
         setActiveStep(0);
     };
-
-    return (
+    // React.useEffect(()=>{},[flag])
+    return (<div className='order'>
+        <h2>יש להתעדכן בשעות הפעילות של האתר לפני רכישת הכרטיסים <br/>
+        {/* <span onClick={()=>navigate("")} > לשעות הפעילות לחץ כאן </span> */}
+        <Link  to="/attractionList" underline="hover"> לשעות הפעילות לחץ כאן  </Link></h2>
         <Box sx={{ width: '100%' }}>
             <Stepper activeStep={activeStep}>
                 {steps.map((label, index) => {
@@ -91,8 +110,9 @@ const Steppers = ({id}) => {
             ) : (
                 <React.Fragment>
                     <Typography sx={{ mt: 2, mb: 1 }}>
-                        {activeStep==0?<SelectDate/>:activeStep==1?<SelectTickets attractionId={id}/>:<Details/>}
-                        שלב {activeStep + 1}
+                        {activeStep==0?<SelectTickets attractionId={id} setFlag={setFlag} setPrice={setPrice}/>
+                        :activeStep==1?<SelectDate setDate={setDate}/>:<Details price={price} date={date}/>}
+                        {/* שלב {activeStep + 1} */}
                     </Typography>
                     <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                         <Button
@@ -111,12 +131,13 @@ const Steppers = ({id}) => {
             )} */}
 
                         <Button onClick={handleNext}>
-                            {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                            {activeStep === steps.length - 1? 'סיום' : 'הבא'}
                         </Button>
                     </Box>
                 </React.Fragment>
             )}
         </Box>
+        </div>
     );
 }
 export default Steppers;

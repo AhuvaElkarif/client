@@ -38,7 +38,7 @@ input[type=button] {
     font-size: medium;
   }
 
-  .heart{
+  /* .heart{
     width: 85px;
     height: 30px;
   }
@@ -51,7 +51,7 @@ input[type=button] {
 .delete{
     background-color: rgb(210, 231, 179);
     color: rgb(121, 204, 39);
-}
+} */
 
 /* .like{
     background-color: rgb(245, 160, 160);

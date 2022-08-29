@@ -5,7 +5,7 @@ const initialState = {
     // user: null,
     user: {
         Id: 1, Name: "שילת בידני", Email: "shilat@gmail.com", Password: "1111",
-         Phone: "0533160663", Status: 1
+         Phone: "0533160663", Status: 3
     },
     userList: [],
     //order: null,

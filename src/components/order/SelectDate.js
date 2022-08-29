@@ -1,10 +1,16 @@
-import react from "react";
+import 'react-daypicker/lib/DayPicker.css';
+import DayPicker from 'react-daypicker';
+// import 'react-daypicker/src/DayPicker.css';
+const SelectDate = () => {
+  const onChange = (date) => {
+    console.log(date.toString());
+  };
 
-const SelectDate = () =>{
-    return(
-        <div>
-
-        </div>
-    )
+  return (
+    <DayPicker
+    // active={moment().add(1, 'day')}
+    onDayClick={(day) => this.setState({ day })}
+  />
+  );
 }
 export default SelectDate;

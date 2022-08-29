@@ -36,8 +36,8 @@ export const currentUser = (user) =>{
     }
 }
 
-export const getUsers = () => {
-    return  axios.get("http://localhost:57828/Api/user/GetUsers")
+export const getManagersUsers = () => {
+    return  axios.get("http://localhost:57828/Api/user/GetManagersUsers")
 }
 
 export const getUserById = (userId) => {

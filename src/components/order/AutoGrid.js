@@ -12,7 +12,7 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-export default function AutoGrid({ item1 }, { item2 }, { item3 }) {
+export default function AutoGrid({ item1 , item2 , item3 }) {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={3}>
@@ -20,7 +20,7 @@ export default function AutoGrid({ item1 }, { item2 }, { item3 }) {
           {item1}
         </Grid>
         <Grid item>
-          {item1}
+          {item2}
         </Grid>
         <Grid item xs>
           {item3}

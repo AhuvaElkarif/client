@@ -3,6 +3,15 @@
         text-decoration: underline;
 }
 .imgOrder{
-        border: 10vw solid black;
+        border: 7vw solid black;
         border-radius: 9rem;
+}
+.creditCard{
+        background-color:lightsteelblue;
+}
+.order{
+        border: 2px solid black;
+        width: 70vw;
+        position: relative;
+        margin-right: 10rem;
 }

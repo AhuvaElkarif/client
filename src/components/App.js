@@ -9,7 +9,6 @@ import About from './about/About';
 import HomePage from './homePage/HomePage';
 import Order from './order/Order';
 import WishList from './wishList/WishList';
-import NewAttractions from './newAttractions/NewAttractions';
 import { Routes, Route } from 'react-router';
 import NavBar from './navBar/NavBar';
 import EditAttraction from './editAttraction/EditAttraction';
@@ -24,17 +23,23 @@ import Steppers from './order/Stepper';
 import SelectTickets from './order/SelectTickets';
 import  Details  from './order/Details';
 import TransitionAlerts from './wishList/SweetAlert';
-import Poppers from './attractionsList/popper/Popper';
 import MyCalender from './order/Calender';
+import Poppers from './popper/Popper';
+import Table from './usersList/Table';
+import  Stepper  from './order/Stepper';
 
 function App() {
   return (<>
   {/* <MyCalender/> */}
-    <AttractionsList/>
-    {/* <Mail/>  */}
-    {/* <SelectTickets/> */}
+  {/* <Table/> */}
+  {/* <Poppers/> */}
 
-   <WishList/>
+    {/* <AttractionsList/> */}
+    {/* <Mail/>  */}
+    {/* <Details/> */}
+    <Stepper id={19}/>
+
+   {/* <WishList/> */}
    {/* <TransitionAlerts/> */}
     {/* <header className="head">
   </header> */}
@@ -60,7 +65,6 @@ function App() {
      
       <Route path="about" element={<About />} />
       <Route path="homePage" element={<HomePage />} />
-      <Route path="newAttractions" element={<NewAttractions />} />
       <Route path="message/:id/:type/:possible" element={<Message />} />
       <Route path="usersList" element={<UsersList />} />
       <Route path="orderList" element={<OrdersList />} />

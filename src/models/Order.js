@@ -1,8 +1,8 @@
-function Order(id, attrctionId, globalPrice, date, name) {
+function Order(id, attrctionId, globalPrice, orderDate, name) {
     this.id = id;
-    this.attrctionId = attrctionId;
+    this.attractionId = attrctionId;
     this.globalPrice = globalPrice;
-    this.date = date;
+    this.orderDate = orderDate;
     this.name = name;
 }
 export default Order;

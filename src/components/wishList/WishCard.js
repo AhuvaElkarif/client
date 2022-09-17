@@ -8,13 +8,15 @@ import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { deleteProductFromWishList } from '../../store/actions/WishListAction';
+import Poppers from '../popper/Popper';
 
 export default function WishCard({ item , ind}) {
   const theme = useTheme();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { user } = useSelector(state => state.user);
+  const  user = useSelector(state => state.user);
   return (
     <Card sx={{ display: 'flex', width: '40vw', flexDirection: 'row' }}>
       <Box sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -27,8 +29,8 @@ export default function WishCard({ item , ind}) {
           </Typography>
         </CardContent>
         <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1, left:'4rem' }}>
-          <Button variant="contained" size="small" onClick={()=>{dispatch(deleteProductFromWishList(user, item.Id, ind))}}>  מחק  </Button>
-          <Button variant="contained" size="small" onClick={() => navigate("/order/" + false + "/" + 0 + "/" + item.Id)}>  הזמן  </Button>
+          <Poppers func={()=>{dispatch(deleteProductFromWishList(user, item.Id))}} type={1} text="מחוק" content={<DeleteIcon />}/>
+          <Button size="small" onClick={() => navigate("/order/" + false + "/" + 0 + "/" + item.Id)}>  הזמן  </Button>
         </Box>
       </Box>
       <CardMedia

@@ -4,11 +4,11 @@ const initialState = {
     wishesArr: [],
     // user: null,
     user: {
-        Id: 1, Name: "שילת בידני", Email: "shilat@gmail.com", Password: "1111",
-         Phone: "0533160663", Status: 3
+        Id: 2, Name: "שילת בידני", Email: "shilat@gmail.com", Password: "1111",
+         Phone: "0533160663", Status: 2
     },
     userList: [],
-    //order: null,
+    ordersArr: [],
     loading: false
 }
 
@@ -51,12 +51,11 @@ export const storeReducer = (state = initialState, action) => {
                 wishesArr: action.payload
             }
         case actionType.ATTRACTION_DELETED_FROM_WISH_LIST:
-            const array = [...state.wishesArr];
-            console.log(array)
-            array.splice(action.payload, 1);
+            const array = state.wishesArr.filter(x=>x.Id!=action.payload);
+            // array.splice(action.payload, 1);
             return {
                 ...state,
-                wishesArr: [...array]
+                wishesArr:array
             }
         case actionType.ATTRACTION_DELETED:
             const a = [...state.attractionArr];
@@ -77,12 +76,9 @@ export const storeReducer = (state = initialState, action) => {
 
         case actionType.ATTRACTION_UPDATED:
             const vec = [...state.attractionArr];
-            for (let index = 0; index < vec.length; index++) {
-                if (vec.find(x => x.id == action.payload.id)) {
-                    vec[index] = action.payload;
-                    break;
-                }
-            }
+            console.log(action.payload)
+            const findIndex=vec.findIndex(x=>x.Id===action.payload.Id);
+            vec[findIndex]=action.payload;
             return {
                 ...state,
                 attractionArr: [...vec]

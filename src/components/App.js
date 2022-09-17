@@ -7,7 +7,6 @@ import Register from './register/Register';
 import EquipmentList from './equipment/EquipmentList';
 import About from './about/About';
 import HomePage from './homePage/HomePage';
-import Order from './order/Order';
 import WishList from './wishList/WishList';
 import { Routes, Route } from 'react-router';
 import NavBar from './navBar/NavBar';
@@ -15,46 +14,50 @@ import EditAttraction from './editAttraction/EditAttraction';
 import Message from './message/Message';
 import UsersList from './usersList/UsersList';
 import DetailsAttraction from './attractionsList/DetailsAttraction';
-import Regions from './regions/Regions';
 import OrdersList from './ordersList/ordersList';
-import Test from '../test2';
-import  Mail  from './order/Mail';
-import Steppers from './order/Stepper';
-import SelectTickets from './order/SelectTickets';
-import  Details  from './order/Details';
-import TransitionAlerts from './wishList/SweetAlert';
-import MyCalender from './order/Calender';
-import Poppers from './popper/Popper';
+import Details from './order/Details';
+import ActivityTime from './ActivityTime/ActivityTime';
+import RegisterAndLogin from './RegisterAndLogin/RegisterAndLogin';
 import Table from './usersList/Table';
-import  Stepper  from './order/Stepper';
 
 function App() {
   return (<>
-  {/* <MyCalender/> */}
-  {/* <Table/> */}
-  {/* <Poppers/> */}
-
+    {/* <MinimumDistanceSlider/> */}
+    {/* <MyCalender/> */}
+    {/* <Table/> */}
+    {/* <OrdersList/> */}
+    {/* <Poppers/> */}
+    {/* <RegisterAndLogin/> */}
+    {/* <LongMenu/> */}
+    {/* <SimplePopper/> */}
+    {/* <Slideshow2/> */}
     {/* <AttractionsList/> */}
+    {/* <Login type={1}/> */}
+    {/* <Login/>
+        <Register type={1}/> */}
+    {/* <BannerExample/> */}
     {/* <Mail/>  */}
     {/* <Details/> */}
-    <Stepper id={19}/>
-
-   {/* <WishList/> */}
-   {/* <TransitionAlerts/> */}
+    {/* <Stepper id={19}/> */}
+    {/* <SideNavBar/> */}
+    {/* <WishList/> */}
+    {/* <TransitionAlerts/> */}
     {/* <header className="head">
   </header> */}
-   
+    <NavBar />
+
     <Routes>
       <Route path="" element={<HomePage />} />
       <Route path="attractionsList" element={<AttractionsList />} />
-      <Route path="regions" element={<Regions />} />
-      <Route path="editAttraction/:id" element={<EditAttraction type="edit"/>} />
+      <Route path="registerAndLogin/:id" element={<RegisterAndLogin />} />
+      <Route path="editAttraction/:id" element={<EditAttraction type="edit" />} />
       <Route path="editAttraction" element={<EditAttraction type="new" />} />
       <Route path="exit" element={<AttractionsList />} />
       <Route path=""></Route>
-      <Route path="login" element={<Login />} />
-      <Route path="register" element={<Register />} />
+      <Route path="login/:type" element={<Login />} />
+      <Route path="register/:type" element={<Register />} />
       <Route path="wishList" element={<WishList />} />
+      <Route path="activityTime/:id" element={<ActivityTime />} />
       <Route path="order/:flag/:type/:id" element={<Details />} >
         <Route path="equipmentList" element={<EquipmentList />} />
       </Route>
@@ -62,7 +65,7 @@ function App() {
       {/* <Route path="order/:flag/:type/:id" element={<Order />} >
         <Route path="equipmentList" element={<EquipmentList />} />
       </Route> */}
-     
+
       <Route path="about" element={<About />} />
       <Route path="homePage" element={<HomePage />} />
       <Route path="message/:id/:type/:possible" element={<Message />} />
@@ -72,7 +75,7 @@ function App() {
       <Route path="detailsAttraction/:id" element={<DetailsAttraction />} />
     </Routes>
 
-       {/* <Route path="userNavBar" element={<UserNavBar />}>
+    {/* <Route path="userNavBar" element={<UserNavBar />}>
         <Route path="login" element={<Login />} />
       </Route>
       <Route path="guestNavBar" element={<GuestNavBar />}>
@@ -82,7 +85,7 @@ function App() {
       <Route path="mangerAttractionNavBar" element={<MangerAttractionNavBar />}>
         <Route path="login" element={<Login />} />
       </Route> */}
-      {/* <Route path="mangerWebSiteNavBar" element={<MangerWebSiteNavBar />}>
+    {/* <Route path="mangerWebSiteNavBar" element={<MangerWebSiteNavBar />}>
         <Route path="login" element={<Login />} />
       </Route> */}
     {/* <footer> אטרקציות צור קשר 03-9378755 </footer> */}

@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 
 const Opinions = ({ attractionId }) => {
     const [opinionsArr, setOpioniosArr] = useState([]);
-
     useEffect(() => {
         getOpinionsByAttrctionId(attractionId)
             .then(x => setOpioniosArr(x.data))
@@ -12,9 +11,11 @@ const Opinions = ({ attractionId }) => {
     }, [attractionId])
     return (<>
         <div className="product-list">
-            {opinionsArr.map(item => {
-                return <div key={item.Id} className="container list"><SingleOpinion opinion={item} /> </div>
-            })}
+            {opinionsArr.length > 0 ? opinionsArr.map(item => {
+                return <div key={item.Id} className="container list">
+                    <SingleOpinion opinion={item} />
+                </div>
+            }) : null}
         </div>
     </>);
 }

@@ -1,7 +1,6 @@
 import { useParams, useNavigate } from "react-router";
-import { useState, useEffect, useRef } from "react";
 import Opinions from "../opinion/Opinions";
-import { shallowEqual, useSelector } from "react-redux";
+import {  useSelector } from "react-redux";
 import "./AttractionsList.css";
 import "./DetailsAttraction.css";
 import Buttons from "./Buttons";
@@ -9,14 +8,9 @@ import Buttons from "./Buttons";
 const DetailsAttraction = () => {
      const navigate = useNavigate();
      const { id } = useParams();
-     const { attractions } = useSelector(state => {
-          return {
-               attractions: state.attractionArr
-          }
-     }, shallowEqual);
-     const product = { ...attractions.find(x => x.Id == id) };
+     const attractionArr = useSelector(state => state.attractionArr);
+     const product = { ...attractionArr.find(x => x.Id == id) };
 
-    
      return (
           <div className="detailsAttraction">
                {product == null ? <>loading...</> : (<>
@@ -29,9 +23,9 @@ const DetailsAttraction = () => {
                     <h4> משך זמן: {product.TimeDuration} דקות</h4>
                     <h4> טווח גילאים מתאים: {product.TillAge} - {product.FromAge}</h4>
                     <br /> {product.IsAvailable ? <p> האטרקציה זמינה כעת </p> : <p>האטרקציה אינה זמינה כעת</p>}
-                    <Buttons id={product.Id}/>
-                    <Opinions attractionId={product.Id} />
-                   
+                    <Buttons id={product.Id} />
+                    <Opinions attractionId={id} />
+
                </>)}
 
           </div>);

@@ -1,93 +1,90 @@
 import { login } from "../../store/actions/UserActions";
-import { useNavigate } from "react-router";
-import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { useRef } from "react";
+import { useNavigate, useParams } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
 import "./Login.css";
 import "../register/Register.css";
 import * as React from "react";
-import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Input from '@mui/material/Input';
-import FilledInput from '@mui/material/FilledInput';
-import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
-import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import AlertMessage from "../usersList/AlertMessage";
-import Alerts from "../alert/Alerts";
+import { Button } from "@material-ui/core";
+import ForgetPassword from "./ForgetPassword";
+import { useForm } from "react-hook-form";
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from "yup";
+import { useEffect } from "react";
 
-const Login = () => {
-    const [values, setValues] = React.useState({
-        amount: '',
-        password: '',
-        weight: '',
-        weightRange: '',
-        showPassword: false,
+const schema = yup.object({
+    Email: yup.string().email("כתובת מייל אינה תקינה").required("שדה זה חובה"),
+    Password: yup.string().required("שדה זה חובה").matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/, "סיסמא לא תקינה")
+}).required();
+
+const Login = ({ id }) => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const { type } = useParams();
+    const [open, setOpen] = React.useState(false);
+    const [mail, setMail] = React.useState("");
+    const [showPassword, setshowPassword] = React.useState(false)
+    const { user } = useSelector(state => ({ user: state.user }))
+    useEffect(() => {
+        console.log(user)
+        if (user) {
+            navigate("/attractionsList");
+        }
+    }, [user])
+
+    const { register, handleSubmit, formState: { errors }, getValues } = useForm({
+        resolver: yupResolver(schema)
     });
 
-    const handleChange = (prop) => (event) => {
-        setValues({ ...values, [prop]: event.target.value });
+    const onSubmit = (data) => {
+        console.log("ll")
+        console.log(data)
+         dispatch(login(data, type));
     };
-
-    const handleClickShowPassword = () => {
-        setValues({
-            ...values,
-            showPassword: !values.showPassword,
-        });
-    };
-
-    const handleMouseDownPassword = (event) => {
-        event.preventDefault();
-    };
-    const dispatch = useDispatch();
-    // const { user } = useSelector(state => ({
-    //     user: state.user
-    // }, shallowEqual));
-
-    let navigate = useNavigate();
-    // let nameInput = useRef(null);
-    // let passwordInput = useRef(null);
-    let user = {}
-    const change = (e) => {
-        let { name, value } = e.target;
-        user[name] = value;
+    const openReset = () => {
+        setMail(getValues('Mail'))
+        setOpen(true)
     }
 
-    const save = (e) => {
-        e.preventDefault();
-        dispatch(login(user));
-    }
 
     return (<>
-        <form className="location">
-            <TextField id="standard-basic" label="שם משתמש" name="name" variant="standard" onChange={change} /><br /> <br />
-
+        {type == 2 ? <h1>כניסת מעסיקים</h1> : null}
+        <form onSubmit={handleSubmit(onSubmit)} className="location">
+            <TextField id="standard-basic" label="אימייל" name="Email"
+                variant="standard"  {...register("Mail")} />
+            <span style={{ color: "red" }}>{errors?.message}</span> <br />
             <FormControl sx={{ m: 1, width: '25ch' }} variant="standard">
                 <InputLabel htmlFor="standard-adornment-password">סיסמא</InputLabel>
                 <Input
+                    {...register("Password")}
                     id="standard-adornment-password"
-                    type={values.showPassword ? 'text' : 'password'}
-                    value={values.password}
-                    onChange={handleChange('password')}
+                    type={showPassword ? 'text' : 'password'}
                     endAdornment={
                         <InputAdornment position="start">
                             <IconButton
                                 aria-label="toggle password visibility"
-                                onClick={handleClickShowPassword}
-                                onMouseDown={handleMouseDownPassword}
-                            >
-                                {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                                onClick={() => setshowPassword(!showPassword)}                            >
+                                {showPassword ? <VisibilityOff /> : <Visibility />}
                             </IconButton>
                         </InputAdornment>
                     }
                 />
-            </FormControl> <br /> <br />
-            <label> <input className="login" type="submit" value="התחבר" onClick={save} /> </label>
-            <p className="move">לא רשום? עבור <span className="link" onClick={() => { navigate("/register"); }}> להרשמה </span></p>
+                <span style={{ color: "red" }}>{errors.Password?.message}</span> <br />
+            </FormControl>
+
+            <br /> <br />
+            <Button variant="contained" size="medium" type="submit">  התחבר  </Button>
+            <p className="move" onClick={openReset}>שכחתי סיסמא</p>
+
+            {open ? <ForgetPassword email={mail} setOpen={setOpen} /> : null}
+            {type != 3 && <p className="move">לא רשום? עבור <span className="link" onClick={() => { navigate("/register/" + type); }}> להרשמה </span></p>}
         </form>
     </>)
 }

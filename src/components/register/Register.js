@@ -1,5 +1,5 @@
-import { useNavigate } from "react-router";
-import { useSelector, useDispatch, shallowEqual } from "react-redux";
+import { useNavigate, useParams } from "react-router";
+import { useDispatch } from "react-redux";
 import { addUser } from "../../store/actions/UserActions";
 import "./Register.css";
 import * as React from "react";
@@ -9,42 +9,42 @@ import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
 import FormControl from '@mui/material/FormControl';
-import TextField from '@mui/material/TextField';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import AlertMessage from "../usersList/AlertMessage";
-import Alerts from "../alert/Alerts";
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
-const Register = () => {
+import FormInput from "../formInput/FormInput";
+import swal from "sweetalert";
+
+const Register = ({ id }) => {
     const navigate = useNavigate();
+    const { type } = useParams();
     const [flag, setFlag] = React.useState(true);
     const dispatch = useDispatch();
-    const { user } = useSelector(state => {
-        return {
-            user: state.user,
-        }
-    }, shallowEqual);
     const schema = yup.object({
         Name: yup.string().required("שדה זה חובה").min(2, 'השם אינו תקין'),
         Email: yup.string().email("כתובת מייל אינה תקינה").required("שדה זה חובה"),
-        Phone: yup.string().required("שדה זה חובה").min(9,'מספר הפלאפון אינו תקין').max(10,'מספר הפלאפון אינו תקין'),
-        Password: yup.string().required("שדה זה חובה").matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/ ,"סיסמא לא תקינה")
+        Phone: yup.string().required("שדה זה חובה").min(9, 'מספר הפלאפון אינו תקין').max(10, 'מספר הפלאפון אינו תקין'),
+        Password: yup.string().required("שדה זה חובה").matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/, "הסיסמא חייבת להכיל 6 ספרות. לפחות מספר אחד.וךפחות אות אחת באנגלית.")
     }).required();
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
     });
-    
+
     const onSubmit = (data) => {
-        // web master
-        if (user.Status == 3)
+        swal(data.Name + " ברוך הבא!", "נרשמת בהצלחה");
+        if (type == 2)
             data.Status = 2;
         else
             data.Status = 1;
+        data.Active = true;
         setFlag(false);
         dispatch(addUser(data));
-        navigate("/attractionsList");
+        if (type == 3)
+            navigate("./report/" + id);
+        else
+            navigate("/attractionsList");
     };
     const [values, setValues] = React.useState({
         amount: '',
@@ -71,15 +71,11 @@ const Register = () => {
 
 
     return (<>
+        {type == 2 ? <h1>כניסת מעסיקים</h1> : null}
         <form onSubmit={handleSubmit(onSubmit)} className="location">
-            <TextField id="standard-basic" label="שם משתמש" name="Name" type="text" variant="standard" {...register("Name")} />
-            <br/><span style={{color:"red"}}>{errors.Name?.message}</span>
+            <FormInput lableName="שם משתמש" name="Name" type="text" errors={errors} register={register} user={null} flag={false} />
+            <FormInput lableName="מספר פלאפון" name="Phone" type="text" errors={errors} register={register} user={null} flag={false} />
 
-            <br /> 
-            <TextField id="standard-basic" label="מספר פלאפון" variant="standard" {...register("Phone")} />
-            <br/><span style={{color:"red"}}>{errors.Phone?.message}</span>
-
-            <br /> 
             <FormControl sx={{ m: 1, width: '25ch' }} variant="standard">
                 <InputLabel htmlFor="standard-adornment-password">סיסמא</InputLabel>
                 <Input
@@ -100,19 +96,13 @@ const Register = () => {
                         </InputAdornment>
                     }
                 />
-                   <span style={{color:"red"}}>{errors.Password?.message}</span> <br/>
+                <span style={{ color: "red" }}>{errors.Password?.message}</span> <br />
             </FormControl>
+            <FormInput lableName="מייל" name="Email" type="mail" errors={errors} register={register} user={null} flag={false} />
 
-            <TextField id="standard-basic" label="מייל" variant="standard" {...register("Email")} />
-            <br/><span style={{color:"red"}}>{errors.Email?.message}</span>
-            <br />
-
-            {user != null && user.Status == 3 ? <>{flag && <Button variant="contained" size="medium" type="submit">  הוסף  </Button>}
-            {!flag && <AlertMessage variant={'success'} children={<Alerts message={"המשתמש התווסף בהצלחה!"} />} />}
-            </> :
-                <>
-                    <Button variant="contained" size="medium" type="submit">  הרשם  </Button>
-                    <p className="move">כבר רשום? עבור <span onClick={() => { navigate("/login") }} >להתחברות</span></p></>}
+            {/* {!flag && <AlertMessage variant={'success'} children={<Alerts message={"נרשמת בהצלחה!"} />} />} */}
+            <Button variant="contained" size="medium" type="submit">  הרשם  </Button>
+            {type != 3 && <p className="move">כבר רשום? עבור <span onClick={() => { navigate("/login/" + type) }} >להתחברות</span></p>}
         </form>
 
     </>)

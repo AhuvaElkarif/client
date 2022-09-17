@@ -1,8 +1,21 @@
 import React from 'react';
 import { Fade } from 'react-slideshow-image';
 import 'react-slideshow-image/dist/styles.css'
-
-const Slideshow2 = ({fadeImages}) => {
+const fadeImages = [
+  {
+      url: './boat.jpg',
+      caption: 'Slide 1'
+  },
+  {
+      url: './boat.jpg',
+      caption: 'Slide 2'
+  },
+  {
+      url: './boat.jpg',
+      caption: 'Slide 3'
+  },
+];
+const Slideshow2 = () => {
   return (
     <div className="slide-container">
       <Fade>

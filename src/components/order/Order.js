@@ -6,17 +6,9 @@ import TextField from '@mui/material/TextField';
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { addOrder } from "../../store/actions/OrderAction";
+import FormInput from "../formInput/FormInput";
 import * as yup from "yup";
 import "./Order.css";
-
-const Input = ({ register, errors, name, lableName, type, flag, user }) => {
-    return <>
-        <TextField id="standard-basic" label={lableName}
-            name={name} type={type} {...register(name)} variant="standard"
-            disabled={flag == "true"} defaultValue={user != null ? user[name] : ""} />
-        <br /> <span style={{ color: "red" }}>{errors[name]?.message}</span> <br />
-    </>
-}
 
 const Order = () => {
     const { user, attractions } = useSelector(state => {
@@ -78,13 +70,13 @@ const Order = () => {
     // }
     return (<>
         <form onSubmit={handleSubmit(onSubmit)} className="location">
-            <Input lableName="שם משתמש" user={user} register={register} errors={errors} flag={flag} name="Name" type="text" />
-            <Input lableName="פלאפון" user={user} register={register} errors={errors} flag={flag} name="Phone" type="text" />
-            <Input lableName="מייל" user={user} register={register} errors={errors} flag={flag} name="Email" type="text" />
-            <Input lableName="כרטיס אשראי" user={null} register={register} errors={errors} flag={flag} name="CreditNum" type="number" />
-            <Input lableName="ספרות בגב הכרטיס" user={null} register={register} errors={errors} flag={flag} name="DigitsCredit" type="number" />
-            <Input lableName="תוקף" user={null} register={register} errors={errors} flag={flag} name="Valid" type="number" />
-            <Input lableName="הכנס כמות" user={null} register={register} errors={errors} flag={flag} name="Quantity" type="number" />
+            <FormInput lableName="שם משתמש" user={user} register={register} errors={errors} flag={flag} name="Name" type="text" />
+            <FormInput lableName="פלאפון" user={user} register={register} errors={errors} flag={flag} name="Phone" type="text" />
+            <FormInput lableName="מייל" user={user} register={register} errors={errors} flag={flag} name="Email" type="text" />
+            <FormInput lableName="כרטיס אשראי" user={null} register={register} errors={errors} flag={flag} name="CreditNum" type="number" />
+            <FormInput lableName="ספרות בגב הכרטיס" user={null} register={register} errors={errors} flag={flag} name="DigitsCredit" type="number" />
+            <FormInput lableName="תוקף" user={null} register={register} errors={errors} flag={flag} name="Valid" type="number" />
+            <FormInput lableName="הכנס כמות" user={null} register={register} errors={errors} flag={flag} name="Quantity" type="number" />
 
 
 

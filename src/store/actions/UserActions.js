@@ -1,49 +1,72 @@
+import * as actionType from '../reducers/actionType';
 import axios from "axios";
-  
-export const login = (user) => {
-    return(dispatch) => {
-        axios.post("http://localhost:57828/Api/user/login/",user)
-        .then(response => {
-            console.log(response.data)
-            if(response.data.success){ 
-                dispatch(currentUser(response.data.user))
-                return true;
-            }
-            alert("שם המשתמש או הסיסמא שגויים!");
-            return false;
-        })
-        .catch(err => console.log(err))
+import swal from 'sweetalert';
+
+export const login = (user, type) => {
+    return dispatch => {
+        axios.post("http://localhost:57828/Api/user/post2/", user)
+            .then(response => {
+                if (response.data != null) {
+                    if (type != 2 || type == 2 && response.data.Status == 2) {
+                        if (response.data.Active) {
+                            dispatch(currentUser(response.data))
+                           
+                        }
+                    }
+                }
+                swal({
+                    title: "שם המשתמש או הסיסמא שגויים!",
+                    icon: "warning",
+                    button: "אישור",
+                });
+            })
+            .catch(err => console.log(err))
     }
 }
 
 export const addUser = (user) => {
     return dispatch => {
-      axios.post("http://localhost:57828/Api/user/Post", user)
-      .then(x => {
-          if(x.data==null)
-             alert("שם זה כבר קיים אצלנו");
-          if(user.Status==1)
-            dispatch(currentUser(x.data));
-      })
-      .catch(err => console.log(err))
+        axios.post("http://localhost:57828/Api/user/Post", user)
+            .then(x => {
+                if (x.data == null)
+                    alert("שם זה כבר קיים אצלנו");
+                dispatch(currentUser(x.data));
+            })
+            .catch(err => console.log(err))
     }
 }
 
-export const currentUser = (user) =>{
+export const changePassword = (user) => {
+    return dispatch => {
+        axios.put("http://localhost:57828/Api/user/ChangePassword", user)
+            .then(x => dispatch(currentUser(x.data)))
+            .catch(err => console.log(err))
+    }
+}
+
+export const currentUser = (user) => {
     return {
-        type: "CURRENT_USER",
+        type: actionType.CURRENT_USER,
         payload: user
     }
 }
 
 export const getManagersUsers = () => {
-    return  axios.get("http://localhost:57828/Api/user/GetManagersUsers")
+    return axios.get("http://localhost:57828/Api/user/GetManagersUsers")
 }
 
 export const getUserById = (userId) => {
-    return axios.get("http://localhost:57828/Api/user/GetUserById?userId="+ userId);
+    return axios.get("http://localhost:57828/Api/user/GetUserById?userId=" + userId);
 }
 
 export const deleteUser = (user) => {
     return axios.delete("http://localhost:57828/Api/user/Delete", user);
+}
+
+export const getUserByEmail = (email) => {
+    return axios.get("http://localhost:57828/Api/user/getUserByEmail?email=" + email);
+}
+
+export const changeUsersStatus = (users) => {
+   return axios.put("http://localhost:57828/Api/user/ChangeUsersStatus",users);
 }

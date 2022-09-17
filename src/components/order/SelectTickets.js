@@ -5,6 +5,7 @@ import AutoGrid from "./AutoGrid";
 import { shallowEqual, useSelector } from "react-redux";
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
+import Amount from "./Amount";
 
 const SelectTickets = ({attractionId , setFlag, setPrice}) => {
     const [image, setImage] = useState([]);
@@ -34,10 +35,9 @@ const SelectTickets = ({attractionId , setFlag, setPrice}) => {
             <br/><br/>
             <AutoGrid item1={"סוג הכרטיס"} item2={"מחיר"} item3={"כמות"} />
             <hr/>
-            <AutoGrid item1={" כרטיס יחיד(מגיל "+product.FromAge+"עד גיל "+product.TillAge+")"} item2={"₪"+product.Price} item3={<AddIcon onClick={()=>{setAmount(amount+1);}}/>+""+{amount}+""+<RemoveIcon onClick={()=>{if(amount>0) setAmount(amount-1);}}/>} />
-            <hr/>
-            <RemoveIcon onClick={()=>{if(amount>0) setAmount(amount-1); if(amount==0 || amount==1) setFlag(false)}} fontSize="small"/> <span style={{fontSize:"x-large"}}> {amount} </span> <AddIcon fontSize="small" onClick={()=>{setAmount(amount+1); setFlag(true);}}/>
-            <p>סה"כ מחיר לתשלום {"₪"+amount*product.Price}</p>
+            <AutoGrid item1={" כרטיס יחיד(מגיל "+product.FromAge+"עד גיל "+product.TillAge+")"} item2={"₪"+product.Price} item3={<Amount amount={amount} setAmount={setAmount} setFlag={setFlag}/>} />
+            <hr/>          
+            <span>סה"כ מחיר לתשלום {"₪"+amount*product.Price}</span>
         </div>
     )
 }

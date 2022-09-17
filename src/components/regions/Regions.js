@@ -1,4 +1,4 @@
-const Regions = (props) => {
+const Regions = () => {
     return ( <> 
          
     </>    

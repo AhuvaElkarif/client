@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import SingleAttraction from '../attractionsList/SingleAttraction';
 import { useNavigate } from 'react-router';
 import { useSelector, shallowEqual } from "react-redux";
 import { getOrdersByUserId } from "../../store/actions/UserActions";
@@ -7,17 +6,10 @@ import SingleOrder from "./SingleOrder";
 import { useDispatch } from "react-redux";
 import Order from "../../models/Order";
 import Button from '@mui/material/Button';
-import "./OrdersList.css";
-import Backdrop from '@mui/material/Backdrop';
-import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
-import Fade from '@mui/material/Fade';
-import StarBorderIcon from '@mui/icons-material/StarBorder';
-import TextField from '@mui/material/TextField';
-import "../opinion/Opinion.css";
 import SearchButton from "../attractionsList/SearchButton";
-import HoverRating from "./HoverRating";
-
+import WriteOpinion from "./WriteOpinion";
+import "./OrdersList.css";
+import "../opinion/Opinion.css";
 function OrdersList() {
     const style = {
         position: 'absolute',
@@ -32,94 +24,60 @@ function OrdersList() {
     };
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    // const { user } = useSelector(state => ({
-    //     user: state.user
-    // }, shallowEqual));
     const [orders, setOrder] = useState([]);
-    const { user } = useSelector(state => {
+    const [searchValue, setSearchValue] = useState('');
+    const { user, attractions } = useSelector(state => {
         return {
-            user: state.user
+            user: state.user,
+            attractions: state.attractionArr
         }
     }, shallowEqual);
-    const [open, setOpen] = useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
-    const [stars, setStars] = useState([0, 0, 0, 0, 0]);
-    const [value, setValue] = useState('Controlled');
-    const temp = stars;
-    const handleChange = (event) => {
-        setValue(event.target.value);
-    };
 
     useEffect(() => {
-        const arr = [new Order(1, 2, 500, new Date(), "טיולל"),
-        new Order(1, 2, 500, new Date(), "טיולל"),
-        new Order(1, 2, 500, new Date(), "טיולל"),
-        new Order(1, 2, 500, new Date(), "טיולל")];
+        const arr = [new Order(1, 2, 500, new Date(2022,7,14), "טיולל"),
+        new Order(11, 2, 500, new Date(), "שיט"),
+        new Order(2, 2, 500, new Date(), "לונה פארק"),
+        new Order(3, 2, 500, new Date(), "סופרלנד")];
         setOrder(arr);
+        // getOrdersByUserId(user.id)
+        // .then(x => setOrders(x.data))
+        // .catch(err => console.log(err));
         // const orders = dispatch(getOrdersByUserId(user.id));
     }, [])
     const update = (item, type) => {
-        // how to check days to cancel
-        const possible = true;
+        const date= item.orderDate;
+        const attraction = { ...attractions.find(x => x.Id == item.attractionId) };
+        const possible = date.setDate(date.getDate()+attraction.DaysToCancel) < new Date();
         if (type == 1)
             if (possible)
-                navigate("/order/" + false + "/" + 1 + "/" + item.attrctionId);
+                navigate("/order/" + false + "/" + 1 + "/" + item.attractionId);
             else
-                navigate("/message/" + item.attrctionId + "/" + 1 + "/" + false);
+                navigate("/message/" + item.attractionId + "/" + 1 + "/" + false);
         else
             if (possible)
-                navigate("/message/" + item.attrctionId + "/" + 0 + "/" + true);
+                navigate("/message/" + item.attractionId + "/" + 0 + "/" + true);
             else
-                navigate("/message/" + item.attrctionId + "/" + 0 + "/" + false);
+                navigate("/message/" + item.attractionId + "/" + 0 + "/" + false);
 
     }
-    // עדכון מצב הכוכב דלוק/כבוי
-   
+
     return (<>
         <div>
             {/* // כפתור חיפוש */}
-            <SearchButton />
+            <SearchButton search={({ target }) => setSearchValue(target.value)} />
             {/* // אם הוא מנהל אתר או אטרקציה אז נוסף לו כפתור של סינון טווח תאריכים */}
-            {user!=null && user.status == 2 || user.status == 3 ?
+            {user != null && user.status == 2 || user.status == 3 ?
                 <input placeholder="סנן לפי טווח תאריכים" /> : null}
-            {/* // מערך של הזמנות */}
             {orders.map(item => {
-                return <div key={item.id} className="contain">
-                    <SingleOrder order={item} />
-                  
-                    {user.status == 1 ? <>
-                        <Button variant="contained" size="small" className="btn" onClick={handleOpen}> כתוב חוות דעת</Button>
-                        <Modal
-                            aria-labelledby="transition-modal-title"
-                            aria-describedby="transition-modal-description"
-                            open={open}
-                            onClose={handleClose}
-                            closeAfterTransition
-                            BackdropComponent={Backdrop}
-                            BackdropProps={{
-                                timeout: 500,
-                            }}
-                        >
-                            <Fade in={open}>
-                                <Box sx={style}>
-                                    <h3>דירוג האטרקציה:  </h3> 
-                                        <HoverRating/> <br/>
-                                    <TextField
-                                        id="outlined-textarea"
-                                        label="חוות דעת"
-                                        placeholder="כתוב חוות דעת"
-                                        multiline
-                                    /> <br /> <br />
-                                    <Button variant="contained" size="large" onClick={handleClose}> הגש </Button>
-
-                                </Box>
-                            </Fade>
-                        </Modal>
-                        <Button variant="contained" size="small" className="btn" onClick={() => { update(item, 1) }}> עדכן הזמנה </Button>
-                        <Button variant="contained" size="small" className="btn" onClick={() => { update(item, 0) }}> בטל הזמנה </Button>
-                    </> : user.status == 2 || user.status == 3 ? <p>חוות דעת: </p> : null}
-                </div>
+                if (item.name.includes(searchValue))
+                    return <div key={item.id} className="contain">
+                        <SingleOrder order={item} />
+                        {user.Status == 1 ? <>
+                            <WriteOpinion id={item.attrctionId} />
+                            <Button variant="contained" className="btn" size="small" onClick={() => { update(item, 1) }}> עדכן הזמנה </Button>
+                            <Button variant="contained" className="btn" size="small" onClick={() => { update(item, 0) }}> בטל הזמנה </Button>
+                        </> : user.Status == 2 || user.Status == 3 ? <p>חוות דעת: </p> : null}
+                    </div>
             })}
         </div>
     </>);

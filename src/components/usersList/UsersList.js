@@ -13,7 +13,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { getManagersUsers, deleteUser } from "../../store/actions/UserActions";
 import {  shallowEqual, useSelector } from 'react-redux';
 import Alerts from '../alert/Alerts';
-import AlertMessage from './AlertMessage';
+import AlertMessage from '../alert/AlertMessage';
 
 const UsersList = () => {
     const StyledTableCell = styled(TableCell)(({ theme }) => ({

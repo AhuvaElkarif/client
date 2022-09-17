@@ -5,7 +5,8 @@ import { useSelector, shallowEqual, useDispatch } from "react-redux";
 import { getWishList, deleteProductFromWishList } from "../../store/actions/WishListAction";
 import swal from 'sweetalert';
 import "./WishList.css";
-import WishCard from "../attractionsList/WishCard";
+import WishCard from "./WishCard";
+import { Button } from "@material-ui/core";
 
 function WishList() {
     const navigate = useNavigate();
@@ -34,7 +35,7 @@ function WishList() {
                     icon: "warning",
                     button: "להרשמה",
                     OnClick: navigate("/register")
-                  });
+                });
                 // swal("שים לב!", "היות והנך משתמש לא רשום הפריטים שברשימת המשאלות לא ישמרו","warning") 
             }, 1000000);
         }
@@ -44,10 +45,11 @@ function WishList() {
     return (<>
         <h1>רשימת משאלות</h1>
         {wishes.length > 0 ? <div >{wishes.map((item, ind) => {
-            return <div key={item.Id}> <WishCard item={item} ind={ind}/> <br/>
+            return <div key={item.Id}> <WishCard item={item} ind={ind} /> <br />
             </div>
         })}</div> : <><p>רשימת המשאלות שלך ריקה כרגע</p>
-            <input type="button" value="לכל האטרקציות" className="btn" onClick={() => { navigate("/attractions") }} /></>}
+            <Button variant="contained" size="medium" onClick={() => { navigate("/attractionsList") }}>  לכל האטרקציות  </Button>
+        </>}
     </>);
 }
 

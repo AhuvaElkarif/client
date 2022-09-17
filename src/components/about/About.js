@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import "./About.css";
-import { $CombinedState } from 'redux';
 
 function About() {
+    const [text,setText] = useState("");
+    useEffect(()=>{
+        // getAbout()
+        // .then(x=> setText(x.data))
+        // .catch(err => console.log(err))
+    },[])
     return (<>
         <p className="about" >
+            {text}
             אודות האתר!!!!  <br/> <br/>
      באתר זה תוכלו למצוא מגוון אטרקציות מהנות ולחפש טיול מהנה למשפחה ולחברים.   <br/>
       האתר מציע מגוון רחב של אפשרויות להעביר את ימי החופש או סתם כשמתחשק לטייל.   <br/>

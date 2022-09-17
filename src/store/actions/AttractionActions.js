@@ -1,4 +1,5 @@
 import axios from "axios";
+import * as actionType from '../reducers/actionType';
 
 export const getAttractions = () => {
     return (dispatch) => {
@@ -20,11 +21,10 @@ export const getAttractions = () => {
             .catch(err => console.log(err))
     }
 }
-export const getAttractionsByUserId = (id) =>{
+export const getAttractionsByUserId = (id) => {
     return dispatch => {
-        axios.get("http://localhost:57828/Api/attraction/GetAttractionsByUserId/"+id)
+        axios.get("http://localhost:57828/Api/attraction/GetAttractionsByUserId?userId=" + id)
             .then(response => {
-                console.log(response);
                 dispatch({
                     type: "SAVE_ALL_ATTRACTIONS",
                     payload: response.data
@@ -87,3 +87,31 @@ export const updateAttraction = (item) => {
 export const getImagesByAttractionId = (attractionId) => {
     return axios.get("http://localhost:57828/Api/image/GetImagesByAttractionId?attractionId=" + attractionId)
 }
+
+export const changeAttractionAvailable = (attractionId) => {
+    return dispatch => {
+        axios.put("http://localhost:57828/Api/attraction/ChangeAttractionAvailable?attractionId=" + attractionId)
+            .then(response => {
+                dispatch({
+                    type: actionType.ATTRACTION_UPDATED,
+                    payload: response.data
+                });
+    })
+          .catch(err => console.log(err))
+    }
+}
+
+export const changeAttractionStatus = (attractionId) => {
+    return dispatch => {
+        axios.put("http://localhost:57828/Api/attraction/ChangeAttractionStatus?attractionId=" + attractionId)
+            .then(response => {
+                dispatch({
+                    type: actionType.ATTRACTION_UPDATED,
+                    payload: response.data
+                });
+    })
+          .catch(err => console.log(err))
+    }
+}
+
+

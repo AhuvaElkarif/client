@@ -75,8 +75,9 @@ const Steppers = ({id}) => {
     // React.useEffect(()=>{},[flag])
     return (<div className='order'>
         <h2>יש להתעדכן בשעות הפעילות של האתר לפני רכישת הכרטיסים <br/>
-        {/* <span onClick={()=>navigate("")} > לשעות הפעילות לחץ כאן </span> */}
-        <Link  to="/attractionList" underline="hover"> לשעות הפעילות לחץ כאן  </Link></h2>
+        <span onClick={() => { navigate("/activityTime/" + id) }} > לשעות הפעילות לחץ כאן </span>
+        {/* <Link  to="/activityTime" underline="hover"> לשעות הפעילות לחץ כאן  </Link> */}
+        </h2>
         <Box sx={{ width: '100%' }}>
             <Stepper activeStep={activeStep}>
                 {steps.map((label, index) => {
@@ -124,12 +125,6 @@ const Steppers = ({id}) => {
                             חזור
                         </Button>
                         <Box sx={{ flex: '1 1 auto' }} />
-                        {/* {isStepOptional(activeStep) && (
-              <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
-                דלג
-              </Button>
-            )} */}
-
                         <Button onClick={handleNext}>
                             {activeStep === steps.length - 1? 'סיום' : 'הבא'}
                         </Button>

@@ -42,19 +42,18 @@ export const addProductToWishList = (wish, user) => {
     }
 }
 
-export const deleteProductFromWishList = (user, attractionId, index) => {
+export const deleteProductFromWishList = (user, attractionId) => {
     return dispatch => {
         if (user == null)
             dispatch({
                 type: "ATTRACTION_DELETED_FROM_WISH_LIST",
-                payload: index
+                payload: attractionId
             })
         axios.delete("http://localhost:57828/Api/wish/Delete?attractionId="+ attractionId)
             .then(response => {
-                console.log(index)
                 dispatch({
                     type: "ATTRACTION_DELETED_FROM_WISH_LIST",
-                    payload: index
+                    payload: attractionId
                 });
             })
             .catch(err => console.log(err))

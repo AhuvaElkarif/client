@@ -6,6 +6,16 @@
     justify-content: space-around;  
     height:7vh
  }
+ .campaign{
+   border: 2px solid black;
+   border-radius: 7px;
+   height: 4rem;
+   width: 6rem;
+ }
+ .campaignP{
+   position: relative;
+   bottom:1rem;
+ }
  hr{
     color:#412e17;
     font-weight: bolder;

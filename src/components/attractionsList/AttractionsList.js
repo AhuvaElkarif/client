@@ -6,7 +6,28 @@ import SearchButton from './SearchButton';
 import SelectTextFields from './SelectTextFields';
 import './AttractionsList.css';
 import SideNavBar from '../sideNavBar/SideNavBar';
-
+const currencies = [
+    {
+        Id: 'REC',
+        Name: 'מומלץ'
+    },
+    {
+        Id: 'CHE',
+        Name: 'מהזול ליקר',
+    },
+    {
+        Id: 'EXP',
+        Name: 'מהיקר לזול',
+    },
+    {
+        Id: 'CHI',
+        Name: 'מתאים לילדים',
+    },
+    {
+        Id: 'FAM',
+        Name: 'מתאים למשפחות',
+    },
+];
 export default function AttractionsList() {
     const dispatch = useDispatch();
     const [searchValue, setSearchValue] = useState('');
@@ -21,7 +42,6 @@ export default function AttractionsList() {
     const [flag2, setFlag2] = useState(false);
     const [arr, setArr] = useState([]);
     const [count, setCount] = useState(0);
-    const vec = [];
 
     const { user, attractions } = useSelector(state => {
         return {
@@ -30,12 +50,12 @@ export default function AttractionsList() {
         }
     }, shallowEqual);
 
-    useEffect(() => {
-        if (user == null || user.Status == 1 || user.Status == 3)
-            dispatch(getAttractions());
-        else
-            dispatch(getAttractionsByUserId(user.Id));
-    }, [])
+    // useEffect(() => {
+    //     if (user == null || user.Status == 1 || user.Status == 3)
+    //         dispatch(getAttractions());
+    //     else
+    //         dispatch(getAttractionsByUserId(user.Id));
+    // }, [])
 
     useEffect(() => {
         const m = Math.max(...attractions.map(o => o.Price));
@@ -47,7 +67,7 @@ export default function AttractionsList() {
 
     const handleChange = ({ target }) => {
         let attractionCopy = [...attractions];
-        switch (target.value) {
+        switch (target.Id) {
             case 'REC': attractionCopy.sort((a, b) => b.CountAvgGrading - a.CountAvgGrading); break;
             case 'CHE': attractionCopy.sort((a, b) => a.Price - b.Price); break;
             case 'EXP': attractionCopy.sort((a, b) => b.Price - a.Price); break;
@@ -62,7 +82,7 @@ export default function AttractionsList() {
         return c >= a && c <= b;
     };
     const filterArr = (array, type, x) => {
-        const a = array.length>0?array:null;
+        const a = array.length > 0 ? array : null;
         switch (type) {
             case 1: setCategoryArr(a);
                 break;
@@ -105,7 +125,7 @@ export default function AttractionsList() {
     }
     return (<>
         <SideNavBar filterArr={filterArr} zero={zero} count={count} />
-        <SelectTextFields handleChange={handleChange} />
+        <SelectTextFields handleChange={handleChange} currencies={currencies} text={"סינון"} />
         <SearchButton search={({ target }) => setSearchValue(target.value)} />
         <div className="product-list">
             {arr != null ? arr.map(item => {

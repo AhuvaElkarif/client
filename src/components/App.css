@@ -21,3 +21,13 @@ footer{
   position: relative;
   bottom: -30rem;
 }
+.head{
+  font-family: 'Agency FB';
+  font-size: xx-large;
+  text-align: center;
+  position: relative;
+  margin-top: 3rem;
+}
+header{
+  height:15vh;
+}

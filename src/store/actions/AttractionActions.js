@@ -72,7 +72,7 @@ export const deleteAttraction = (id, ind) => {
 
 export const updateAttraction = (item) => {
     return (dispatch) => {
-        axios.put("http://localhost:57828/Api/attraction/updateAttraction/" + item.id, item)
+        axios.put("http://localhost:57828/Api/attraction/updateAttraction/", item)
             .then(response => {
                 dispatch({
                     type: "ATTRACTION_UPDATED",

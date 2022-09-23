@@ -1,80 +1,107 @@
 import * as React from 'react';
-import { DataGrid } from '@material-ui/data-grid';
-import { changeUsersStatus, getManagersUsers } from '../../store/actions/UserActions';
-import Poppers from '../popper/Popper';
-import { useDispatch } from 'react-redux';
+import { styled } from '@mui/material/styles';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import User from '../../models/User';
+import { IconButton } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { getManagersUsers, deleteUser } from "../../store/actions/UserActions";
+import {  shallowEqual, useSelector } from 'react-redux';
+import Alerts from '../alert/Alerts';
+import AlertMessage from '../alert/AlertMessage';
 
-const columns = [
-  {
-    field: 'ActiveName',
-    headerName: 'סטטוס',
-    width: 150
-  },
-  {
-    field: 'Name',
-    headerName: 'שם משתמש',
-    width: 150,
-  },
-  {
-    field: 'Email',
-    headerName: 'מייל',
-    width: 150,
-  },
-  {
-    field: 'Phone',
-    headerName: 'פלאפון',
-    width: 150,
-  }
-];
+const Table2 = () => {
+    const StyledTableCell = styled(TableCell)(({ theme }) => ({
+        [`&.${tableCellClasses.head}`]: {
+            backgroundColor: theme.palette.common.black,
+            color: theme.palette.common.white,
+        },
+        [`&.${tableCellClasses.body}`]: {
+            fontSize: 14,
+        },
+    }));
 
+    const StyledTableRow = styled(TableRow)(({ theme }) => ({
+        '&:nth-of-type(odd)': {
+            backgroundColor: theme.palette.action.hover,
+        },
+        // hide last border
+        '&:last-child td, &:last-child th': {
+            border: 0,
+        },
+    }));
+    const [flag, setFlag] = React.useState(true);
+    const { user } = useSelector(state => {
+        return {
+            user: state.user
+        }
+    }, shallowEqual);
+    const [users, setUsers] = React.useState([]);
+    let tempUsers = [];
+    const [id, setId] = React.useState(null);
+    // let rows = [];
+    React.useEffect(() => {
+        getManagersUsers()
+            .then(x => setUsers(x.data))
+            .catch(err => console.log(err));
+    }, []);
+    React.useEffect(() => {
+    }, [users]);
+    const deleteU = (index) => {
+        tempUsers = users;
+        tempUsers.splice(index, 1);
+        setUsers(tempUsers);
+    }
 
-export default function Table() {
-  const dispatch = useDispatch();
-  const [rowData, setRowData] = React.useState([]);
-  const [selectedUsers, setSelectedUsers] = React.useState([]);
-  React.useEffect(() => {
-    getManagersUsers()
-      .then(x => setRowData(x.data))
-      .catch(err => console.log(err));
-  }, []);
-
-  const userSelected = (row) => {
-    const arr = row!=null?rowData.filter(x => row.includes(x.Id)):null;
-    setSelectedUsers(arr);
-  }
-
-  const changeActive = () => {
-    console.log(selectedUsers)
-    changeUsersStatus(selectedUsers)
-    .then(x=> {
-      const res = x.data;
-      console.log(res);
-        // const arr = rowData.filter(x=> res.includes(x.Id)))
-    })
-    .catch(err => console.log(err));
-  }
-  return (
-    <div style={{ height: 400, width: '70%' }}>
-      <DataGrid
-        rows={rowData}
-        columns={columns}
-        getRowId={(row) => row.Id}
-        pageSize={7}
-        hideSortIcon
-        checkboxSelection
-        disableColumnMenu
-        disableColumnFilter
-        hideFooterSelectedRowCount
-        onSelectionModelChange={userSelected}
-      />
-      <Poppers
-        disabled
-        func={changeActive}
-        type={3}
-        content={"שנה"}
-        text={"שנות את מצב המשתמש/ים"}
-        flag={selectedUsers.length <= 0 ? true : false} />
-
-    </div>
-  );
+    return (
+        users.length > 0 ? <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                <TableHead>
+                    <TableRow>
+                        <StyledTableCell align="right">שם משתמש</StyledTableCell>
+                        <StyledTableCell align="right">מייל</StyledTableCell>
+                        <StyledTableCell align="right">פלאפון</StyledTableCell>
+                        <StyledTableCell align="right">
+                                     סטטוס
+                        </StyledTableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {users.map((row, index) => <StyledTableRow key={row.Id}>
+                        {/* <StyledTableCell component="th" scope="row">
+                                {row.name}
+                            </StyledTableCell> */}
+                        <StyledTableCell align="right">{row.Name}</StyledTableCell>
+                        <StyledTableCell align="right">{row.Email}</StyledTableCell>
+                        <StyledTableCell align="right">{row.Phone}</StyledTableCell>
+                        <StyledTableCell align="right">{row.Active?<span>פעיל</span>:<span>לא פעיל</span>} <input type="button" value="שנה"/></StyledTableCell>
+                        {user.Status == 3 ?
+                            <StyledTableCell align="right">
+                                <IconButton aria-label="delete" size="large">
+                                    {id != row.Id && <DeleteIcon fontSize="inherit"
+                                        onClick={() => {
+                                            setId(row.Id);
+                                            deleteU(index);
+                                            deleteUser(row)
+                                                .then(x => {
+                                                    console.log("success"); tempUsers = users; tempUsers.splice(index, 1); setUsers(tempUsers);
+                                                })
+                                                .catch(err => console.log(err));
+                                        }} />}
+                                    {id == row.Id && <AlertMessage variant={'success'} children={<Alerts message={"המשתמש עודכן בהצלחה!"} />} />}
+                                </IconButton>
+                            </StyledTableCell> : null}
+                    </StyledTableRow>
+                    )}
+                </TableBody>
+            </Table>
+        </TableContainer> : null
+    );
 }
+
+export default Table2;

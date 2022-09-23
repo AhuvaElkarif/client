@@ -21,20 +21,20 @@ import { useEffect } from "react";
 
 const schema = yup.object({
     Email: yup.string().email("כתובת מייל אינה תקינה").required("שדה זה חובה"),
-    Password: yup.string().required("שדה זה חובה").matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/, "סיסמא לא תקינה")
+    Password: yup.string().required("שדה זה חובה").matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/, "סיסמא לא תקינה, יש להזין לפחות 6 ספרות אות אחת האנגלית וספרה.")
 }).required();
 
-const Login = ({ id }) => {
+const Login = ({ type }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { type } = useParams();
+    // const { type } = useParams();
     const [open, setOpen] = React.useState(false);
     const [mail, setMail] = React.useState("");
     const [showPassword, setshowPassword] = React.useState(false)
     const { user } = useSelector(state => ({ user: state.user }))
     useEffect(() => {
         console.log(user)
-        if (user) {
+        if (user!=null) {
             navigate("/attractionsList");
         }
     }, [user])
@@ -44,12 +44,10 @@ const Login = ({ id }) => {
     });
 
     const onSubmit = (data) => {
-        console.log("ll")
-        console.log(data)
          dispatch(login(data, type));
     };
     const openReset = () => {
-        setMail(getValues('Mail'))
+        setMail(getValues('Email'))
         setOpen(true)
     }
 
@@ -58,8 +56,8 @@ const Login = ({ id }) => {
         {type == 2 ? <h1>כניסת מעסיקים</h1> : null}
         <form onSubmit={handleSubmit(onSubmit)} className="location">
             <TextField id="standard-basic" label="אימייל" name="Email"
-                variant="standard"  {...register("Mail")} />
-            <span style={{ color: "red" }}>{errors?.message}</span> <br />
+                variant="standard"  {...register("Email")} /><br/>
+            <span style={{ color: "red" }}>{errors.Email?.message}</span> <br />
             <FormControl sx={{ m: 1, width: '25ch' }} variant="standard">
                 <InputLabel htmlFor="standard-adornment-password">סיסמא</InputLabel>
                 <Input

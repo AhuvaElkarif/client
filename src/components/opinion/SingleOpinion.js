@@ -2,14 +2,10 @@ import StarIcon from '@mui/icons-material/Star';
 import { getUserById } from "../../store/actions/UserActions";
 import React, { useEffect, useState } from 'react';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
-import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import ClickAwayListener from '@mui/material/ClickAwayListener';
 import "./Opinion.css";
 import ReportOpinion from './ReportOpinion';
 
-function SingleOpinion({ opinion }) {
+function SingleOpinion({ opinion, type }) {
     const [user, setUser] = useState(null);
     const [insertDate, setInsertDate] = useState(opinion.InsertDate);
     const starts = [1, 2, 3, 4, 5];
@@ -20,15 +16,7 @@ function SingleOpinion({ opinion }) {
             .catch(err => console.log(err))
         calcDate();
     }, []);
-    const [open, setOpen] = React.useState(false);
 
-    const handleTooltipClose = () => {
-      setOpen(false);
-    };
-  
-    const handleTooltipOpen = () => {
-      setOpen(true);
-    };
     const calcDate = () => {
         const newDate = new Date();
         const insertDate2=new Date(insertDate);
@@ -45,8 +33,8 @@ function SingleOpinion({ opinion }) {
     }
 
     return (<>
-        <div className="opinion"><StarIcon /> חוות דעת </div>
-        <ReportOpinion attractionId={opinion.AttractionId}/>
+        {type!=2 ?<> <div className="opinion"><StarIcon /> חוות דעת </div>
+        <ReportOpinion opinion={opinion}/></>:null}
         <p>{insertDate != opinion.InsertDate ? insertDate : null}</p>
         <h4>{user != null ? user.Name : null}</h4>
         {starts.map((x, ind) => {

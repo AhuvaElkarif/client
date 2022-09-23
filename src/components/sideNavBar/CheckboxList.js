@@ -13,6 +13,7 @@ import { Button, Grid } from '@material-ui/core';
 import { getAreas } from '../../store/actions/AreaAction';
 import { getSeasons } from '../../store/actions/SeasonAction';
 import SelectTextFields from '../attractionsList/SelectTextFields';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -27,12 +28,12 @@ export default function CheckboxList({ func, type, x, setX }) {
     const [checked, setChecked] = React.useState([]);
     const [arr, setArr] = React.useState([]);
     const [flag, setFlag] = React.useState(true);
+    const categories = useSelector(state=> state.categoriesArr)                    
+
     React.useEffect(() => {
         switch (type) {
             case 1:
-                getCategories()
-                    .then(x => setArr(x.data))
-                    .catch(err => console.log(err));
+                setArr(categories);
                 break;
             case 2:
                 getAreas()
@@ -78,7 +79,7 @@ export default function CheckboxList({ func, type, x, setX }) {
                         : <AddIcon sx={{ fontSize: 16 }} onClick={() => setFlag(!flag)} />}
                 </Grid>
             </Grid>
-            {arr.length > 0 && flag ? arr.map(value => {
+            {arr&& flag ? arr.map(value => {
                 const labelId = `checkbox-list-label-${value}`;
                 return (
                     <ListItem key={value.Id} role={undefined} dense button onClick={handleToggle(value)}>

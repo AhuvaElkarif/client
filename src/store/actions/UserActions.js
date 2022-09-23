@@ -6,11 +6,12 @@ export const login = (user, type) => {
     return dispatch => {
         axios.post("http://localhost:57828/Api/user/post2/", user)
             .then(response => {
+                console.log(response)
                 if (response.data != null) {
                     if (type != 2 || type == 2 && response.data.Status == 2) {
                         if (response.data.Active) {
                             dispatch(currentUser(response.data))
-                           
+                           return;
                         }
                     }
                 }

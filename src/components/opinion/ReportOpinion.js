@@ -25,7 +25,8 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
-export default function ReportOpinion({ attractionId }) {
+export default function ReportOpinion({ opinion }) {
+  const attractionId = opinion.AttractionId;
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl)
   // const [open, setOpen] = React.useState(Boolean(anchorEl));
@@ -58,7 +59,7 @@ export default function ReportOpinion({ attractionId }) {
 
   const submit = () => {
     const r = arr.filter(x => x.Name == value);
-    const report = { AttractionId: attractionId, ReportId: r[0].Id, UserId: user.Id }
+    const report = {AttractionId:attractionId, ReportId:r[0].Id, UserId:user.Id, OpinionId:opinion.Id};
     addReport(report)
       .then(x => setFlag(true))
       .catch(err => console.log(err));

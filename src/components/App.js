@@ -18,10 +18,13 @@ import OrdersList from './ordersList/ordersList';
 import Details from './order/Details';
 import ActivityTime from './ActivityTime/ActivityTime';
 import RegisterAndLogin from './RegisterAndLogin/RegisterAndLogin';
-import Table from './usersList/Table';
+import ReportsList from './reportsList/ReportsList';
+import Category from './category/Category';
 
 function App() {
   return (<>
+    {/* <AttractionsList/> */}
+    {/* <EditAttraction/> */}
     {/* <MinimumDistanceSlider/> */}
     {/* <MyCalender/> */}
     {/* <Table/> */}
@@ -32,7 +35,7 @@ function App() {
     {/* <SimplePopper/> */}
     {/* <Slideshow2/> */}
     {/* <AttractionsList/> */}
-    {/* <Login type={1}/> */}
+    {/* <Login type={2}/> */}
     {/* <Login/>
         <Register type={1}/> */}
     {/* <BannerExample/> */}
@@ -42,8 +45,9 @@ function App() {
     {/* <SideNavBar/> */}
     {/* <WishList/> */}
     {/* <TransitionAlerts/> */}
-    {/* <header className="head">
-  </header> */}
+    <header className="head">
+      Discover Israel
+    </header>
     <NavBar />
 
     <Routes>
@@ -53,6 +57,8 @@ function App() {
       <Route path="editAttraction/:id" element={<EditAttraction type="edit" />} />
       <Route path="editAttraction" element={<EditAttraction type="new" />} />
       <Route path="exit" element={<AttractionsList />} />
+      <Route path="reportsList" element={<ReportsList />} />
+      <Route path="categoriesList" element={<Category/>} />
       <Route path=""></Route>
       <Route path="login/:type" element={<Login />} />
       <Route path="register/:type" element={<Register />} />

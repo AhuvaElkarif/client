@@ -2,10 +2,11 @@ import * as actionType from './actionType';
 const initialState = {
     attractionArr: [],
     wishesArr: [],
+    categoriesArr: [],
     // user: null,
     user: {
         Id: 2, Name: "שילת בידני", Email: "shilat@gmail.com", Password: "1111",
-         Phone: "0533160663", Status: 2
+        Phone: "0533160663", Status: 3
     },
     userList: [],
     ordersArr: [],
@@ -39,7 +40,7 @@ export const storeReducer = (state = initialState, action) => {
             }
 
         case actionType.ADDED_ATTRACTION_TO_WISH_LIST:
-            const x = state.attractionArr.find(x=>x.Id==action.payload.AttractionId);
+            const x = state.attractionArr.find(x => x.Id == action.payload.AttractionId);
             return {
                 ...state,
                 wishesArr: [...state.wishesArr, x]
@@ -51,11 +52,10 @@ export const storeReducer = (state = initialState, action) => {
                 wishesArr: action.payload
             }
         case actionType.ATTRACTION_DELETED_FROM_WISH_LIST:
-            const array = state.wishesArr.filter(x=>x.Id!=action.payload);
-            // array.splice(action.payload, 1);
+            const array = state.wishesArr.filter(x => x.Id != action.payload);
             return {
                 ...state,
-                wishesArr:array
+                wishesArr: array
             }
         case actionType.ATTRACTION_DELETED:
             const a = [...state.attractionArr];
@@ -77,11 +77,34 @@ export const storeReducer = (state = initialState, action) => {
         case actionType.ATTRACTION_UPDATED:
             const vec = [...state.attractionArr];
             console.log(action.payload)
-            const findIndex=vec.findIndex(x=>x.Id===action.payload.Id);
-            vec[findIndex]=action.payload;
+            const findIndex = vec.findIndex(x => x.Id === action.payload.Id);
+            vec[findIndex] = action.payload;
             return {
                 ...state,
                 attractionArr: [...vec]
+            }
+        case actionType.SAVE_ALL_ORDERS:
+            return {
+                ...state,
+                ordersArr: action.payload
+            }
+        case actionType.SAVE_ALL_CATEGORIES:
+            return {
+                ...state,
+                categoriesArr: action.payload
+            }
+        case actionType.CATEGORY_ADDED:
+            return {
+                ...state,
+                categoriesArr: [...state.categoriesArr, action.payload]
+            }
+        case actionType.CATEGORY_CHANGED:
+            // if (!action.payload.Status)
+            //     return;
+            console.log(action.payload)
+            return {
+                ...state,
+                categoriesArr: [...state.categoriesArr, action.payload]
             }
         // case "ZEROING_CART":
         // return{

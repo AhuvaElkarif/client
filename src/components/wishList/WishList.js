@@ -33,15 +33,28 @@ function WishList() {
                     title: "שים לב!",
                     text: "היות והנך משתמש לא רשום הפריטים שברשימת המשאלות לא ישמרו",
                     icon: "warning",
-                    button: "להרשמה",
-                    OnClick: navigate("/register")
-                });
-                // swal("שים לב!", "היות והנך משתמש לא רשום הפריטים שברשימת המשאלות לא ישמרו","warning") 
-            }, 1000000);
+                    buttons: {
+                        cancel: "הזכר לי מאוחר יותר",
+                        catch: "להרשמה"
+                    },
+                })
+                    .then((value) => {
+                        switch (value) {
+                            case "catch":
+                                func();
+                                break;
+
+                            case "cancel":
+                                swal.close();
+                        }
+                    })
+            }, 100000);
         }
         setWishes(wishesArr);
     }, [wishesArr]);
-
+    const func = () => {
+        navigate("/register/" + 1);
+    }
     return (<>
         <h1>רשימת משאלות</h1>
         {wishes.length > 0 ? <div >{wishes.map((item, ind) => {

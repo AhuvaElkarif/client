@@ -3,31 +3,8 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 
-const currencies = [
-  {
-    value: 'REC',
-    label: 'מומלץ'
-  },
-  {
-    value: 'CHE',
-    label: 'מהזול ליקר',
-  },
-  {
-    value: 'EXP',
-    label: 'מהיקר לזול',
-  },
-  {
-    value: 'CHI',
-    label: 'מתאים לילדים',
-  },
-  {
-    value: 'FAM',
-    label: 'מתאים למשפחות',
-  },
-];
-
-export default function SelectTextFields({ handleChange }) {
-  const [currency, setCurrency] = useState('REC');
+export default function SelectTextFields({ handleChange , currencies, text }) {
+  const [currency, setCurrency] = useState(currencies[0].Id);
   useEffect(() => { }, [currency])
   return (<>
     <Box
@@ -40,17 +17,16 @@ export default function SelectTextFields({ handleChange }) {
       <TextField
         id="standard-select-currency"
         select
-        label="סינון"
+        label={text}
         value={currency}
-        onChange={handleChange}
-        // onChange={({target})=>{setCurrency(target.value); handleChange}}
+        onChange={({target})=>{setCurrency(target.value); handleChange({target});}}
         variant="standard" >
 
-        {currencies.map(option => (
-          <MenuItem key={option.value} value={option.value}>
-            {option.label}
+        {currencies.length>0 ? currencies.map(option => (
+          <MenuItem key={option.Id} value={option.Id}>
+            {option.Name}
           </MenuItem>
-        ))}
+        )):null}
       </TextField>
     </Box>
   </>

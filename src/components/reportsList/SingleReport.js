@@ -2,7 +2,7 @@ import { Attractions } from "@mui/icons-material";
 import { Button } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteOpinion, getOpinions, getOpinionsByOpinionId } from "../../store/actions/OpinionsActions";
+import { changeStatus, deleteOpinion, getOpinions, getOpinionsByOpinionId } from "../../store/actions/OpinionsActions";
 import { deleteReport, getKindReportByReportId } from "../../store/actions/ReportAction";
 import { getUserById } from "../../store/actions/UserActions";
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -27,11 +27,11 @@ const SingleReport = ({ item }) => {
             .then(x => setReport(x.data) )
             .catch(err => console.log(err))
     }, [item]);
-    const deleteO = () => {
+    const change = () => {
         // const array = opinions.filter(x => x.Id != id);
-        deleteOpinion(opinion.Id)
+        changeStatus(opinion.Id)
         .then(x => console.log(x.data))
-        .catch(err => console.log(err));
+        .catch(err => alert("אנו מתנצלים, ישנה קלה זמנית בשרת."));
     }
     const deleteR = () => {
         deleteReport(item.Id)
@@ -45,7 +45,7 @@ const SingleReport = ({ item }) => {
         {report && <p> סיבת הדיווח:  {report.Name}</p>}
         {opinion && <SingleOpinion opinion={opinion} type={2}/>}
         <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1, left:'4rem' }}>
-          <Poppers func={deleteO} type={1} text="מחוק" content={<DeleteIcon />}/>
+          <Poppers func={change} type={3} text="הסיר את חוות הדעת" content={"הסר"}/>
           <Poppers func={deleteR} type={3} text="בטל את הדיווח" content={"בטל דיווח"}/>
         </Box>
     </div>

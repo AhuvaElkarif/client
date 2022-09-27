@@ -5,7 +5,6 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
-import { getCategories } from '../../store/actions/CategoryAction';
 import MaximizeIcon from '@mui/icons-material/Maximize';
 import AddIcon from '@mui/icons-material/Add';
 import './List.css';

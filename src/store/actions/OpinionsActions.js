@@ -15,7 +15,9 @@ export const getOpinionsByAttrctionId = (attractionId) => {
 export const addOpinion = (opinion) => {
     return axios.post("http://localhost:57828/Api/opinion/Post", opinion);
 }
-
+export const changeStatus = (id) => {
+    return axios.put("http://localhost:57828/Api/opinion/ChangeStatus?opinionId="+ id);
+}
 export const deleteOpinion = (id) => {
     return axios.delete("http://localhost:57828/Api/opinion/Delete?opinionId="+ id);
 }

@@ -9,6 +9,7 @@ export const getAttractions = () => {
         });
         axios.get("http://localhost:57828/Api/attraction/GetAttractions")
             .then(response => {
+                
                 dispatch({
                     type: "SAVE_ALL_ATTRACTIONS",
                     payload: response.data

@@ -4,10 +4,10 @@ const initialState = {
     wishesArr: [],
     categoriesArr: [],
     // user: null,
-    user: {
-        Id: 2, Name: "שילת בידני", Email: "shilat@gmail.com", Password: "1111",
-        Phone: "0533160663", Status: 3
-    },
+user : {
+    Id: 43, Name : "שלומי שבו", Email: "shlomi@gmail.com",
+    Password: "hjk123", Phone: "0521234123",  Status: 2,Active: true,
+},
     userList: [],
     ordersArr: [],
     loading: false

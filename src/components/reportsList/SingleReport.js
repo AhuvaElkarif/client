@@ -28,10 +28,10 @@ const SingleReport = ({ item }) => {
             .catch(err => console.log(err))
     }, [item]);
     const change = () => {
-        // const array = opinions.filter(x => x.Id != id);
+        // const array = opinion.filter(x => x.Id != id);
         changeStatus(opinion.Id)
         .then(x => console.log(x.data))
-        .catch(err => alert("אנו מתנצלים, ישנה קלה זמנית בשרת."));
+        .catch(err => alert("אנו מתנצלים, ישנה תקלה זמנית בשרת."));
     }
     const deleteR = () => {
         deleteReport(item.Id)

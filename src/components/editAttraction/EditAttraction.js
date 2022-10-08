@@ -15,6 +15,8 @@ import { addAttraction, updateAttraction } from "../../store/actions/AttractionA
 import SelectTextFields from "../attractionsList/SelectTextFields";
 import { TextField } from "@mui/material";
 import { addCategory } from "../../store/actions/CategoryAction";
+import { getAreas } from "../../store/actions/AreaAction";
+import { ContactsOutlined } from "@material-ui/icons";
 
 const schema = yup.object({
     Name: yup.string().required("שדה זה חובה"),
@@ -45,42 +47,31 @@ const arr = [
     { lableName: "מספר ימים לביטול", name: "DaysToCancel", type: "number" },
     { lableName: "האטרקציה זמינה כעת", name: "IsAvailable", type: "checkbox" }
 ]
-const categories = [
-    {
-        "Id": 1,
-        "Name": "טיול גיפים"
-    },
-    {
-        "Id": 2,
-        "Name": "שיט"
-    },
-    {
-        "Id": 3,
-        "Name": "פארק"
-    }
-]
-const areas = [{"Id":1,"Name":"צפון"},{"Id":2,"Name":"דרום"},{"Id":3,"Name":"מרכז"},{"Id":4,"Name":"ירושלים והסביבה"}];
+  
 const EditAttraction = ({ type }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { id } = useParams();
     const [value, setValue] = useState("")
     const [categoy, setCategory] = useState(null);
+    const [areas, setAreas] = useState(null);
     const [area, setArea] = useState(null);
     const [flag, setFlag] = useState(true);
     const [display, setDisplay] = useState(true);
     const [error, setError] = useState(false);
-    const { user, attractions } = useSelector(state => {
+    const { user, attractions, categories } = useSelector(state => {
         return {
             user: state.user,
             attractions: state.attractionArr,
-            // categories: state.categoryArr
+            categories: state.categoriesArr
         }
     }, shallowEqual);
     let attraction = { ...attractions.find(x => x.Id == id) };
 
     useEffect(() => {
-        console.log(type)
+        getAreas()
+        .then(x => setAreas(x.data))
+        .catch(err => alert("קרתה תקלה זמנית, אנו מתנצלים."))
         if (type == "new")
             attraction = null;
     }, []);
@@ -129,14 +120,14 @@ const EditAttraction = ({ type }) => {
                     errors={errors}
                     register={register}
                     user={attraction}
-                    flag={false} />{console.log(item)} </div>
+                    flag={false} /></div>
             )}
-            <SelectTextFields
+           <SelectTextFields
                 handleChange={({ target }) => { setCategory(target.value) }}
                 currencies={categories} text={"בחר קטגוריה"} />
-            <SelectTextFields
+            {areas && <SelectTextFields
                 handleChange={({ target }) => { setArea(target.value) }}
-                currencies={areas} text={"בחר איזור"} />
+                currencies={areas} text={"בחר איזור"} />}
             {display ? <Button variant="contained" onClick={() => { setDisplay(false) }}>הוסף קטגוריה</Button> 
                 : <><TextField id="standard-basic" onChange={(e) => { setValue(e.target.value); if (value != "") setError(false) }} label="הכנס קטגוריה" variant="standard" />
                     {error && <span style={{ color: "red" }}>יש להכניס קטגוריה</span>}

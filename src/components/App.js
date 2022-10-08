@@ -20,9 +20,13 @@ import ActivityTime from './ActivityTime/ActivityTime';
 import RegisterAndLogin from './RegisterAndLogin/RegisterAndLogin';
 import ReportsList from './reportsList/ReportsList';
 import Category from './category/Category';
+import Regions from './regions/Regions';
+import BottomNavigation from './bottomNavigation/ButtomNavigation';
+import New from './navBar/New';
 
 function App() {
   return (<>
+    {/* <Regions/> */}
     {/* <AttractionsList/> */}
     {/* <EditAttraction/> */}
     {/* <MinimumDistanceSlider/> */}
@@ -58,7 +62,7 @@ function App() {
       <Route path="editAttraction" element={<EditAttraction type="new" />} />
       <Route path="exit" element={<AttractionsList />} />
       <Route path="reportsList" element={<ReportsList />} />
-      <Route path="categoriesList" element={<Category/>} />
+      <Route path="categoriesList" element={<Category />} />
       <Route path=""></Route>
       <Route path="login/:type" element={<Login />} />
       <Route path="register/:type" element={<Register />} />
@@ -72,6 +76,7 @@ function App() {
         <Route path="equipmentList" element={<EquipmentList />} />
       </Route> */}
 
+      <Route path="regions" element={<Regions />} />
       <Route path="about" element={<About />} />
       <Route path="homePage" element={<HomePage />} />
       <Route path="message/:id/:type/:possible" element={<Message />} />

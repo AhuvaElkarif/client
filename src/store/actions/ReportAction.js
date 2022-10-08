@@ -19,3 +19,7 @@ export const deleteReport = (reportId) => {
     return axios.delete("http://localhost:57828/Api/report/Delete?reportId= "+ reportId);
 }
 
+export const addKindReport = (kindReport) => {
+    return axios.post("http://localhost:57828/Api/kindReport/Post", kindReport);
+}
+

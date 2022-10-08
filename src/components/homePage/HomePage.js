@@ -22,11 +22,12 @@ function HomePage() {
         //     .then(x => setAttractions(x.data))
         //     .catch(err => console.log(err))
         dispatch(getCategories());
+        // dispatch(getUser)
     }, [])
     return (<>
-        <img className="hpb" src="./homePageBack.jpg" />
+        {/* <img className="hpb" src="./homePageBack.jpg" /> */}
         <h2>מה חם אצלנו כרגע</h2>
-        {attractions != null ? <>{attractions.map(item => {
+        {attractions ? <>{attractions.map(item => {
             return <div></div>
 
         })}</> : null}

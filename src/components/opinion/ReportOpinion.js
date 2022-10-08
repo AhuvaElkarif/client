@@ -59,7 +59,8 @@ export default function ReportOpinion({ opinion }) {
 
   const submit = () => {
     const r = arr.filter(x => x.Name == value);
-    const report = {AttractionId:attractionId, ReportId:r[0].Id, UserId:user.Id, OpinionId:opinion.Id};
+    const report = {AttractionId:attractionId, ReportId:r[0].Id, UserId:user.Id, OpinionId:opinion.Id, Status:true};
+    console.log(report);
     addReport(report)
       .then(x => setFlag(true))
       .catch(err => console.log(err));

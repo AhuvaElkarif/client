@@ -27,7 +27,6 @@ const schema = yup.object({
 const Login = ({ type }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    // const { type } = useParams();
     const [open, setOpen] = React.useState(false);
     const [mail, setMail] = React.useState("");
     const [showPassword, setshowPassword] = React.useState(false)

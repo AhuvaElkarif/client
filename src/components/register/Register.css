@@ -14,8 +14,8 @@
 .move {
     color: blue;
 }
-.css-aqpgxn-MuiFormLabel-root-MuiInputLabel-root{
-left:auto;
+.MuiTextField-root{
+right:auto;
 }
 /* .error{
     color:"red";

@@ -4,7 +4,7 @@ import React from "react";
 const FormInput = ({ register, errors, name, lableName, type, flag, user }) => {
     return type != "checkbox" ?
         <TextField id="standard-basic" label={lableName}
-            name={name} type={type} {...register(name)} variant="standard"
+            name={name} type={type} {...register(name)} variant="outlined"
             disabled={flag == "true"} defaultValue={user != null ? user[name] : ""} />
         : <>  <FormControlLabel control={<Checkbox defaultChecked />} label={lableName} name={name} {...register(name)}
             disabled={flag == "true"} defaultValue={user != null ? user[name] : ""} />

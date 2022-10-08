@@ -14,7 +14,7 @@ const NavBar = () => {
     const dispatch = useDispatch();
     const arr = [
         { to: "homePage", name: "דף הבית", role: [0, 1, 2, 3] },
-        { to: "regions", name: <SvgIcon component={PersonIcon} inheritViewBox></SvgIcon>, role: [0, 1] },
+        { to: "regions", name: <SvgIcon component={PersonIcon} inheritViewBox></SvgIcon>, role: [0, 1, 2, 3] },
         // { to: "regions", name: <SvgIcon component={ApprovalIcon} inheritViewBox></SvgIcon>, role: [0, 1, 2, 3] },
         { to: "attractionsList", name: "אטרקציות", role: [0, 1, 2, 3] },
         // {

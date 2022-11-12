@@ -6,7 +6,7 @@ const initialState = {
     // user: null,
 user : {
     Id: 43, Name : "שלומי שבו", Email: "shlomi@gmail.com",
-    Password: "hjk123", Phone: "0521234123",  Status: 2,Active: true,
+    Password: "hjk123", Phone: "0521234123",  Status: 1,Active: true,
 },
     userList: [],
     ordersArr: [],
@@ -15,6 +15,11 @@ user : {
 
 export const storeReducer = (state = initialState, action) => {
     switch (action.type) {
+        case actionType.SAVE_ALL_USERS:
+            return {
+                ...state,
+                userList: action.payload
+            }
         case actionType.SAVE_ALL_ATTRACTIONS:
             return {
                 ...state,
@@ -88,6 +93,13 @@ export const storeReducer = (state = initialState, action) => {
                 ...state,
                 ordersArr: action.payload
             }
+            case actionType.ORDER_DELETED:
+                const a2 = [...state.ordersArr];
+                const a3 = a2.filter(x => x.Id != action.payload)
+                return {
+                    ...state,
+                    ordersArr: [...a3]
+                }
         case actionType.SAVE_ALL_CATEGORIES:
             return {
                 ...state,

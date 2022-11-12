@@ -7,7 +7,7 @@ export const getOrders = () => {
             type: "SET_LOADING",
             payload: true
         });
-        axios.get("http://localhost:57828/Api/orderAttraction/GetOrders")
+        axios.get("http://localhost:57828/api/orderAttraction/GetOrders")
             .then(response => {
                 dispatch({
                     type: actionType.SAVE_ALL_ORDERS,
@@ -21,12 +21,46 @@ export const getOrders = () => {
             .catch(err => console.log(err))
     }
 }
-
-export const addOrder = (order) => {
-    return axios.post("http://localhost:57828/Api/orderAttraction/Post", order);
+export const getOrdersByUserId = (userId) => {
+    return dispatch => {
+        axios.get("http://localhost:57828/Api/orderAttraction/GetordersByUserId?userId="+userId)
+            .then(response => {
+                dispatch({
+                    type: actionType.SAVE_ALL_ORDERS,
+                    payload: response.data
+                });
+            })
+            .catch(err => alert("קרתה תקלה זמנית באתר."))
+    }
+}
+export const getOrdersByMangerId = (id) => {
+    return dispatch => {
+        axios.get("http://localhost:57828/Api/orderAttraction/GetordersByManagerId?managerId="+id)
+            .then(response => {
+                dispatch({
+                    type: actionType.SAVE_ALL_ORDERS,
+                    payload: response.data
+                });
+            })
+            .catch(err => alert("קרתה תקלה זמנית באתר."))
+    }
 }
 
-export const deleteOrder = (order) => {
-    return axios.delete("http://localhost:57828/Api/orderAttraction/Delete", order);
+export const addOrder = (order) => {
+    return axios.post("http://localhost:57828/api/orderAttraction/Post", order);
+}
+
+export const deleteOrder = (id) => {
+    // return axios.delete("http://localhost:57828/api/orderAttraction/Delete", order);
+    return dispatch => {
+        axios.put("http://localhost:57828/Api/orderAttraction/ChangeOrderStaus?orderId="+id)
+            .then(response => {
+                dispatch({
+                    type: actionType.ORDER_DELETED,
+                    payload: id
+                });
+            })
+            .catch(err => alert("קרתה תקלה זמנית באתר."+err))
+    }
 }
 

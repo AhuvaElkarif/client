@@ -50,18 +50,9 @@ export default function AttractionsList() {
         }
     }, shallowEqual);
 
-    // useEffect(() => {
-    //     if (user == null || user.Status == 1 || user.Status == 3)
-    //         dispatch(getAttractions());
-    //     else
-    //         dispatch(getAttractionsByUserId(user.Id));
-    // }, [])
-
     useEffect(() => {
         const m = Math.max(...attractions.map(o => o.Price));
-        console.log(m)
         setMax(m)
-        console.log(max)
         handleChange({ target: { value: 'REC' } });
     }, [attractions])
 

@@ -7,7 +7,7 @@ export const getAttractions = () => {
             type: "SET_LOADING",
             payload: true
         });
-        axios.get("http://localhost:57828/Api/attraction/GetAttractions")
+        axios.get("http://localhost:57828/api/attraction/GetAttractions")
             .then(response => {
                 
                 dispatch({
@@ -24,7 +24,7 @@ export const getAttractions = () => {
 }
 export const getAttractionsByUserId = (id) => {
     return dispatch => {
-        axios.get("http://localhost:57828/Api/attraction/GetAttractionsByUserId?userId=" + id)
+        axios.get("http://localhost:57828/api/attraction/GetAttractionsByUserId?userId=" + id)
             .then(response => {
                 dispatch({
                     type: "SAVE_ALL_ATTRACTIONS",
@@ -40,11 +40,11 @@ export const getAttractionsByUserId = (id) => {
 }
 
 export const getRelevantAttractions = () => {
-    axios.get("http://localhost:57828/Api/attraction/getRelevantAttractions")
+    axios.get("http://localhost:57828/api/attraction/getRelevantAttractions")
 }
 export const addAttraction = (attraction) => {
     return (dispatch) => {
-        axios.post("http://localhost:57828/Api/attraction/addAttraction", attraction)
+        axios.post("http://localhost:57828/api/attraction/addAttraction", attraction)
             .then(response => {
                 dispatch({
                     type: "ATTRACTION_ADDED",
@@ -59,7 +59,7 @@ export const addAttraction = (attraction) => {
 
 export const deleteAttraction = (id, ind) => {
     return (dispatch) => {
-        axios.delete("http://localhost:57828/Api/attraction/deleteAttraction/" + id)
+        axios.delete("http://localhost:57828/api/attraction/deleteAttraction/" + id)
             .then(response => {
                 dispatch({
                     type: "ATTRACTION_DELETED",
@@ -73,7 +73,7 @@ export const deleteAttraction = (id, ind) => {
 
 export const updateAttraction = (item) => {
     return (dispatch) => {
-        axios.put("http://localhost:57828/Api/attraction/updateAttraction/", item)
+        axios.put("http://localhost:57828/api/attraction/updateAttraction/", item)
             .then(response => {
                 dispatch({
                     type: "ATTRACTION_UPDATED",
@@ -86,12 +86,12 @@ export const updateAttraction = (item) => {
 }
 
 export const getImagesByAttractionId = (attractionId) => {
-    return axios.get("http://localhost:57828/Api/image/GetImagesByAttractionId?attractionId=" + attractionId)
+    return axios.get("http://localhost:57828/api/image/GetImagesByAttractionId?attractionId=" + attractionId)
 }
 
 export const changeAttractionAvailable = (attractionId) => {
     return dispatch => {
-        axios.put("http://localhost:57828/Api/attraction/ChangeAttractionAvailable?attractionId=" + attractionId)
+        axios.put("http://localhost:57828/api/attraction/ChangeAttractionAvailable?attractionId=" + attractionId)
             .then(response => {
                 dispatch({
                     type: actionType.ATTRACTION_UPDATED,
@@ -104,7 +104,7 @@ export const changeAttractionAvailable = (attractionId) => {
 
 export const changeAttractionStatus = (attractionId) => {
     return dispatch => {
-        axios.put("http://localhost:57828/Api/attraction/ChangeAttractionStatus?attractionId=" + attractionId)
+        axios.put("http://localhost:57828/api/attraction/ChangeAttractionStatus?attractionId=" + attractionId)
             .then(response => {
                 dispatch({
                     type: actionType.ATTRACTION_UPDATED,

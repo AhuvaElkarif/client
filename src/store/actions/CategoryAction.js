@@ -6,7 +6,7 @@ export const getCategories = () => {
             type: actionType.SET_LOADING,
             payload: true
         });
-        axios.get("http://localhost:57828/Api/category/Get")
+        axios.get("http://localhost:57828/api/category/Get")
             .then(response => {
                 dispatch({
                     type: actionType.SAVE_ALL_CATEGORIES,
@@ -23,7 +23,7 @@ export const getCategories = () => {
 
 export const addCategory = (category) => {
     return (dispatch) => {
-        axios.post("http://localhost:57828/Api/category/addcategory", category)
+        axios.post("http://localhost:57828/api/category/addcategory", category)
             .then(response => {
                 dispatch({
                     type: actionType.CATEGORY_ADDED,
@@ -36,7 +36,7 @@ export const addCategory = (category) => {
 
 export const changeStatus = (category) => {
     return (dispatch) => {
-        axios.put("http://localhost:57828/Api/category/ChangeStatus", category)
+        axios.put("http://localhost:57828/api/category/ChangeStatus", category)
             .then(response => {
                 dispatch({
                     type: actionType.CATEGORY_CHANGED,
@@ -48,5 +48,5 @@ export const changeStatus = (category) => {
 }
 
 export const getWaitingCategories = () => {
-    return axios.get("http://localhost:57828/Api/category/GetWaitingCategory");
+    return axios.get("http://localhost:57828/api/category/GetWaitingCategory");
 }

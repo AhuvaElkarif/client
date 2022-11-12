@@ -17,7 +17,7 @@ const Buttons = ({ id }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [flag, setFlag] = useState(false);
-
+    const [status, setStatus] = useState("");
     const { user, attractions, wishList } = useSelector(state => {
         return {
             attractions: state.attractionArr,
@@ -27,8 +27,10 @@ const Buttons = ({ id }) => {
     }, shallowEqual);
     const index = attractions.findIndex(x => x.Id === id);
     const item = { ...attractions.find(x => x.Id == id) };
-    const status = item.Status ? "בטל" : "אשר"
     const [checked, setChecked] = useState(item.IsAvailable);
+    useEffect(()=>{
+        setStatus(item.Status ? "בטל" : "אשר")
+    },[])
     useEffect(() => {
         if (flag) {
             const interval = setInterval(() => {
@@ -46,9 +48,12 @@ const Buttons = ({ id }) => {
     const changeAttraction = (type) => {
         if (type == 1)
             dispatch(changeAttractionAvailable(id));
-        else
+        else {
             dispatch(changeAttractionStatus(id));
-        setFlag(true)
+            const x= status== "אשר" ? "בטל" : "אשר";
+            setStatus(x);
+        }
+        setFlag(true);
     }
     return (
         user == null || user.Status == 1 ?
@@ -82,7 +87,7 @@ const Buttons = ({ id }) => {
                         text={status} /> :
                         <AlertMessage
                             variant={'success'}
-                            children={<Alerts message={item.Status ? "אושר בהצלחה!" : "בוטל בהצלחה!"} />}
+                            children={<Alerts message={item.Status ? "בוטל בהצלחה!" : "אושר בהצלחה!"} />}
                         />}
                 </>
     )

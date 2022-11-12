@@ -23,9 +23,13 @@ import Category from './category/Category';
 import Regions from './regions/Regions';
 import BottomNavigation from './bottomNavigation/ButtomNavigation';
 import New from './navBar/New';
-
+import VerticalLinearStepper from './editAttraction/VerticalLinearStepper';
+import AddImg from '../Test2';
+import Steppers from './order/Stepper';
 function App() {
   return (<>
+  <AddImg/>
+  <VerticalLinearStepper type="new"/>
     {/* <Regions/> */}
     {/* <AttractionsList/> */}
     {/* <EditAttraction/> */}
@@ -45,7 +49,7 @@ function App() {
     {/* <BannerExample/> */}
     {/* <Mail/>  */}
     {/* <Details/> */}
-    {/* <Stepper id={19}/> */}
+    {/* <Steppers id={19}/> */}
     {/* <SideNavBar/> */}
     {/* <WishList/> */}
     {/* <TransitionAlerts/> */}

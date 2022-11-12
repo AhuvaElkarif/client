@@ -10,7 +10,6 @@ import * as yup from "yup";
 import FormInput from "../formInput/FormInput";
 import swal from "sweetalert";
 import Password from "../password/Password";
-import ForgetPassword from "../login/ForgetPassword";
 const arr = [
     { lableName: "שם משתמש", name: "Name", type: "text" },
     { lableName: "פלאפון", name: "Phone", type: "number" },
@@ -35,25 +34,24 @@ const Register = ({ id }) => {
         resolver: yupResolver(schema)
     });
     const onSubmit = (data) => {
-        console.log("rnr")
-        // data.Status = type == 2 ? 2 : 1;
-        // data.Active = true;
-        // if (user) {
-        //     data.Id=user.Id;
-        //     swal(data.Name + " פרטיך עודכנו בהצלחה!", "המשך גלישה מהנה!");
-        //     dispatch(updateUser(data))
-        // }
-        // else {
-        //     swal(data.Name + " ברוך הבא!", "נרשמת בהצלחה");
-        //     dispatch(addUser(data));
-        // }
-        // setFlag(false);
-        // if (type == 3)
-        //     navigate("./report/" + id);
-        // else
-        //     navigate("/attractionsList");
+        data.Status = type == 2 ? 2 : 1;
+        data.Active = true;
+        if (user) {
+            data.Id=user.Id;
+            swal(data.Name + " פרטיך עודכנו בהצלחה!", "המשך גלישה מהנה!");
+            dispatch(updateUser(data))
+        }
+        else {
+            swal(data.Name + " ברוך הבא!", "נרשמת בהצלחה");
+            dispatch(addUser(data));
+        }
+        setFlag(false);
+        if (type == 3)
+            navigate("./report/" + id);
+        else
+            navigate("/attractionsList");
     };
-    
+
     return (<>
         {type == 2 ? <h1>כניסת מעסיקים</h1> : null}
         <form onSubmit={handleSubmit(onSubmit)} className="location">
@@ -66,13 +64,17 @@ const Register = ({ id }) => {
                     errors={errors}
                     register={register}
                     user={user}
-                    flag={false} /> : !user?
-                    <Password errors={errors} register={register} name={"Password"} labelName={"סיסמא ישנה"} />:null
+                    flag={false} /> : !user ?
+                    <Password
+                        errors={errors}
+                        register={register}
+                        name={"Password"}
+                        labelName={"סיסמא ישנה"} /> : null
                 }
-                <br/> <br/>
+                <br /> <br />
             </div>
             )}
-            <br/>
+            <br />
             <Button variant="contained" size="medium" type="submit">
                 {user ? "שמירת שינויים" : "הרשם"}
             </Button>

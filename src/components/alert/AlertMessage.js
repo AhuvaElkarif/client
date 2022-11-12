@@ -9,7 +9,6 @@ const AlertMessage = ({ variant, children }) => {
       // After 3 seconds set the show value to false
       setShow(false)
     }, 3000)
-
     return () => {
       clearTimeout(timeId)
     }

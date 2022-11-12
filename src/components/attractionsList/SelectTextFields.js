@@ -3,12 +3,11 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 
-export default function SelectTextFields({ handleChange , currencies, text }) {
+export default function SelectTextFields({ handleChange , currencies, text  }) {
   const [currency, setCurrency] = useState(currencies[0].Id);
   useEffect(() => { }, [currency])
   return (<>
     <Box
-      component="form"
       sx={{
         '& .MuiTextField-root': { m: 1, width: '25ch' },
       }}

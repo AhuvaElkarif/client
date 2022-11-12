@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
-import SingleAttraction from '../attractionsList/SingleAttraction';
 import { useNavigate } from 'react-router';
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import { getWishList, deleteProductFromWishList } from "../../store/actions/WishListAction";
+import { useSelector, shallowEqual } from "react-redux";
 import swal from 'sweetalert';
 import "./WishList.css";
 import WishCard from "./WishCard";
@@ -10,7 +8,6 @@ import { Button } from "@material-ui/core";
 
 function WishList() {
     const navigate = useNavigate();
-    const dispatch = useDispatch();
     const [flag, setFlag] = useState(false);
     const [wishes, setWishes] = useState([]);
 
@@ -21,8 +18,6 @@ function WishList() {
         }
     }, shallowEqual);
     useEffect(() => {
-        if (user != null)
-            dispatch(getWishList(user.Id));
         setWishes(wishesArr);
     }, [])
     useEffect(() => {

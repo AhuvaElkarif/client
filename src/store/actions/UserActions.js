@@ -2,6 +2,28 @@ import * as actionType from '../reducers/actionType';
 import axios from "axios";
 import swal from 'sweetalert';
 
+export const getUsers = () => {
+    return dispatch => {
+        dispatch({
+            type: actionType.SET_LOADING,
+            payload: true
+        });
+        axios.get("http://localhost:57828/api/user/Get")
+            .then(response => {
+                
+                dispatch({
+                    type: actionType.SAVE_ALL_USERS,
+                    payload: response.data
+                });
+                dispatch({
+                    type: actionType.SET_LOADING,
+                    payload: false
+                });
+            })
+            .catch(err => console.log(err))
+    }
+}
+
 export const login = (user, type) => {
     return dispatch => {
         axios.post("http://localhost:57828/Api/user/post2/", user)

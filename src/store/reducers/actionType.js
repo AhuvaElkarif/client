@@ -7,6 +7,7 @@ export const ATTRACTION_UPDATED = "ATTRACTION_UPDATED";
 
 // UserActions
 export const CURRENT_USER = "CURRENT_USER"
+export const SAVE_ALL_USERS = " SAVE_ALL_USERS";
 
 // WishList
 export const ADDED_ATTRACTION_TO_WISH_LIST="ADDED_ATTRACTION_TO_WISH_LIST";
@@ -15,6 +16,7 @@ export const WISH_LIST_ACCEPTED="WISH_LIST_ACCEPTED";
 
 // Order
 export const SAVE_ALL_ORDERS = "SAVE_ALL_ORDERS";
+export const ORDER_DELETED = "ORDER_DELETED";
 
 // Category
 export const SAVE_ALL_CATEGORIES = "SAVE_ALL_CATEGORIES";

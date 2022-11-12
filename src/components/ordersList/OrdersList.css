@@ -6,7 +6,9 @@
     top: 5rem;
     margin-right: 102px;
 }
-
+.container{
+    margin:2.5rem;
+}
 .contain{
     display: flex;
     flex-wrap: wrap;

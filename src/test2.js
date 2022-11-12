@@ -8,11 +8,11 @@ const AddImg = () => {
   const send = () => {
 //   C:\inetpub\wwwroot\image
     const formData = new FormData();
-    formData.append('Image', File);
-    formData.append('FileName', FileName);
-    formData.append('Id', 2);
+    formData.append('Img', File);
+    // formData.append('FileName', FileName);
+    formData.append('AttractionId', 2);
 
-    axios.post(`http://localhost:57828/Api/Image`, formData)
+    axios.post(`http://localhost:57828/api/Image`, formData)
     .then(x => console.log(x.data));
   }
   return (

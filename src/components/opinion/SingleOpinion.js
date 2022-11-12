@@ -1,5 +1,4 @@
 import StarIcon from '@mui/icons-material/Star';
-import { getUserById } from "../../store/actions/UserActions";
 import React, { useEffect, useState } from 'react';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import "./Opinion.css";
@@ -8,16 +7,16 @@ import Poppers from '../popper/Popper';
 import { Box } from '@material-ui/core';
 import { changeStatus } from '../../store/actions/OpinionsActions';
 import { deleteReport } from '../../store/actions/ReportAction';
+import { useSelector } from 'react-redux';
 
 function SingleOpinion({ opinion, type }) {
     const [user, setUser] = useState(null);
     const [insertDate, setInsertDate] = useState(opinion.InsertDate);
     const starts = [1, 2, 3, 4, 5];
-
+    const usersList = useSelector(state => state.userList);
     useEffect(() => {
-        getUserById(opinion.UserId)
-            .then(x => setUser(x.data))
-            .catch(err => console.log(err))
+        const u = usersList.find(x => x.Id == opinion.UserId);
+        setUser(u);
         calcDate();
     }, []);
 
@@ -54,7 +53,7 @@ function SingleOpinion({ opinion, type }) {
         {type != 2 ? <> <div className="opinion"><StarIcon /> חוות דעת </div>
             <ReportOpinion opinion={opinion} /></> : null}
         <p>{insertDate != opinion.InsertDate ? insertDate : null}</p>
-        <h4>{user != null ? user.Name : null}</h4>
+        <h4>{user ? user.Name : null}</h4>
         {starts.map((x, ind) => {
             return <span key={ind}>
                 {x <= opinion.Grading ? <StarIcon className="fullStar" /> : <StarBorderIcon />}

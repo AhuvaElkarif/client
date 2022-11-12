@@ -11,7 +11,6 @@ import "./OrdersList.css";
 import "../opinion/Opinion.css";
 import DateButton from "./DateButton";
 import CheckboxList from "../sideNavBar/CheckboxList";
-import Order from '../../models/Order';
 const style = {
     position: 'absolute',
     top: '50%',
@@ -27,45 +26,23 @@ const style = {
 function OrdersList() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [orders, setOrders] = useState([]);
+    const date = new Date();
     const [value1, setValue1] = useState(null);
     const [value2, setValue2] = useState(null);
     const [categoryArr, setCategoryArr] = useState(null);
     const [searchValue, setSearchValue] = useState('');
-    const { user, attractions } = useSelector(state => {
+    const [ordersArr, setOrdersArr] = useState(null);
+    const { user, orders } = useSelector(state => {
         return {
             user: state.user,
-            attractions: state.attractionArr,
-            // orders: state.ordersArr
+            orders: state.ordersArr
         }
     }, shallowEqual);
 
     useEffect(() => {
-        const arr = [new Order(1, 2, 500, new Date(2022, 7, 14), "טיולל"),
-        new Order(11, 2, 500, new Date(), "שיט"),
-        new Order(2, 2, 500, new Date(), "לונה פארק"),
-        new Order(3, 2, 500, new Date(), "סופרלנד")];
-        setOrders(arr);
-        // dispatch(getOrders())
-        // console.log(orders)
-        // const orders = dispatch(getOrdersByUserId(user.id));
-    }, [])
-    const update = (item, type) => {
-        const date = item.OrderDate;
-        const attraction = { ...attractions.find(x => x.Id == item.AttractionId) };
-        const possible = date.setDate(date.getDate() + attraction.DaysToCancel) < new Date();
-        if (type == 1)
-            if (possible)
-                navigate("/order/" + false + "/" + 1 + "/" + item.AttractionId);
-            else
-                navigate("/message/" + item.AttractionId + "/" + 1 + "/" + false);
-        else
-            if (possible)
-                navigate("/message/" + item.AttractionId + "/" + 0 + "/" + true);
-            else
-                navigate("/message/" + item.AttractionId + "/" + 0 + "/" + false);
 
-    }
+    }, [])
+
     const dateToEpoch = (thedate) => {
         var time = thedate.getTime();
         return time - (time % 86400000);
@@ -83,19 +60,14 @@ function OrdersList() {
             </>
                 : null}
             {orders.length > 0 ? orders.map(item => {
-                if (item.Name.includes(searchValue) &&
+                if (item.Attraction.Name.includes(searchValue) &&
                     (!value1 || dateToEpoch(item.OrderDate) >= dateToEpoch(value1)) &&
                     (!value2 || dateToEpoch(item.OrderDate) <= dateToEpoch(value2)) &&
                     (!categoryArr || categoryArr.includes(item.Attraction.CategoryId)))
-                    return <div key={item.Id} className="contain">
-                        <SingleOrder order={item} />
-                        {user.Status == 1 ? <>
-                            <WriteOpinion id={item.AttrctionId} />
-                            {dateToEpoch(item.OrderDate) >= dateToEpoch(new Date()) ? <>
-                                <Button variant="contained" className="btn" size="small" onClick={() => { update(item, 1) }}> עדכן הזמנה </Button>
-                                <Button variant="contained" className="btn" size="small" onClick={() => { update(item, 0) }}> בטל הזמנה </Button>
-                            </> : null}
-                        </> : user.Status == 2 || user.Status == 3 ? <p>חוות דעת: </p> : null}
+                    return <div key={item.Id} className="container">
+                        <SingleOrder order={item} dateToEpoch={dateToEpoch} />
+                       
+                        
                     </div>
             }) : null}
         </div>

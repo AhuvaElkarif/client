@@ -23,11 +23,10 @@ const style = {
     p: 4,
 };
 
-export default function WriteOpinion({ id }) {
-    const dispatch = useDispatch();
+export default function WriteOpinion({ id, setWrite }) {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const handleClose = () => {setOpen(false); setWrite(true)};
     const [value, setValue] = React.useState(2);
     const [text, setText] = React.useState('');
     const [flag, setFlag] = React.useState(0);
@@ -37,14 +36,14 @@ export default function WriteOpinion({ id }) {
         if (event.target.value)
             setFlag(0);
     };
-
     const submit = () => {
         if (text.length == '')
             setFlag(1);
         else {
             setFlag(2);
-            const d = new Date();
-            const o = { OpinionText: text, AttractionId: id, Grading: value, UserId: user.Id, InsertDate: d };
+            var nowDate = new Date();
+            var d = nowDate.getFullYear() + '/' + (nowDate.getMonth() + 1) + '/' + nowDate.getDate();
+            const o = { OpinionText: text, AttractionId: id, Grading: value, UserId: user.Id, InsertDate: d, Status: true };
             addOpinion(o)
                 .then(x => console.log(x))
                 .catch(err => console.log(err));

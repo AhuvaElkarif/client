@@ -5,11 +5,7 @@ import { getTimesByAttractionId } from "../../store/actions/GeneralTimes";
 
 const ActivityTime = () => {
     const {id} = useParams();
-    const { attractions } = useSelector(state => {
-        return {
-            attractions: state.attractionArr,
-        }
-    }, shallowEqual);
+    const attractions = useSelector(state => state.attractionArr);
     const product = { ...attractions.find(x => x.Id == id) };
     const [times, setTimes] = useState([]);
     useEffect(() => {
@@ -27,7 +23,7 @@ const ActivityTime = () => {
                 <br />
                 שעת הסגירה תוחלט בהתאם לשיקול דעת ההנהלה במקרים שונים.
                 <br />
-                פרטים ניתן לברר טרם הגעתכם בטלפון:{product.Phone}</p>
+                פרטים ניתן לברר טרם הגעתכם בטלפון: {product.Phone}</p>
                  {times.map(item => <div> {item.Period.Season} </div>)}
         </div>
     )

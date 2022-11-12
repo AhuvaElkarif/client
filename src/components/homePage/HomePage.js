@@ -7,6 +7,9 @@ import { SvgIcon } from '@mui/material';
 import { getAttractions, getAttractionsByUserId, getRelevantAttractions } from "../../store/actions/AttractionActions"
 import "./HomePage.css";
 import { getCategories } from '../../store/actions/CategoryAction';
+import { getUsers } from '../../store/actions/UserActions';
+import { getWishList } from '../../store/actions/WishListAction';
+import { getOrders, getOrdersByMangerId, getOrdersByUserId } from '../../store/actions/OrderAction';
 
 function HomePage() {
     const dispatch = useDispatch();
@@ -16,14 +19,26 @@ function HomePage() {
     useEffect(() => {
         if (user == null || user.Status == 1 || user.Status == 3)
             dispatch(getAttractions());
-        else
+        else{
             dispatch(getAttractionsByUserId(user.Id));
+            dispatch(getOrdersByMangerId(user.Id))
+        }
+        if (user.Status == 3)
+            dispatch(getOrders())
+        else
+            if (user.Status == 1)
+                dispatch(getOrdersByUserId(user.Id))
         // getRelevantAttractions()
         //     .then(x => setAttractions(x.data))
         //     .catch(err => console.log(err))
-        dispatch(getCategories());
         // dispatch(getUser)
+        dispatch(getCategories());
+        dispatch(getUsers());
     }, [])
+    useEffect(() => {
+        if (user != null)
+            dispatch(getWishList(user.Id));
+    }, [user])
     return (<>
         {/* <img className="hpb" src="./homePageBack.jpg" /> */}
         <h2>מה חם אצלנו כרגע</h2>

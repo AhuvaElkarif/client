@@ -7,6 +7,7 @@ import * as yup from "yup";
 import FormInput from "../formInput/FormInput";
 import { Button } from "@material-ui/core";
 import './EditAttraction.css'
+import "../order/Order.css";
 
 const schema = yup.object({
     Phone: yup.string().required("שדה זה חובה").min(9, 'מספר הפלאפון אינו תקין').max(10, 'מספר הפלאפון אינו תקין'),
@@ -14,47 +15,32 @@ const schema = yup.object({
     Email: yup.string().email("כתובת מייל אינה תקינה").required("שדה זה חובה"),
 }).required();
 
-const ManagerDetails = ({ attraction, onSubmit }) => {
-    const  user = useSelector(state => state.user);
-    useEffect(() => {
 
-    }, []);
+const ManagerDetails = ({ attraction, onSubmit }) => {
+    const user = useSelector(state => state.user);
 
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
     });
 
-
+    const arr = [{ lableName: "שם בעל האטרקציה", name: "Name", type: "text", user: user },
+    { lableName: "מספר טלפון(מקום האטרציה)", name: "Phone", type: "text", user: attraction },
+    { lableName: "דואר אלקטרוני", name: "Email", type: "mail", user: user }]
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <p>רגע לפני שמפרסמים את המודעה, נרצה להכיר אותך</p>
-            <FormInput
-                lableName={"שם בעל האטרקציה"}
-                name={"Name"}
-                type={"text"}
+            {arr.map(item => <FormInput
+                lableName={item.labelName}
+                name={item.name}
+                type={item.type}
                 errors={errors}
                 register={register}
-                user={user}
-                flag={false} />
-
-            <FormInput
-                lableName={"מספר טלפון"}
-                name={"Phone"}
-                type={"number"}
-                errors={errors}
-                register={register}
-                user={attraction}
-                flag={false} />
-
-            <FormInput
-                lableName={"דואר אלקטרוני"}
-                name={"Email"}
-                type={"mail"}
-                errors={errors}
-                register={register}
-                user={user}
-                flag={false} />
-
+                user={item.user}
+                flag={false} />)}
+            <div className="creditCard">
+                <p>אתר זה מכבד את הכרטיסים הבאים:</p>
+                <img src="./images/creditCards.png" />
+            </div>
             <Button variant="contained" size="medium" type="submit"> להמשיך לשלב הבא </Button>
         </form>
     )

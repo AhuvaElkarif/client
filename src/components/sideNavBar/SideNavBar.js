@@ -3,7 +3,6 @@ import { useState } from "react";
 import CheckboxList from "./CheckboxList";
 import FilterByAge from "./FilterByAge";
 import MinimumDistanceSlider from "./Slider";
-
 const SideNavBar = ({ filterArr, zero, count }) => {
   const [flag, setFlag] = useState(false);
 

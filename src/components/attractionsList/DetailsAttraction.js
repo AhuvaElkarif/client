@@ -1,9 +1,11 @@
 import { useParams, useNavigate } from "react-router";
 import Opinions from "../opinion/Opinions";
-import {  useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import "./AttractionsList.css";
 import "./DetailsAttraction.css";
 import Buttons from "./Buttons";
+import Gallery from "./Gallery";
+import FullWidthGrid from "./FullWidthGrid";
 
 const DetailsAttraction = () => {
      const navigate = useNavigate();
@@ -14,6 +16,8 @@ const DetailsAttraction = () => {
      return (
           <div className="detailsAttraction">
                {product == null ? <>loading...</> : (<>
+                    <FullWidthGrid images={product.Images} />
+                    {/* <Gallery id={id} /> */}
                     <h1>{product.Name}</h1>
                     <h4>{product.Description}</h4>
                     <h4> כתובת: {product.Address}</h4>

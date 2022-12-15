@@ -28,7 +28,7 @@ const style = {
 export default function ReportOpinion({ opinion }) {
   const attractionId = opinion.AttractionId;
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl)
+  const open = Boolean(anchorEl);
   // const [open, setOpen] = React.useState(Boolean(anchorEl));
   const id = Boolean(anchorEl) ? 'simple-popper' : undefined;
   const navigate = useNavigate();
@@ -51,6 +51,8 @@ export default function ReportOpinion({ opinion }) {
       .catch(err => console.log(err));
   }, []);
   const report = () => {
+    setAnchorEl(anchorEl ? null : true);
+
     if (user == null)
       navigate('/registerAndLogin/' + attractionId);
     else
@@ -76,6 +78,8 @@ export default function ReportOpinion({ opinion }) {
         <Box sx={{ bgcolor: 'background.paper' }}>
           <Button variant='contained' onClick={report}>דווח</Button>
         </Box>
+      </Popper>
+
         <Modal
           open={open2}
           onClose={handleClose}
@@ -99,7 +103,6 @@ export default function ReportOpinion({ opinion }) {
              : <Button variant='contained' size='large' disabled={value == '' ? true : false} onClick={submit} >הגש</Button>}
           </Box>
         </Modal>
-      </Popper>
     </div>
   );
 }

@@ -8,10 +8,9 @@ import Checkbox from '@material-ui/core/Checkbox';
 import MaximizeIcon from '@mui/icons-material/Maximize';
 import AddIcon from '@mui/icons-material/Add';
 import './List.css';
-import { Button, Grid } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import { getAreas } from '../../store/actions/AreaAction';
 import { getSeasons } from '../../store/actions/SeasonAction';
-import SelectTextFields from '../attractionsList/SelectTextFields';
 import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({

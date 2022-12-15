@@ -5,7 +5,7 @@ const initialState = {
     categoriesArr: [],
     // user: null,
 user : {
-    Id: 43, Name : "שלומי שבו", Email: "shlomi@gmail.com",
+    Id: 43, Name : "שלומי שבו", Email: "ahuvael02@gmail.com",
     Password: "hjk123", Phone: "0521234123",  Status: 1,Active: true,
 },
     userList: [],

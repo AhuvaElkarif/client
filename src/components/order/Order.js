@@ -39,7 +39,6 @@ const Order = () => {
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
     });
-
     const onSubmit = (data) => {
         console.log(data);
         console.log(data.Date)
@@ -50,7 +49,7 @@ const Order = () => {
     };
     const save = () => {
         navigate("/message" + "/" + product.Id + "/" + 3 + "/" + false);
-
+        
     }
     // const changeDate = (e) => {
     //     if (e.target.value < new Date().toISOString().substring(0, 10))

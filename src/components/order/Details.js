@@ -35,10 +35,10 @@ const Details = ({ price, date }) => {
     const [showList, setShowList] = useState(false);
 
     const schema = yup.object({
-        FirstName: yup.string().required("שדה זה חובה").min(2, 'השם אינו תקין'),
-        LastName: yup.string().required("שדה זה חובה").min(2, 'השם אינו תקין'),
-        Email: yup.string().email("כתובת מייל אינה תקינה").required("שדה זה חובה"),
-        Phone: yup.string().required("שדה זה חובה").min(9, 'מספר הפלאפון אינו תקין').max(10, 'מספר הפלאפון אינו תקין'),
+        // FirstName: yup.string().required("שדה זה חובה").min(2, 'השם אינו תקין'),
+        // LastName: yup.string().required("שדה זה חובה").min(2, 'השם אינו תקין'),
+        // Email: yup.string().email("כתובת מייל אינה תקינה").required("שדה זה חובה"),
+        // Phone: yup.string().required("שדה זה חובה").min(9, 'מספר הפלאפון אינו תקין').max(10, 'מספר הפלאפון אינו תקין'),
         // Date: yup.date("הכנס תאריך").required("שדה זה חובה").min(new Date().toISOString().substring(0, 10), "תאריך לא תקין")
     }).required();
 
@@ -49,14 +49,15 @@ const Details = ({ price, date }) => {
 
     const onSubmit = (data) => {
         console.log(data);
-        addOrder({ UserId: user.Id, OrderDate: date, GlobalPrice: price })
+        addOrder({ UserId: user.Id, OrderDate: new Date(), GlobalPrice: 56 , Amount:1, AttractionId:2})
             .then(navigate("/order/" + true + "/" + type + "/" + product.Id))
             .catch(err => console.log(err));
     };
-    const save = () => {
-        navigate("/message" + "/" + product.Id + "/" + 3 + "/" + false);
+    // const save = () => {
+    //     navigate("/message" + "/" + product.Id + "/" + 3 + "/" + false);
 
-    }
+    // }
+
     return (<div>
        <form onSubmit={handleSubmit(onSubmit)}>
             <Input lableName="שם פרטי" user={user} register={register} errors={errors} flag={flag} name="FirstName" type="text" />
@@ -66,7 +67,7 @@ const Details = ({ price, date }) => {
             <TextField id="outlined-multiline-flexible" style={{ width: "30vw" }} multiline label="סכום לתשלום" disabled="true" value={price} />
             <p onClick={() => setShowList(!showList)} className="link" >רשימת ציוד</p>
             {showList ? <EquipmentList id={id} /> : null}
-            {flag ?  <Button variant="contained" size="medium" onClick={save}>בצע הזמנה</Button>
+            {flag ?  <Button variant="contained" size="medium"  type="submit" >בצע הזמנה</Button>
                 : type == 0 ?
                     <Button variant="contained" size="medium" type="submit">בצע הזמנה</Button>
                     : <Button variant="contained" size="medium" type="submit">עדכן הזמנה</Button>}

@@ -11,7 +11,7 @@ import './EditAttraction.css'
 import BorderLinearProgress from "./BorderLinearProgress";
 import SelectForm from "../attractionsList/SelectForm";
 const schema = yup.object({
-    Name: yup.string().required("שדה זה חובה"),
+    // Name: yup.string().required("שדה זה חובה"),
     // Description: yup.string().required("שדה זה חובה").max(400, 'מספר תווים מקסימלי הוא 400'),
     // Phone: yup.string().required("שדה זה חובה").min(9, 'מספר הפלאפון אינו תקין').max(10, 'מספר הפלאפון אינו תקין'),
     // Address: yup.string().required("שדה זה חובה"),
@@ -46,6 +46,8 @@ const AttractionDetails = ({ type, attraction, onSubmit }) => {
     const [text, setText] = useState(" ממליצים לך בחום להוסיף תיאור נרחב ");
 
     useEffect(() => {
+        if (attraction)
+            handleChange({target: {value: attraction.Description}})
         getAreas()
             .then(x => setAreas(x.data))
             .catch(err => alert("קרתה תקלה זמנית, אנו מתנצלים."))
@@ -57,8 +59,9 @@ const AttractionDetails = ({ type, attraction, onSubmit }) => {
         resolver: yupResolver(schema)
     });
 
-    const handleChange = (e) => {
-        const cnt = e.target.value.length;
+    const handleChange = ({target}) => {
+        
+        const cnt = target.value.length;
         setCount(cnt);
         switch (true) {
             case cnt >= 1 && cnt < 50:
@@ -101,30 +104,30 @@ const AttractionDetails = ({ type, attraction, onSubmit }) => {
             </div>
             )}
             <div>
-                <p>פרטים נוספים(עד 400 תווים)</p>
-                <div className="rating" style={{ backgroundColor: color }}>{text}</div> <span>{count}/400</span>
+                <p>פרטים נוספים (עד 400 תווים) {count}/400</p>
+                <span>{text}</span>
                 <BorderLinearProgress
-                    count={count}
-                   variant="determinate" value={count / 4} />
-                <span>{count}/400</span>
+                    color1={color}
+                    variant="determinate" value={count / 4} />
+
                 <TextField
                     id="outlined-multiline-static"
                     variant='outlined'
                     multiline
                     minRows={7}
                     {...register("Description")}
-                    fullWidth
+                    // fullWidth
+                    style={{ width: "30rem" }}
                     label="תיאור"
                     onChange={handleChange}
-
-                    placeholder="זה המקום לציין את כל המידע לגבי האטרקציה כדי להתקדם לאטרקציה מעולה."
+                    defaultValue={attraction ? attraction.Description : "זה המקום לציין את כל המידע לגבי האטרקציה כדי להתקדם לאטרקציה מעולה."}
                 />
                 <p>אין צורך להוסיף מספר טלפון כחלק מהתיאור, בהמשך התהליך יש אזור מסודר לזה.</p>
             </div>
 
             {areas && <SelectForm
                 // handleChange={({ target }) => { setArea(target.value) }}
-                name={"AreaId"}
+                name={"AreaId"} defaultValue={attraction ? attraction.AreaId : null}
                 arr={areas} lableName={"בחר איזור"} {...register("AreaId")} errors={errors} />}
             <Button variant="contained" size="medium" type="submit"> להמשיך לשלב הבא </Button>
         </form>

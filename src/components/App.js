@@ -26,10 +26,19 @@ import New from './navBar/New';
 import VerticalLinearStepper from './editAttraction/VerticalLinearStepper';
 import AddImg from '../Test2';
 import Steppers from './order/Stepper';
+import DatePicker1 from './order/DatePicker';
+import Gallery from './attractionsList/Gallery';
+import GeneralTimes from './editAttraction/GeneralTimes';
+import PeriodTime from './editAttraction/PeriodTime';
+import PeriodDetails from './editAttraction/PeriodDetails';
 function App() {
   return (<>
-  <AddImg/>
-  <VerticalLinearStepper type="new"/>
+  {/* <DatePicker1/> */}
+  {/* <AddImg/> */}
+  {/* <Gallery id={19}/> */}
+  <PeriodTime id={19} type=""/> 
+  <GeneralTimes id={19} periodId={7} type=""/>
+  {/* <VerticalLinearStepper type="edit" id={19}/> */}
     {/* <Regions/> */}
     {/* <AttractionsList/> */}
     {/* <EditAttraction/> */}
@@ -68,6 +77,7 @@ function App() {
       <Route path="reportsList" element={<ReportsList />} />
       <Route path="categoriesList" element={<Category />} />
       <Route path=""></Route>
+      <Route path="period/:attractionId" element={<PeriodDetails/>}></Route>
       <Route path="login/:type" element={<Login />} />
       <Route path="register/:type" element={<Register />} />
       <Route path="wishList" element={<WishList />} />

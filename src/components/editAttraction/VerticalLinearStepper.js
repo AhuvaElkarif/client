@@ -7,13 +7,15 @@ import StepContent from '@material-ui/core/StepContent';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import { shallowEqual, useSelector } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import CategoryCard from './CategoryCard';
 import AttractionDetails from './AttractionDetails';
 import { useState } from 'react';
 import CategoryList from './CategoryList';
 import AddImages from './AddImages';
 import ManagerDetails from './ManagerDetails';
+import { addAttraction, updateAttraction } from '../../store/actions/AttractionActions';
+import Equipment from './Equipment';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 function getSteps() {
-  return ['אני רוצה לפרסם אטרקציה בלוח...', 'פרטי האטרקציה', 'הוספת תמונות', 'פרטי התקשרות', 'תשלום'];
+  return ['אני רוצה לפרסם אטרקציה בלוח...', 'פרטי האטרקציה', 'הוספת תמונות', ' פרטי התקשרות', 'זמני פתיחה ותשלום'];
 }
 
 
@@ -42,54 +44,55 @@ export default function VerticalLinearStepper({ type, id }) {
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
   const [category, setCategory] = useState(null);
-  const [flag, setFlag] = useState(false);
+  const dispatch = useDispatch();
   const steps = getSteps();
 
-  const {  user , attractions } = useSelector(state => {
+  const { user, attractions } = useSelector(state => {
     return {
       user: state.user,
       attractions: state.attractionArr
     }
   }, shallowEqual);
-  const attraction = { ...attractions.find(x => x.Id == id) };
-
+  let attraction = id != undefined ? { ...attractions.find(x => x.Id == id) } : null;
   const onSubmit = (data) => {
+    attraction = { ...attraction, data };
     console.log(data)
-    // setFlag(true);
     data.Date = new Date();
     data.Status = true;
     data.CategoryId = category.Id;
     data.ManagerId = user.Id;
-    setActiveStep(activeStep+1);
-    // handleNext();
-    // if (type == "new")
-    //     dispatch(addAttraction(data));
-    // else {
-    //     data.Id=id;
-    //     dispatch(updateAttraction(data));
-    // }
-  };
+    setActiveStep(activeStep + 1);
+    if (activeStep == 4)
+      addAndUpdate();
+  }
+  const addAndUpdate = () => {
+    attraction.Date = new Date();
+    attraction.Status = true;
+    attraction.CategoryId = category.Id;
+    attraction.ManagerId = user.Id;
+    if (type == "new")
+      dispatch(addAttraction(attraction));
+    else
+      dispatch(updateAttraction(attraction));
+  }
   const getStepContent = (step) => {
     switch (step) {
       case 0:
-        return <CategoryList setCategory={setCategory} setActiveStep={setActiveStep}/>;
+        return <CategoryList setCategory={setCategory} setActiveStep={setActiveStep} />;
       case 1:
         return <AttractionDetails type={type} attraction={attraction} onSubmit={onSubmit} />;
       case 2:
-        return <AddImages/>;
-        case 3:
-        return <ManagerDetails attraction={attraction} onSubmit={onSubmit}/>;
-        case 3:
-          return <ManagerDetails attraction={attraction} onSubmit={onSubmit}/>;
+        return <AddImages onSubmit={() => { setActiveStep(activeStep + 1) }} attraction={attraction} />;
+      case 3:
+        return <ManagerDetails attraction={attraction} onSubmit={onSubmit} />;
+        case 4:
+        return <Equipment id={id} type={type} onSubmit={()=>{setActiveStep(activeStep+1)}}/>;
       default:
-        return 'Unknown step';
+        return;
     }
   }
   const handleNext = () => {
-    // console.log(flag)
-    // if (flag)
-      setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    // setFlag(false);
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
   const handleBack = () => {
@@ -109,7 +112,7 @@ export default function VerticalLinearStepper({ type, id }) {
             <StepContent>
               <div>{getStepContent(index)}</div>
               <div className={classes.actionsContainer}>
-                <br/> <br/>
+                <br /> <br />
                 <div>
                   <Button
                     disabled={activeStep === 0}
@@ -117,14 +120,6 @@ export default function VerticalLinearStepper({ type, id }) {
                     className={classes.button}>
                     חזרה
                   </Button>
-                  {activeStep != 0 && activeStep != 1 ? <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleNext}
-                    className={classes.button}
-                  >
-                    {activeStep === steps.length - 1 ? 'סיום' : 'להמשיך לשלב הבא'}
-                  </Button> : null}
                 </div>
               </div>
             </StepContent>
@@ -133,10 +128,10 @@ export default function VerticalLinearStepper({ type, id }) {
       </Stepper>
       {activeStep === steps.length && (
         <Paper square elevation={0} className={classes.resetContainer}>
-          <Typography>All steps completed - you&apos;re finished</Typography>
-          <Button onClick={handleReset} className={classes.button}>
-            Reset
-          </Button>
+          <Typography>האטרקציה {id != undefined ? "עודכנה" : "התווספה"} בהצלחה!</Typography>
+          {type == "new" ? <Button onClick={handleReset} className={classes.button}>
+            להוספת אטרקציה נוספת
+          </Button> : null}
         </Paper>
       )}
     </div>

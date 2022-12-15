@@ -36,7 +36,7 @@ export default function WishCard({ item , ind}) {
       <CardMedia
         component="img"
         sx={{ width: 151 }}
-        image={`C:\\inetpub\\wwwroot\\image\\${item.Images.slice(0,14)}`}
+        image={`http://localhost:81/img/${item.Images.slice(0, 14)}`}
         alt={item.Description}
       />
 

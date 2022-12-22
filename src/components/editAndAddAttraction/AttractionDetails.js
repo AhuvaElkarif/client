@@ -11,23 +11,36 @@ import './EditAttraction.css'
 import BorderLinearProgress from "./BorderLinearProgress";
 import SelectForm from "../attractionsList/SelectForm";
 const schema = yup.object({
-    // Name: yup.string().required("שדה זה חובה"),
-    // Description: yup.string().required("שדה זה חובה").max(400, 'מספר תווים מקסימלי הוא 400'),
-    // Phone: yup.string().required("שדה זה חובה").min(9, 'מספר הפלאפון אינו תקין').max(10, 'מספר הפלאפון אינו תקין'),
-    // Address: yup.string().required("שדה זה חובה"),
-    // Price: yup.string().required("שדה זה חובה"),
-    // MinParticipant: yup.string().required("שדה זה חובה"),
-    // MaxParticipant: yup.string().required("שדה זה חובה").matches(/^(?!(?:0|0\.0|0\.00)$)[+]?\d+(\.\d|\.\d[0-9])?$/),
-    // IsAvailable: yup.string().required("שדה זה חובה"),
-    // TimeDuration: yup.string().required("שדה זה חובה"),
-    // FromAge: yup.string().required("שדה זה חובה"),
-    // TillAge: yup.string().required("שדה זה חובה"),
-    // DaysToCancel: yup.string().required("שדה זה חובה"),
-    // AreaId: yup.string().required("שדה זה חובה"),
+    Name: yup.string().required("שדה זה חובה"),
+    Phone: yup.string().required("שדה זה חובה").min(9, 'מספר הפלאפון אינו תקין').max(10, 'מספר הפלאפון אינו תקין'),
+    Description: yup.string().required("שדה זה חובה").max(400, 'מספר תווים מקסימלי הוא 400'),
+    Address: yup.string().required("שדה זה חובה"),
+    Price: yup.string().required("שדה זה חובה"),
+    MinParticipant: yup.number().required("שדה זה חובה"),///.matches(/^(?!(?:0|0\.0|0\.00)$)[+]?\d+(\.\d|\.\d[0-9])?$/),
+    MaxParticipant: yup.number().required("שדה זה חובה")//.matches(/^(?!(?:0|0\.0|0\.00)$)[+]?\d+(\.\d|\.\d[0-9])?$/)
+    .when('MinParticipant', (MinParticipant) => {
+        if (MinParticipant) {
+            return yup.number().required("שדה זה חובה")
+                .min(MinParticipant, 'מספר משתפים מקסימלי חייב להיות יותר גדול ממספר משתתפים מינימלי')
+        }
+    }),
+    IsAvailable: yup.string(),
+    TimeDuration: yup.string().required("שדה זה חובה"),
+    FromAge: yup.number().required("שדה זה חובה"),
+    TillAge: yup.number().required("שדה זה חובה")
+    .when('FromAge', (FromAge) => {
+        if (FromAge) {
+            return yup.number().required("שדה זה חובה")
+                .min(FromAge, 'לא תקין')
+        }
+    }),
+    DaysToCancel: yup.string().required("שדה זה חובה"),
+    AreaId: yup.string().required("שדה זה חובה"),
 }).required();
 const arr = [
     { lableName: "שם אטרקציה", name: "Name", type: "text" },
     { lableName: "מחיר", name: "Price", type: "number" },
+    { lableName: "מספר טלפון(מקום האטרציה)", name: "Phone", type: "text" },
     { lableName: "כתובת", name: "Address", type: "text" },
     { lableName: "מספר משתתפים מינימלי", name: "MinParticipant", type: "number" },
     { lableName: "מספר משתתפים מקסימלי", name: "MaxParticipant", type: "number" },
@@ -40,7 +53,7 @@ const arr = [
 
 const AttractionDetails = ({ type, attraction, onSubmit }) => {
     const [areas, setAreas] = useState(null);
-    const [area, setArea] = useState(null);
+    // const [area, setArea] = useState(null);
     const [count, setCount] = useState(0);
     const [color, setColor] = useState("grey");
     const [text, setText] = useState(" ממליצים לך בחום להוסיף תיאור נרחב ");
@@ -60,7 +73,6 @@ const AttractionDetails = ({ type, attraction, onSubmit }) => {
     });
 
     const handleChange = ({target}) => {
-        
         const cnt = target.value.length;
         setCount(cnt);
         switch (true) {

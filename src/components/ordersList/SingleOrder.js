@@ -35,7 +35,7 @@ export default function SingleOrder({ order, dateToEpoch }) {
 
   }
   return (
-    <Card sx={{ display: 'flex', width: '40vw', flexDirection: 'row' }} onClick={()=>{ navigate("/detailsAttraction/" + order.AttractionId) }}>
+    <Card sx={{ display: 'flex', width: '40vw', flexDirection: 'row' }}>
       <Box sx={{ display: 'flex', flexDirection: 'column' }}>
         <CardContent sx={{ flex: '1 0 auto' }}>
           <Typography component="div" variant="h5">
@@ -53,8 +53,8 @@ export default function SingleOrder({ order, dateToEpoch }) {
         </CardContent>
         <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1, left: '4rem' }}>
           {dateToEpoch(new Date(order.OrderDate)) >= dateToEpoch(new Date()) ? <>
-            <Poppers func={() => { update(order, 1) }} type={3} text="עדכן את ההזמנה" content={"עדכן הזמנה"} />
-            <Poppers func={() => { update(order, 0) }} type={3} text="בטל את ההזמנה" content={"בטל הזמנה"} />
+            <Poppers func={() => { update(order, 1) }} type={3} text="עדכן את ההזמנה" content={"עדכן"} />
+            <Poppers func={() => { update(order, 0) }} type={3} text="בטל את ההזמנה" content={"בטל"} />
           </> : null}
           {user.Status == 1 && !order.IsWritten && !write? 
             <WriteOpinion id={order.AttractionId} setWrite={setWrite}/>:null}
@@ -65,6 +65,7 @@ export default function SingleOrder({ order, dateToEpoch }) {
         sx={{ width: 151 }}
         image={`http://localhost:81/img/${order.Attraction.Images.slice(0, 14)}`}
         alt={order.Attraction.Description}
+        onClick={()=>{ navigate("/detailsAttraction/" + order.AttractionId) }}
       />
     </Card>
   );

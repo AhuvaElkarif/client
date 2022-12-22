@@ -38,7 +38,7 @@ const Equipment = ({ id, type, onSubmit }) => {
             <h3>ציוד נדרש לטיול:</h3>
             <ul>
                 {arr.map((item, index) => {
-                    return <li>
+                    return <li key={index}>
                         <input type="text" defaultValue={item != "" ? item.Name : null} onChange={(e) => { handleChange(e, index) }} /></li>
 
                 })}

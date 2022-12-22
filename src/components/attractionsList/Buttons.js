@@ -13,11 +13,12 @@ import { changeAttractionAvailable, changeAttractionStatus } from '../../store/a
 import AlertMessage from '../alert/AlertMessage';
 import Alerts from '../alert/Alerts';
 
-const Buttons = ({ id }) => {
+const Buttons = ({ id, type }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [flag, setFlag] = useState(false);
     const [status, setStatus] = useState("");
+    const [s, setS] = useState(false);
     const { user, attractions, wishList } = useSelector(state => {
         return {
             attractions: state.attractionArr,
@@ -28,9 +29,10 @@ const Buttons = ({ id }) => {
     const index = attractions.findIndex(x => x.Id === id);
     const item = { ...attractions.find(x => x.Id == id) };
     const [checked, setChecked] = useState(item.IsAvailable);
-    useEffect(()=>{
-        setStatus(item.Status ? "בטל" : "אשר")
-    },[])
+    useEffect(() => {
+        setStatus(item.Status ? "בטל" : "אשר");
+        setS(!item.Status);
+    }, [])
     useEffect(() => {
         if (flag) {
             const interval = setInterval(() => {
@@ -50,13 +52,15 @@ const Buttons = ({ id }) => {
             dispatch(changeAttractionAvailable(id));
         else {
             dispatch(changeAttractionStatus(id));
-            const x= status== "אשר" ? "בטל" : "אשר";
+            const x = status == "אשר" ? "בטל" : "אשר";
             setStatus(x);
+            setS(!s);
+
         }
         setFlag(true);
     }
     return (
-        user == null || user.Status == 1 ?
+        type == 0 ?
             <Stack direction="row" spacing={3}>
                 <IconButton aria-label="favorite" onClick={addProduct} style={{ color: "red" }}>
                     <SvgIcon component={wishList.find(x => x.Id == item.Id) ? FavoriteIcon : FavoriteBorderIcon} inheritViewBox />
@@ -65,7 +69,7 @@ const Buttons = ({ id }) => {
                     <SendIcon size="large" />
                 </IconButton>
             </Stack>
-            : user.Status == 2 ?
+            : type == 1 ?
                 <>
                     <Button variant="contained" size="medium" onClick={() => { navigate("/editAttraction/" + item.Id) }}>  עדכון  </Button>
                     {!flag ?
@@ -87,7 +91,7 @@ const Buttons = ({ id }) => {
                         text={status} /> :
                         <AlertMessage
                             variant={'success'}
-                            children={<Alerts message={item.Status ? "בוטל בהצלחה!" : "אושר בהצלחה!"} />}
+                            children={<Alerts message={s ? "בוטל בהצלחה!" : "אושר בהצלחה!"} />}
                         />}
                 </>
     )

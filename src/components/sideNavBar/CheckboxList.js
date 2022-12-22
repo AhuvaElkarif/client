@@ -1,34 +1,34 @@
-import React, { useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import Checkbox from '@material-ui/core/Checkbox';
-import MaximizeIcon from '@mui/icons-material/Maximize';
-import AddIcon from '@mui/icons-material/Add';
-import './List.css';
-import { Grid } from '@material-ui/core';
+import * as React from 'react';
+import { useEffect } from "react"
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import ListItemText from '@mui/material/ListItemText';
+import Select from '@mui/material/Select';
+import Checkbox from '@mui/material/Checkbox';
 import { getAreas } from '../../store/actions/AreaAction';
 import { getSeasons } from '../../store/actions/SeasonAction';
 import { useSelector } from 'react-redux';
-
-const useStyles = makeStyles((theme) => ({
-    root: {
-        width: '9rem',
-        maxWidth: 360,
-        backgroundColor: theme.palette.background.paper,
+import { Typography } from '@mui/material';
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+    PaperProps: {
+        style: {
+            maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+            width: 220,
+        },
     },
-}));
+};
 
-export default function CheckboxList({ func, type, x, setX }) {
-    const classes = useStyles();
+export default function CheckBoxList({ type, x, setX, func , flag}) {
     const [checked, setChecked] = React.useState([]);
+    const [prev, setPrev] = React.useState([]);
     const [arr, setArr] = React.useState([]);
-    const [flag, setFlag] = React.useState(true);
-    const categories = useSelector(state=> state.categoriesArr)                    
-
-    React.useEffect(() => {
+    const categories = useSelector(state => state.categoriesArr)
+    const kind = type == 1 ? 'קטגוריה' : type == 2 ? 'אזור' : type == 3 ? 'עונות בשנה' : null;
+    useEffect(() => {
         switch (type) {
             case 1:
                 setArr(categories);
@@ -53,47 +53,52 @@ export default function CheckboxList({ func, type, x, setX }) {
             setX(false);
         }
     }, [x])
+    const handleChange = (event) => {
+        const {
+            target: { value },
+        } = event;
+        console.log(value);
 
-    const handleToggle = (value) => () => {
-        const currentIndex = checked.indexOf(value);
-        const newChecked = [...checked];
-        if (currentIndex === -1)
-            newChecked.push(value);
-        else
-            newChecked.splice(currentIndex, 1);
-        setChecked(newChecked);
-        const identityArr = newChecked.map(x => x.Id)
-        func(identityArr, type, currentIndex === -1 ? "add" : "decrease");
+        setChecked(
+            typeof value === 'string' ? value.split(',') : value,
+        );
+        console.log(value);
+        console.log(checked)
+        const identityArr = [];
+        arr.forEach(element => {
+            if (value.indexOf(element.Name) != -1)
+                identityArr.push(element.Id)
+        });
+        func(identityArr, type, prev.length < value.length ? "add" : "decrease");
+        setPrev(value);
     };
 
     return (
-        <List className={classes.root}>
-            <Grid container spacing={9} alignItems="center">
-                <Grid item xs={8} md={8}>
-                    <p className="categoryP" onClick={() => { setFlag(!flag) }}>{type == 1 ? 'קטגוריה' : type == 2 ? 'אזור' : type == 3 ? 'עונות בשנה' : null}</p>
-                </Grid>
-                <Grid item xs={4} md={4}>
-                    {flag ? <MaximizeIcon sx={{ fontSize: 16, position: 'relative', top: '0.5rem' }} onClick={() => { setFlag(!flag) }} />
-                        : <AddIcon sx={{ fontSize: 16 }} onClick={() => setFlag(!flag)} />}
-                </Grid>
-            </Grid>
-            {arr&& flag ? arr.map(value => {
-                const labelId = `checkbox-list-label-${value}`;
-                return (
-                    <ListItem key={value.Id} role={undefined} dense button onClick={handleToggle(value)}>
-                        <ListItemIcon>
-                            <Checkbox
-                                edge="start"
-                                checked={checked.indexOf(value) !== -1}
-                                tabIndex={-1}
-                                disableRipple
-                                inputProps={{ 'aria-labelledby': labelId }}
-                            />
-                        </ListItemIcon>
-                        <ListItemText id={labelId} primary={value.Name} />
-                    </ListItem>
-                );
-            }) : null}
-        </List>
+        <div className='filter-container'>
+            {flag==undefined && <Typography gutterBottom >
+                     {kind}
+                </Typography>}
+            <FormControl sx={{ m: 1, width: 200 }}>
+                <InputLabel id="demo-multiple-checkbox-label">{kind}</InputLabel>
+                <Select
+                    labelId="demo-multiple-checkbox-label"
+                    id="demo-multiple-checkbox"
+                    multiple
+                    value={checked}
+                    onChange={handleChange}
+                    style={{color:"orange", borderColor:"orange",backgroundColor:"FEF1E5"}}
+                    input={<OutlinedInput label={kind} />}
+                    renderValue={(selected) => selected.join(', ')}
+                    MenuProps={MenuProps}
+                >
+                    {arr.map(item => (
+                        <MenuItem key={item.Id} value={item.Name} style={{backgroundColor:"FEF1E5"}}>
+                            <Checkbox checked={checked.indexOf(item.Name) > -1} style={{color:"orange"}}/>
+                            <ListItemText primary={item.Name}/>
+                        </MenuItem>
+                    ))}
+                </Select>
+            </FormControl>
+        </div>
     );
 }

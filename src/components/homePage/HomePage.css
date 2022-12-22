@@ -1,8 +1,44 @@
-.hpb{
-    width: 90%;
-    height: 50%;
+.images-list{
+    display: flex;
+    flex-wrap: wrap;
+    /* justify-content: space-between; */
+    /* padding:3rem; */
 }
-
+.bigestImg{
+    /* width: 60vw;
+    height: 60vh;
+    margin:2px; */
+    display: block;
+    max-width:60vw;
+    max-height:80vh;
+    width: auto;
+    height: auto;
+}
+.bigImg{
+    /* width: 10vw;
+    height:3vh;
+    margin: 2px;; */
+    display: block;
+    max-width:30vw;
+    max-height:40vh;
+    width: auto;
+    height: auto;
+}
+.smallerImg{
+    /* width: 12.5vw;
+    height:27vh;
+    margin: 2px;; */
+    display: block;
+    max-width:30vw;
+    max-height:40vh;
+    width: auto;
+    height: auto;
+}
+.text-container{
+    position: absolute;
+  bottom: 8px;
+  right: 16px;
+}
 
 
 

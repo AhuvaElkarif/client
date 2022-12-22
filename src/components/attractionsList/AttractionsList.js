@@ -5,7 +5,10 @@ import { getAttractions, getAttractionsByUserId } from "../../store/actions/Attr
 import SearchButton from './SearchButton';
 import SelectTextFields from './SelectTextFields';
 import './AttractionsList.css';
+import '../sideNavBar/SideNavBar.css'
 import SideNavBar from '../sideNavBar/SideNavBar';
+import { Button } from '@material-ui/core';
+import { useParams } from 'react-router-dom';
 const currencies = [
     {
         Id: 'REC',
@@ -30,9 +33,11 @@ const currencies = [
 ];
 export default function AttractionsList() {
     const dispatch = useDispatch();
+    const { type } = useParams();
     const [searchValue, setSearchValue] = useState('');
     const [max, setMax] = useState(0);
     const [min, setMin] = useState(0);
+    const [display, setDisplay] = useState(false);
     const [fromAge, setFromAge] = useState(0);
     const [tillAge, setTillAge] = useState(99);
     const [categoryArr, setCategoryArr] = useState(null);
@@ -42,6 +47,7 @@ export default function AttractionsList() {
     const [flag2, setFlag2] = useState(false);
     const [arr, setArr] = useState([]);
     const [count, setCount] = useState(0);
+    const [flag, setFlag] = useState(false);
 
     const { user, attractions } = useSelector(state => {
         return {
@@ -54,11 +60,18 @@ export default function AttractionsList() {
         const m = Math.max(...attractions.map(o => o.Price));
         setMax(m)
         handleChange({ target: { value: 'REC' } });
-    }, [attractions])
-
+    }, [attractions, type])
+    useEffect(() => { }, [type])
     const handleChange = ({ target }) => {
-        let attractionCopy = [...attractions];
-        switch (target.Id) {
+        let attractionCopy = [];
+        if (type == 0)
+            attractionCopy = attractions.filter(x => x.Status == true && x.IsAvailable == true);
+        else
+            if (type == 2)
+                attractionCopy = [...attractions];
+            else
+                attractionCopy = attractions.filter(x => x.ManagerId == user.Id)
+        switch (target.value) {
             case 'REC': attractionCopy.sort((a, b) => b.CountAvgGrading - a.CountAvgGrading); break;
             case 'CHE': attractionCopy.sort((a, b) => a.Price - b.Price); break;
             case 'EXP': attractionCopy.sort((a, b) => b.Price - a.Price); break;
@@ -69,9 +82,7 @@ export default function AttractionsList() {
         }
         setArr(attractionCopy)
     }
-    const isInRange = (a, b, c) => {
-        return c >= a && c <= b;
-    };
+
     const filterArr = (array, type, x) => {
         const a = array.length > 0 ? array : null;
         switch (type) {
@@ -114,10 +125,18 @@ export default function AttractionsList() {
         setFlag1(false);
         setFlag2(false);
     }
-    return (<>
-        <SideNavBar filterArr={filterArr} zero={zero} count={count} />
-        <SelectTextFields handleChange={handleChange} currencies={currencies} text={"סינון"} />
-        <SearchButton search={({ target }) => setSearchValue(target.value)} />
+    return (<div >
+        {/* {count > 0 && <Button size="large" variant="contained" onClick={() => { setFlag(true); zero(); }}> נקה הכל ({count}) </Button>} */}
+
+        <SideNavBar filterArr={filterArr} flag={flag} setFlag={setFlag} setDisplay={setDisplay} />
+        <div className="selectButton">
+            <SelectTextFields handleChange={handleChange} currencies={currencies} text={"סינון"} />
+        </div>
+        <div className="searchButton">
+
+            <SearchButton search={({ target }) => setSearchValue(target.value)} />
+        </div>
+
         <div className="product-list">
             {arr != null ? arr.map(item => {
                 if (item.Name.includes(searchValue) &&
@@ -126,9 +145,9 @@ export default function AttractionsList() {
                     (!categoryArr || categoryArr.includes(item.CategoryId)) &&
                     (!seasonArr || seasonArr.every(v => item.Seasons.includes(v))) &&
                     (!areaArr || areaArr.includes(item.AreaId)))
-                    return <div key={item.Id} className="container"> <SingleAttraction product={item} />
+                    return <div key={item.Id} className="container"> <SingleAttraction product={item} type={type} />
                     </div>
             }) : null}</div>
-    </>
+    </div>
     );
 }

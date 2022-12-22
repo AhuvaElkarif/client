@@ -9,11 +9,17 @@ body{
   height: 15vh;
   position: relative;
   right:3rem;
-}
- .head{
-  text-align: center;
-} */
+}*/
 
+.img-logo{
+  height:30vh;
+  width:20vw;
+  display:flex;
+  position:relative;
+  text-align: center;
+  left:-20rem;
+  bottom: 7rem;
+}
 footer{
   background-color: black;
   color: white;
@@ -22,12 +28,21 @@ footer{
   bottom: -30rem;
 }
 .head{
+  position: relative;
+  top: 3rem;
+}
+header{
+  background-color: white;
+  height:20vh;
   font-family: 'Agency FB';
   font-size: xx-large;
   text-align: center;
   position: relative;
-  margin-top: 3rem;
+  margin: auto;
+  /* margin-top: 3rem; */
+  /* color:#3b81af; */
+
 }
-header{
-  height:15vh;
+body{
+  background-color: #f7f7f8;
 }

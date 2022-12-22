@@ -14,22 +14,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function DateButton({setValue, label}) {
+export default function DateButton({ setValue, label }) {
   const classes = useStyles();
 
   return (
-    <form className={classes.container} noValidate>
-      <TextField
-        id="date"
-        label={label}
-        type="date"
-        defaultValue="2022-09-24"
-        className={classes.textField}
-        onBlur={(e)=>{setValue(new Date(e.target.value))}}
-        InputLabelProps={{
-          shrink: true,
-        }}
-      />
-    </form>
+    <div  className="filter-container">
+      <form className={classes.container} noValidate>
+        <TextField
+          id="date"
+          label={label}
+          type="date"
+          defaultValue="2022-09-24"
+          className={classes.textField}
+          onBlur={(e) => { setValue(new Date(e.target.value)) }}
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
+      </form>
+    </div>
   );
 }

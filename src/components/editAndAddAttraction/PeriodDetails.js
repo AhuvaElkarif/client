@@ -4,6 +4,10 @@ import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { addPeriod, updatePeriod } from '../../store/actions/PeriodAction';
 import { useParams } from "react-router-dom";
+import { display } from "@mui/system";
+import GeneralTimes from "./GeneralTimes";
+import GeneralTimesDetails from "./GeneralTimesDetails";
+import { SettingsPowerOutlined } from "@mui/icons-material";
 const useStyles = makeStyles((theme) => ({
     container: {
         display: 'flex',
@@ -20,16 +24,22 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: theme.palette.background.paper,
     },
 }));
-const PeriodDetails = ({ id, period }) => {
+const PeriodDetails = ({ id, period, setX, type }) => {
     const classes = useStyles();
-    const {attractionId} = useParams();
+    const { attractionId , kind} = useParams();
     const [flag, setFlag] = useState(period?.Id ? true : false);
     const [submit, setSubmit] = useState(true);
-    useEffect(()=>{
-        if(period==null) period={};
-        if(id==null) id=attractionId;
-    },[id])
+    const [displayTimes, setDisplay] = useState(false);
+    const [res, setRes] = useState(period);
+
+    useEffect(() => {
+        if (period == null || period == undefined) period = {};
+        if (id == null) { id = attractionId; type=kind};
+    }, [id])
+    useEffect(() => {
+    }, [period])
     const change = (e) => {
+        console.log((period))
         const { name, value, type } = e.target;
         if (type == "checkbox")
             period[name] = e.target.checked;
@@ -41,8 +51,8 @@ const PeriodDetails = ({ id, period }) => {
             setSubmit(false);
             return;
         }
-        else
-            setSubmit(true)
+        if (setX != undefined)
+            setX(true);
         if (period.Id == undefined) {
             period.AttractionId = id;
             if (period.IsOpen == undefined)
@@ -55,8 +65,10 @@ const PeriodDetails = ({ id, period }) => {
                             text: "זמני התקופה אינם תקינים!",
                             icon: "warning",
                         })
-                    else
+                    else {
                         setFlag(true);
+                        setRes(x.data);
+                    }
                 })
                 .catch(err => console.log(err))
         }
@@ -107,9 +119,12 @@ const PeriodDetails = ({ id, period }) => {
                 type='checkbox'
                 inputProps={{ 'aria-label': 'primary checkbox' }}
             /> האטרקציה פתוחה
-           {!submit && <p style={{color:"red"}}> יש למלא את כל שדות התאריכים </p>}
+            {!submit && <p style={{ color: "red" }}> יש למלא את כל שדות התאריכים </p>}
+
             <Button variant="contained" size="medium" onClick={addOrUpdate}> {period?.Id ? 'עדכן' : 'הוסף'} </Button>
-            {flag ? <Button variant="contained" size="medium" onClick={addOrUpdate}> לשעות הפעילות של תקופה זו </Button> : null}
+            {flag && <Button variant="contained" size="medium" onClick={() => { if (period != {}) setDisplay(!displayTimes) }}> לשעות הפעילות של תקופה זו </Button>}
+            {displayTimes && <GeneralTimes id={attractionId!=undefined?attractionId:id} periodId={res.Id} type={type!=undefined?type:"new"} />}
+            <br /> <br />
         </div>
     );
 }

@@ -26,13 +26,12 @@ function Banner(props) {
         </Card>
     );
 }
-
 //מערך תמונות
 const items = [
-    { type: "img", src: "/images/14.jpg" },
-    { type: "video", src: "/videos/WhatsApp Video 2022-07-21 at 13.35.58.mp4" },
-    { type: "img", src: "/images/14.jpg" },
-    { type: "img", src: "/images/14-355x236.jpg" }
+    { type: "img", src: '../../images/2630ada90a.jpg' },
+    { type: "img", src: '../../images/2630ada90a.jpg' },
+    { type: "img", src:  '../../images/2630ada90a.jpg'},
+    { type: "img", src: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e' }
 ];
 
 class BannerExample extends React.Component {
@@ -98,7 +97,6 @@ class BannerExample extends React.Component {
         return (
             <div style={{ marginTop: "50px", color: "#494949", height: "500px", width: "500px" }} id="ert">
                 {/* <h2>3 Items layout - StackOverflow - Yotam</h2> */}
-
                 <Carousel
                     className="Example"
                     autoPlay={this.state.autoPlay}

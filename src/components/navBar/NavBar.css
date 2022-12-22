@@ -4,17 +4,20 @@
     display:flex;
     flex-wrap: wrap;
     justify-content: space-around;  
-    height:7vh
+    height:7vh;
  }
  .campaign{
    border: 2px solid black;
    border-radius: 7px;
    height: 4rem;
    width: 6rem;
+   position: relative;
+   bottom: 1.3rem;
  }
  .campaignP{
+   font-size: small;
    position: relative;
-   bottom:1rem;
+   bottom:0rem;
  }
  hr{
     color:#412e17;
@@ -22,7 +25,7 @@
  }
  .navBar-link{
     margin:auto;
-    font-size: large;
+    font-size:larger;
     font-weight: bolder;
     color:#3b81af;
     text-decoration:none;

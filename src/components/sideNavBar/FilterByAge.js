@@ -4,74 +4,49 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Input from '@material-ui/core/Input';
 import { useState } from 'react';
-import { Button } from '@mui/material';
+import Box from '@mui/material/Box';
 import { useEffect } from 'react';
-const useStyles = makeStyles({
-    root: {
-        width: 250,
-    },
-    input: {
-        width: 42,
-    },
-});
+import { TextField } from '@material-ui/core';
 
-const InputAge = ({classes, value, handleBlur, handleInputChange, type}) => {
-    return(
-        <Input
-        className={classes.input}
-        value={value}
-        margin="dense"
-        onChange={(e)=>{handleInputChange(e,type)}}
-        onBlur={handleBlur}
-        inputProps={{
-            step: 1,
-            min: 0,
-            max: 99,
-            type: 'number',
-        }}
-    />
-    )
-}
-const FilterByAge = ({filterAge, x, setX}) => {
-    const classes = useStyles();
+const FilterByAge = ({ filterAge, x, setX }) => {
     const [value1, setValue1] = useState(0);
     const [value2, setValue2] = useState(99);
-    useEffect(()=>{
-        if(x){
+    useEffect(() => {
+        if (x) {
             setX(false);
             setValue1(0);
             setValue2(99);
         }
-    },[x])
+    }, [x])
     const handleInputChange = (event, type) => {
-        if(type==1)
-        setValue1(event.target.value === '' ? '' : Number(event.target.value));
+        if (type == 1)
+            setValue1(event.target.value === '' ? '' : Number(event.target.value));
         else
-        setValue2(event.target.value === '' ? '' : Number(event.target.value));
+            setValue2(event.target.value === '' ? '' : Number(event.target.value));
     };
 
     return (
-        <div className={classes.root}>
-            <Typography id="range-slider" gutterBottom>
-                טווח גילאים
-            </Typography>
+        <div className='filter-container'>
+        {/* // className='range-age'> */}
+                <Typography id="range-slider" gutterBottom >
+                     גילאים
+                </Typography>
+                <Box
+                    component="form"
+                    sx={{
+                        '& > :not(style)': { m: 0, width: '10ch', textAlign: 'center' },
+                    }}
+                    noValidate
+                    autoComplete="off"
+                >
+                    <TextField id="outlined-basic" label="מגיל" variant="outlined" type="number"
+                        onBlur={() => { filterAge([value1, value2], 5) }}
+                        onChange={(e) => { handleInputChange(e, 1) }} style={{color:"orange"}}/>
+                    <TextField id="outlined-basic" label="עד גיל" variant="outlined"
+                        onBlur={() => { filterAge([value1, value2], 5) }} type="number"
+                        onChange={(e) => { handleInputChange(e, 2) }} />
+                </Box>
 
-            <Grid container spacing={1} alignItems="center">
-                <Grid item xs={3}>
-                מגיל:
-                </Grid>
-                <Grid item xs={3}>
-                    <InputAge classes={classes} handleBlur={()=>{filterAge([value1,value2], 5)}} 
-                        handleInputChange={handleInputChange} value={value1} type={1}/>
-                </Grid>
-                <Grid item xs={3}>
-                    עד גיל:
-                </Grid>
-                <Grid item xs={3}>                   
-                 <InputAge classes={classes} handleBlur={()=>{filterAge([value1,value2], 5)}} 
-                        handleInputChange={handleInputChange} value={value2} type={2}/>
-                </Grid>
-            </Grid>
         </div>
     )
 }

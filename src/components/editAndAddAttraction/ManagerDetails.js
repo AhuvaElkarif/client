@@ -16,16 +16,16 @@ const schema = yup.object({
 }).required();
 
 
-const ManagerDetails = ({ attraction, onSubmit }) => {
+const ManagerDetails = ({ onSubmit }) => {
     const user = useSelector(state => state.user);
 
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
     });
 
-    const arr = [{ lableName: "שם בעל האטרקציה", name: "Name", type: "text", user: user },
-    { lableName: "מספר טלפון(מקום האטרציה)", name: "Phone", type: "text", user: attraction },
-    { lableName: "דואר אלקטרוני", name: "Email", type: "mail", user: user }]
+    const arr = [{ lableName: "שם בעל האטרקציה", name: "Name", type: "text"},
+    { lableName: "מספר טלפון", name: "Phone", type: "text" },
+    { lableName: "דואר אלקטרוני", name: "Email", type: "mail" }]
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <p>רגע לפני שמפרסמים את המודעה, נרצה להכיר אותך</p>
@@ -35,7 +35,7 @@ const ManagerDetails = ({ attraction, onSubmit }) => {
                 type={item.type}
                 errors={errors}
                 register={register}
-                user={item.user}
+                user={user}
                 flag={false} />)}
             <div className="creditCard">
                 <p>אתר זה מכבד את הכרטיסים הבאים:</p>

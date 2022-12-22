@@ -64,3 +64,6 @@ export const deleteOrder = (id) => {
     }
 }
 
+export const getDaysInMoth = (month, year, id) => {
+    return axios.get("http://localhost:57828/Api/orderAttraction/GetDaysInMonth?id="+id+"&month="+month+"&year="+year);
+}

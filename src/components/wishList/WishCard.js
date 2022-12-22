@@ -29,13 +29,13 @@ export default function WishCard({ item , ind}) {
           </Typography>
         </CardContent>
         <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1, left:'4rem' }}>
-          <Poppers func={()=>{dispatch(deleteProductFromWishList(user, item.Id))}} type={1} text="מחוק" content={<DeleteIcon />}/>
-          <Button size="small" onClick={() => navigate("/order/" + false + "/" + 0 + "/" + item.Id)}>  הזמן  </Button>
+          <Poppers func={()=>{dispatch(deleteProductFromWishList(user, item.Id))}} type={1} text="מחוק" content={<DeleteIcon style={{color:"orange"}}/>}/>
+          <Button size="small" variant="contained" style={{backgroundColor:"orange"}}onClick={() => navigate("/order/" + false + "/" + 0 + "/" + item.Id)}>  הזמן  </Button>
         </Box>
       </Box>
       <CardMedia
         component="img"
-        sx={{ width: 151 }}
+        sx={{ width: 275 }}
         image={`http://localhost:81/img/${item.Images.slice(0, 14)}`}
         alt={item.Description}
       />

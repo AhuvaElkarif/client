@@ -9,11 +9,11 @@ import { useNavigate } from "react-router";
 import "./SingleAttraction.css";
 import Buttons from './Buttons';
 
-export default function SingleAttraction({ product }) {
+export default function SingleAttraction({ product , type}) {
     const navigate = useNavigate();
 
     return (
-        <Card sx={{ maxWidth: 345 }}>
+        <Card sx={{ maxWidth: 350 }}>
             <CardHeader
                 title={product.CategoryName}
                 subheader={product.Name}
@@ -27,7 +27,7 @@ export default function SingleAttraction({ product }) {
             />
             <CardContent>
                 <Typography variant="body2" color="text.secondary">
-                    {product.Description}
+                    {(product.Description).slice(0,40)}...
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                     {product.Address}
@@ -37,7 +37,7 @@ export default function SingleAttraction({ product }) {
                 </Typography>
             </CardContent>
             <CardActions disableSpacing>
-                <Buttons id={product.Id}/>
+                <Buttons id={product.Id} type={type}/>
             </CardActions>
 
         </Card>

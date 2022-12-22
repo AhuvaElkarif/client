@@ -51,7 +51,6 @@ const Register = ({ id }) => {
         else
             navigate("/attractionsList");
     };
-
     return (<>
         {type == 2 ? <h1>כניסת מעסיקים</h1> : null}
         <form onSubmit={handleSubmit(onSubmit)} className="location">

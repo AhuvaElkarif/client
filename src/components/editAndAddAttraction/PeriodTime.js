@@ -22,10 +22,10 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: theme.palette.background.paper,
     },
 }));
-const PeriodTime = ({ id, type}) => {
+const PeriodTime = ({ id, type, onSubmit}) => {
     const [arr, setArr] = useState([]);
+    const [x,setX] = useState(type!="new"?true:false);
     const navigate =  useNavigate();
-    const [flag, setFlag] = useState(false);
     useEffect(()=>{
         if(type!="new")
         getPeriodByAttractionId(id)
@@ -35,13 +35,13 @@ const PeriodTime = ({ id, type}) => {
         setArr(new Array(6).fill(null));
     },[])
     return (
-        <form>
-          {arr.map((item,index) => { return <div  key={index}> 
-                <PeriodDetails period={item} id={id}/> </div>
+        <ul>
+          {arr.map((item,index) => { return <li  key={index}>  
+                <PeriodDetails period={item} id={id} setX={setX} type={type}/> </li>
             })}
-            <Button onClick={()=>{navigate("period/"+id)}}>להוספת תקופה</Button>
-            {/* {flag ? <Button variant="contained" size="medium" onClick={add}> לשעות הפעילות של תקופה זו </Button>:null} */}
-        </form>
+            <Button onClick={()=>{navigate("period/"+id+"/new")}}>להוספת תקופה</Button>
+           <Button variant="contained" size="medium" onClick={onSubmit} disabled={!x}> להמשיך לשלב הבא </Button>
+        </ul>
     );
 }
 export default PeriodTime;

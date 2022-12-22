@@ -14,7 +14,8 @@ return (
       sx={{ ml: 1, flex: 1 }}
       placeholder="חיפוש"
       inputProps={{ 'aria-label': 'חיפוש' }}
-      onBlur ={search} />
+      onBlur ={search}
+      onClick={search}/>
     <IconButton type="submit" sx={{ p: '10px' }} aria-label="search">
       <SearchIcon />
     </IconButton>

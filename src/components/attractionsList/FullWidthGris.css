@@ -1,0 +1,20 @@
+/* .img-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+   } */
+   
+   /* .img-wrapper > div {
+    flex: 0 1 20%;
+   } */
+.bigImg{
+    /* position: relative; */
+    width: 60vw;
+    height: 80vh;
+}
+.smallImg{
+    position: relative;
+    right:55rem;
+    bottom:32rem;
+    width: 30vw;
+    height: 40vh;
+}

@@ -11,6 +11,7 @@ import AlertMessage from '../alert/AlertMessage';
 import Alerts from '../alert/Alerts';
 import { useDispatch, useSelector } from 'react-redux';
 import { addOpinion } from '../../store/actions/OpinionsActions';
+import { Fragment } from 'react';
 const style = {
     position: 'absolute',
     top: '50%',
@@ -53,8 +54,8 @@ export default function WriteOpinion({ id, setWrite }) {
         }
     }
     return (
-        <div>
-            <Button variant="contained" size="small" className="btn" onClick={handleOpen}> כתוב חוות דעת</Button>
+        <Fragment>
+            <Button variant="contained" size="medium" style={{backgroundColor:"orange"}} onClick={handleOpen}> כתוב חוות דעת</Button>
             <Modal
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"
@@ -67,7 +68,7 @@ export default function WriteOpinion({ id, setWrite }) {
                 }}
             >
                 <Fade in={open}>
-                    <Box sx={style}>
+                    <Box sx={style} style={{textAlign:"center"}}>
                         <h3>דירוג האטרקציה:  </h3>
                         <HoverRating value={value} setValue={setValue} /> <br />
                         <TextField
@@ -84,6 +85,6 @@ export default function WriteOpinion({ id, setWrite }) {
                     </Box>
                 </Fade>
             </Modal>
-        </div>
+        </Fragment>
     );
 }

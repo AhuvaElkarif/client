@@ -9,23 +9,23 @@
 .container{
     /* border:2px solid rgb(160, 138, 15); */
     /* border-radius: 24px; */
-    width: 20vw; 
+    width: 23vw; 
     margin: 5px;
     text-align: center;
 }
 body ,html{
     height: 100%;
-    font-family: "Roboto Slab SBN", "Palatino Linotype", "Palatino";
+    font-family: Arial, Helvetica, sans-serif;
 }
-h1 , h3{
+/* h1 , h3{
     text-align: center;
    font-size: xx-large;
    color: rgb(56, 54, 54);
-}
-p{
+} */
+/* p{
     color:#412e17;
     font-weight: 300px;
-}
+} */
 input[type=button] {
     margin: 5px;
     width: 85px;
@@ -37,7 +37,18 @@ input[type=button] {
     font-size: medium;
   }
 
-
+.searchButton{
+    position:relative;
+    right:72rem;
+    bottom: 12.7rem;
+}
+.selectButton{
+    /* display: flex; */
+    /* flex-wrap: wrap; */
+    position:relative;
+    right:53rem;
+    bottom: 12rem;
+}
 
 
 .search{

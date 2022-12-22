@@ -1,7 +1,6 @@
 import SingleOpinion from "./SingleOpinion";
 import { getOpinionsByAttrctionId } from "../../store/actions/OpinionsActions";
 import { useEffect, useState } from "react";
-
 const Opinions = ({ attractionId }) => {
     const [opinionsArr, setOpioniosArr] = useState([]);
     useEffect(() => {
@@ -10,9 +9,9 @@ const Opinions = ({ attractionId }) => {
             .catch(err => console.log(err))
     }, [attractionId])
     return (<>
-        <div className="product-list">
+        <div className="opinions-list">
             {opinionsArr.length > 0 ? opinionsArr.map(item => {
-                return <div key={item.Id} className="container list">
+                return <div key={item.Id} className="container-opinion">
                     <SingleOpinion opinion={item} />
                 </div>
             }) : null}

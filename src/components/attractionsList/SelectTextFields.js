@@ -6,7 +6,7 @@ import MenuItem from '@mui/material/MenuItem';
 export default function SelectTextFields({ handleChange , currencies, text  }) {
   const [currency, setCurrency] = useState(currencies[0].Id);
   useEffect(() => { }, [currency])
-  return (<>
+  return (<div className='filter-container'>
     <Box
       sx={{
         '& .MuiTextField-root': { m: 1, width: '25ch' },
@@ -28,6 +28,6 @@ export default function SelectTextFields({ handleChange , currencies, text  }) {
         )):null}
       </TextField>
     </Box>
-  </>
+  </div>
   );
 }

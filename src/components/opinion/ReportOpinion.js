@@ -54,7 +54,7 @@ export default function ReportOpinion({ opinion }) {
     setAnchorEl(anchorEl ? null : true);
 
     if (user == null)
-      navigate('/registerAndLogin/' + attractionId);
+      navigate('/login/' + 0);
     else
       setOpen2(true);
   }

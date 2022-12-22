@@ -1,5 +1,5 @@
 import StarIcon from '@mui/icons-material/Star';
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import "./Opinion.css";
 import ReportOpinion from './ReportOpinion';
@@ -49,7 +49,7 @@ function SingleOpinion({ opinion, type }) {
     //         .then(x => console.log(x.data))
     //         .catch(err => console.log(err));
     // }
-    return (<>
+    return (<div className="div-opinion">
         {type != 2 ? <> <div className="opinion"><StarIcon /> חוות דעת </div>
             <ReportOpinion opinion={opinion} /></> : null}
         <p>{insertDate != opinion.InsertDate ? insertDate : null}</p>
@@ -64,7 +64,7 @@ function SingleOpinion({ opinion, type }) {
             <Poppers func={change} type={3} text="הסיר את חוות הדעת" content={"הסר"} />
             <Poppers func={deleteR} type={3} text="בטל את הדיווח" content={"בטל דיווח"} />
         </Box> : null} */}
-    </>);
+    </div>);
 }
 
 export default SingleOpinion; 

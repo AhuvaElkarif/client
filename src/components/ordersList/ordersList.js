@@ -11,6 +11,7 @@ import "./OrdersList.css";
 import "../opinion/Opinion.css";
 import DateButton from "./DateButton";
 import CheckboxList from "../sideNavBar/CheckboxList";
+import FilterList from "./FilterList";
 const style = {
     position: 'absolute',
     top: '50%',
@@ -40,7 +41,7 @@ function OrdersList() {
     }, shallowEqual);
 
     useEffect(() => {
-
+console.log(orders)
     }, [])
 
     const dateToEpoch = (thedate) => {
@@ -51,14 +52,11 @@ function OrdersList() {
     return (<>
         <div>
             {/* // כפתור חיפוש */}
-            <SearchButton search={({ target }) => setSearchValue(target.value)} />
             {/* // אם הוא מנהל אתר או אטרקציה אז נוסף לו כפתור של סינון טווח תאריכים */}
-            {user != null && user.Status == 2 || user.Status == 3 ? <>
-                <DateButton setValue={setValue1} label={"מתאריך"} /> -
-                <DateButton setValue={setValue2} label={"עד תאריך"} />
-                <CheckboxList func={(arr) => { setCategoryArr(arr) }} type={1} />
-            </>
-                : null}
+            {user != null && user.Status == 2 || user.Status == 3 ? 
+               <FilterList setCategoryArr={setCategoryArr} setSearchValue={setSearchValue} setValue1={setValue1} setValue2={setValue2}/>
+                :<SearchButton search={(e) =>{e.preventDefault(); setSearchValue(e.target.value)}} /> }
+            <br/> <br/> <br/>
             {orders.length > 0 ? orders.map(item => {
                 if (item.Attraction.Name.includes(searchValue) &&
                     (!value1 || dateToEpoch(item.OrderDate) >= dateToEpoch(value1)) &&
@@ -66,10 +64,8 @@ function OrdersList() {
                     (!categoryArr || categoryArr.includes(item.Attraction.CategoryId)))
                     return <div key={item.Id} className="container">
                         <SingleOrder order={item} dateToEpoch={dateToEpoch} />
-                       
-                        
                     </div>
-            }) : null}
+            }) : <p> אין לך הזמנות... </p>}
         </div>
     </>);
 }

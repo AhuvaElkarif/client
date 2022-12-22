@@ -1,2 +1,38 @@
+.h1-details{
+    font-size: 2.25rem;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.p-details{
+   font-size: large;
+}
+.container-details{
 
+width: 60vw; 
+margin: 5px;
 
+}
+.details{
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.communicate{
+    flex:auto;
+    position: "-webkit-sticky";
+    position: sticky;
+    top: 0;
+    font-size: x-large;
+    text-align: center;
+    width:20vw;
+    height: 40vh;
+    border: 2px solid #757575;
+    border-radius: 1rem;
+    background-color: #FFEDDC;
+    color:#757575;
+}
+.communicate-container{
+    position:relative;
+    top:4rem;
+    
+}

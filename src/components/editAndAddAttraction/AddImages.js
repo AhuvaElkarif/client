@@ -4,12 +4,12 @@ import IconButton from '@mui/material/IconButton';
 import axios from 'axios';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import swal from 'sweetalert';
 import './EditAttraction.css';
-const AddImages = ({ onSubmit, attraction }) => {
+const AddImages = ({ onSubmit, attraction , id}) => {
 
     const [arr, setArr] = useState(new Array(6).fill(""));
     useEffect(() => {
-
         if (attraction != null) {
             let i = 0;
             const copy = [...arr];
@@ -27,7 +27,7 @@ const AddImages = ({ onSubmit, attraction }) => {
         console.log(e.target.files[0])
         formData.append('Image', e.target.files[0]);
         formData.append('FileName', FileName);
-        formData.append('AttractionId', attraction.Id);
+        formData.append('AttractionId',id);
         if (arr[ind] != '')
             axios.delete(`http://localhost:57828/api/Image?image=` + FileName)
                 .then(x => {
@@ -36,10 +36,14 @@ const AddImages = ({ onSubmit, attraction }) => {
                 .catch(err => console.log("קרתה שגיה זמנית באתר"));
         axios.post(`http://localhost:57828/api/Image`, formData)
             .then(x => {
-                console.log(x.data);
-                const copy = [...arr];
-                copy[ind] = FileName;
-                setArr([...copy]);
+                if(x.data!=null){
+                    const copy = [...arr];
+                    copy[ind] = FileName;
+                    setArr([...copy]);
+                }
+              else
+                  
+                    swal({icon:"warning",   text: "תמונה זו כבר קיימת!",})
             })
             .catch(err => console.log("קרתה שגיה זמנית באתר"))
         console.log(arr)

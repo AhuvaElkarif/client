@@ -1,9 +1,9 @@
 
-.show{
-    background-color: rgb(181, 195, 238);
-    color: royalblue;
+.wishesList{
+    margin-right: 3rem;
+    margin-top: 2rem;
 }
-
-.btn{
-    width:20%;
+.emptyMessage {
+       font-size: large;
+       text-align: center;
 }

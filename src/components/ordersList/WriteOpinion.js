@@ -80,7 +80,7 @@ export default function WriteOpinion({ id, setWrite }) {
                         /><br />
                         {flag == 1 && <span style={{ color: "red" }}>יש למלא את כל השדות</span>}
                         <br /> <br />
-                        {flag != 2 ? <Button variant="contained" size="large" onClick={submit}> הגש </Button>
+                        {flag != 2 ? <Button variant="contained" size="large" onClick={submit} style={{backgroundColor:"orange"}}> הגש </Button>
                             : <AlertMessage variant={'success'} children={<Alerts message={"חוות הדעת שלך התווספה בהצלחה!"} />} />}
                     </Box>
                 </Fade>

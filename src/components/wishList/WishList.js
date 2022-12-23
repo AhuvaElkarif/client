@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useNavigate } from 'react-router';
 import { useSelector, shallowEqual } from "react-redux";
 import swal from 'sweetalert';
@@ -50,15 +50,16 @@ function WishList() {
     const func = () => {
         navigate("/register/" + 1);
     }
-    return (<>
-        <h1>רשימת משאלות</h1>
+    return (<div className="wishesList">
+        <h1>אטרקציות שאהבתי({wishes.length})</h1> <br/>
         {wishes.length > 0 ? <div >{wishes.map((item, ind) => {
             return <div key={item.Id}> <WishCard item={item} ind={ind} /> <br />
             </div>
-        })}</div> : <><p>רשימת המשאלות שלך ריקה כרגע</p>
-            <Button variant="contained" size="medium" onClick={() => { navigate("/attractionsList") }}>  לכל האטרקציות  </Button>
-        </>}
-    </>);
+        })}</div> : <div className="emptyMessage"> <br/><p> רשימת המשאלות שלך ריקה  <br/> <br/>
+                   להוספת אטרקציות היכנסו לאטרקציות ולחצו על ה-❤️  והאטרקציה תתווסף לרשימת המשאלות. </p> <br/> <br/>
+            <Button variant="contained" size="medium" style={{backgroundColor:"orange"}} onClick={() => { navigate("/attractionsList/"+0) }}>  לכל האטרקציות  </Button>
+        </div>}
+    </div>);
 }
 
 export default WishList;

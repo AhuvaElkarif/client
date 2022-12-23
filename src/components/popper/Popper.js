@@ -5,7 +5,8 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Fade from '@mui/material/Fade';
 import Paper from '@mui/material/Paper';
-import DeleteIcon from '@mui/icons-material/Delete';
+import '../navBar/NavBar.css';
+
 import { IconButton, ListItem, ListItemText, Switch } from '@material-ui/core';
 import './Popper.css';
 
@@ -26,7 +27,7 @@ export default function Poppers({ func, text, type, checked, setChecked, content
         {({ TransitionProps }) => (
           <Fade {...TransitionProps} timeout={350}>
             <Paper>
-              <Typography sx={{ p: 2, border: 1, bgcolor: 'background.paper', width: 150, height: 80 }} className="popperP">
+              <Typography sx={{ p: 2, border: 1, bgcolor: 'background.paper', width: 200, height: 100 }} className="popperP">
                 <span>האם אתה בטוח שברצונך ל{text}? </span><br />
                 <Button variant="contained" size="small" style={{ margin: "3px" }} onClick={func}>  כן  </Button>
                 <Button variant="contained" size="small" onClick={() => { setOpen(false) }}>  לא  </Button>
@@ -39,15 +40,17 @@ export default function Poppers({ func, text, type, checked, setChecked, content
         <IconButton aria-label="delete" color="primary" onClick={handleClick('bottom-end')}>
           {content}
         </IconButton> : type == 2 ?
-          <ListItem onClick={handleClick('bottom-end')}>
+          <ListItem onClick={handleClick('bottom-end')} >
             <ListItemText id="switch-list-label-wifi" primary="פעיל" />
             <Switch
               edge="end"
               onChange={() => { setChecked(!checked) }}
               checked={checked}
-              inputProps={{
-                'aria-labelledby': 'switch-list-label-wifi',
-              }}
+              color="primary"
+              // style={{color:"orange"}}
+              // inputProps={{
+              //   'aria-labelledby': 'switch-list-label-wifi',
+              // }}
             />
           </ListItem> : type == 3 ?
             <Button variant="contained" size="medium" style={{backgroundColor:"orange"}} disabled={flag} onClick={handleClick('bottom-end')}>  {content}  </Button>

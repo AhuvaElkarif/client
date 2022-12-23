@@ -23,12 +23,12 @@ const ManagerDetails = ({ onSubmit }) => {
         resolver: yupResolver(schema)
     });
 
-    const arr = [{ lableName: "שם בעל האטרקציה", name: "Name", type: "text"},
+    const arr = [{ lableName: "שם בעל האטרקציה", name: "Name", type: "text" },
     { lableName: "מספר טלפון", name: "Phone", type: "text" },
     { lableName: "דואר אלקטרוני", name: "Email", type: "mail" }]
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
-            <p>רגע לפני שמפרסמים את המודעה, נרצה להכיר אותך</p>
+        <form onSubmit={handleSubmit(onSubmit)}> 
+            <br/> <p>רגע לפני שמפרסמים את המודעה, נרצה להכיר אותך:</p> <br/>
             {arr.map(item => <FormInput
                 lableName={item.labelName}
                 name={item.name}
@@ -41,7 +41,9 @@ const ManagerDetails = ({ onSubmit }) => {
                 <p>אתר זה מכבד את הכרטיסים הבאים:</p>
                 <img src="./images/creditCards.png" />
             </div>
-            <Button variant="contained" size="medium" type="submit"> להמשיך לשלב הבא </Button>
+            <br/>
+            <Button variant="contained" size="medium" type="submit" style={{ color: "white", backgroundColor: "orange" }}>
+                להמשיך לשלב הבא </Button>
         </form>
     )
 }

@@ -36,25 +36,25 @@ const Register = ({ id }) => {
     const onSubmit = (data) => {
         data.Status = type == 2 ? 2 : 1;
         data.Active = true;
-        if (user) {
-            data.Id=user.Id;
-            swal(data.Name + " פרטיך עודכנו בהצלחה!", "המשך גלישה מהנה!");
-            dispatch(updateUser(data))
-        }
-        else {
+        // if (user) {
+        //     data.Id=user.Id;
+        //     swal(data.Name + " פרטיך עודכנו בהצלחה!", "המשך גלישה מהנה!");
+        //     dispatch(updateUser(data))
+        // }
+        // else {
             swal(data.Name + " ברוך הבא!", "נרשמת בהצלחה");
             dispatch(addUser(data));
-        }
+        // }
         setFlag(false);
         if (type == 3)
             navigate("./report/" + id);
         else
-            navigate("/attractionsList");
+            navigate("/attractionsList/"+0);
     };
-    return (<>
-        {type == 2 ? <h1>כניסת מעסיקים</h1> : null}
+    return (
         <form onSubmit={handleSubmit(onSubmit)} className="location">
-
+        {type == 2 ? <h1>הרשמת מעסיקים</h1> : null}
+<br/> <br/>
             {arr.map(item => <div key={item.name}>
                 {item.name != "Password" ? <FormInput
                     lableName={item.lableName}
@@ -62,7 +62,7 @@ const Register = ({ id }) => {
                     type={item.type}
                     errors={errors}
                     register={register}
-                    user={user}
+                    user={null}
                     flag={false} /> : !user ?
                     <Password
                         errors={errors}
@@ -73,16 +73,13 @@ const Register = ({ id }) => {
                 <br /> <br />
             </div>
             )}
-            <br />
             <Button variant="contained" size="medium" type="submit">
-                {user ? "שמירת שינויים" : "הרשם"}
+                {/* {user ? "שמירת שינויים" : "הרשם"} */} הרשם
             </Button>
 
             {type != 3 && !user && <p className="move">כבר רשום? עבור <span onClick={() => { navigate("/login/" + type) }} >להתחברות</span></p>}
             {/* {!flag && <AlertMessage variant={'success'} children={<Alerts message={"נרשמת בהצלחה!"} />} />} */}
 
-        </form>
-
-    </>)
+        </form>)
 }
 export default Register;

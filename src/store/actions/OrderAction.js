@@ -51,7 +51,6 @@ export const addOrder = (order) => {
 }
 
 export const deleteOrder = (id) => {
-    // return axios.delete("http://localhost:57828/api/orderAttraction/Delete", order);
     return dispatch => {
         axios.put("http://localhost:57828/Api/orderAttraction/ChangeOrderStaus?orderId="+id)
             .then(response => {

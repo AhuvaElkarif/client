@@ -53,11 +53,11 @@ const NavBar = () => {
                             {x.name}
                         </Link></div>})
         })}
-        {user.Status != 0 ? <>
-            <Poppers func={() => { dispatch(currentUser(null)); navigate('/attractionsList'); }}
+        {user.Status != 0 ? <div className="btnExit">
+            <Poppers func={() => { dispatch(currentUser(null)); navigate('/attractionsList/'+0); }}
                 type={3}
-                text="צאת?"
-                content={"יציאה"} /> </> : null}
+                text="צאת"
+                content={"יציאה"} /> </div> : null}
         {user.Status == 0 || user.Status == 1 ?
             <div onClick={() => { navigate("/login/" + 2) }} className='campaign'>
                 <CampaignIcon />

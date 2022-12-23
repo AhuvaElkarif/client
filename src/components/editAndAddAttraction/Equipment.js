@@ -1,6 +1,7 @@
-import { Button } from "@material-ui/core";
+import { Button, TextField } from "@material-ui/core";
 import { useEffect } from "react";
 import { useState } from "react";
+import './EditAttraction.css';
 import { addEquipment, getEquipmentsByAttractionId, updateEquipment } from "../../store/actions/EquipmentAction";
 
 const Equipment = ({ id, type, onSubmit }) => {
@@ -15,7 +16,7 @@ const Equipment = ({ id, type, onSubmit }) => {
     }, [])
     const handleChange = (e, ind) => {
         const copy = [...arr];
-        copy[ind] = {AttractionId : id, Name: e.target.value};
+        copy[ind] = { AttractionId: id, Name: e.target.value };
         setArr(copy)
     }
     const handleClick = () => {
@@ -34,16 +35,19 @@ const Equipment = ({ id, type, onSubmit }) => {
         onSubmit();
     }
     return (
-        <div>
-            <h3>ציוד נדרש לטיול:</h3>
-            <ul>
+        <div> <br/>
+            <h3>ציוד שחשוב ומומלץ להביא:</h3> <br/>
+            <ul className="equipmentAttraction">
                 {arr.map((item, index) => {
-                    return <li key={index}>
-                        <input type="text" defaultValue={item != "" ? item.Name : null} onChange={(e) => { handleChange(e, index) }} /></li>
-
+                    return <li key={index} className="equipment-container">
+                          <TextField id="outlined-basic" variant="outlined"  size="small"
+                          defaultValue={item != "" ? item.Name : null}
+                            onChange={(e) => { handleChange(e, index) }} />
+                       </li>
                 })}
             </ul>
-            <Button variant="contained" size="medium" onClick={handleClick}> להמשיך לשלב הבא </Button>
+             <img src="../../images/equipment.jpg"  className="equipment-img"/>
+            <Button variant="contained" size="medium" onClick={handleClick} style={{color:"white", backgroundColor:"orange"}}> להמשיך לשלב הבא </Button>
 
         </div>
     )

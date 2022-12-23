@@ -6,17 +6,17 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import swal from 'sweetalert';
 import './EditAttraction.css';
-const AddImages = ({ onSubmit, attraction , id}) => {
+const AddImages = ({ onSubmit, attraction, id }) => {
 
-    const [arr, setArr] = useState(new Array(6).fill(""));
+    const [arr, setArr] = useState(new Array(10).fill(""));
     useEffect(() => {
         if (attraction != null) {
             let i = 0;
             const copy = [...arr];
             for (let index = 0; index < copy.length; index++) {
-                copy[index]=attraction.Images.substring(i, i+14);
+                copy[index] = attraction.Images.substring(i, i + 14);
                 i += 15;
-                
+
             }
             setArr(copy);
         }
@@ -27,7 +27,7 @@ const AddImages = ({ onSubmit, attraction , id}) => {
         console.log(e.target.files[0])
         formData.append('Image', e.target.files[0]);
         formData.append('FileName', FileName);
-        formData.append('AttractionId',id);
+        formData.append('AttractionId', id);
         if (arr[ind] != '')
             axios.delete(`http://localhost:57828/api/Image?image=` + FileName)
                 .then(x => {
@@ -36,21 +36,22 @@ const AddImages = ({ onSubmit, attraction , id}) => {
                 .catch(err => console.log("קרתה שגיה זמנית באתר"));
         axios.post(`http://localhost:57828/api/Image`, formData)
             .then(x => {
-                if(x.data!=null){
+                if (x.data != null) {
                     const copy = [...arr];
                     copy[ind] = FileName;
                     setArr([...copy]);
                 }
-              else
-                  
-                    swal({icon:"warning",   text: "תמונה זו כבר קיימת!",})
+                else
+
+                    swal({ icon: "warning", text: "תמונה זו כבר קיימת!", })
             })
             .catch(err => console.log("קרתה שגיה זמנית באתר"))
         console.log(arr)
     }
-    return <div>
-        <p>ניתן להעלות עד 10 תמונות ע"י גרירה או לחיצה על כפתור הפלוס. אחרי הבחירה, בחרו את מרכז התמונה כדי שתופיע באתר בצורה המוקטנת הטובה ביותר. </p>
+    return <div>  <br />
+        <p>ניתן להעלות עד 10 תמונות ע"י גרירה או לחיצה על כפתור הפלוס. אחרי הבחירה, בחרו תמונה ברורה כדי שתופיע באתר בצורה הטובה ביותר. </p>
         <p> <b> אין לכם מה לדאוג, בגלריה התמונה תופיע בגודלה המקורי.</b> </p>
+        <br />
         <div className='div-border'> תמונה ראשית
             <div className='div-container'>
                 <IconButton aria-label="upload picture" component="label">
@@ -59,10 +60,9 @@ const AddImages = ({ onSubmit, attraction , id}) => {
                 </IconButton>
                 {arr[0] != '' ? <img src={`http://localhost:81/img/${arr[0]}`} className="add-img" /> : <p> העלאת תמונות </p>}
             </div>
-        </div>
-        <hr />
+        </div> <br />  <hr /> <br />
         <h2> תמונות שיופיעו בגוף האטרציה </h2>
-        <div className="product-list">
+        <div className="detailsAttraction">
             {arr ? arr.map((item, index) => {
                 if (index != 0) return <div className='div-images' key={index}>
                     <IconButton aria-label="upload picture" component="label">
@@ -73,7 +73,7 @@ const AddImages = ({ onSubmit, attraction , id}) => {
                 </div>
             }) : null}
         </div>
-        <Button variant="contained" size="medium" onClick={onSubmit}> להמשיך לשלב הבא </Button>
+        <Button variant="contained" size="medium" style={{ color: "white", backgroundColor: "orange" }} onClick={onSubmit}> להמשיך לשלב הבא </Button>
     </div>
 }
 export default AddImages;

@@ -71,7 +71,7 @@ const Buttons = ({ id, type }) => {
             </Stack>
             : type == 1 ?
                 <>
-                    <Button variant="contained" size="medium" onClick={() => { navigate("/editAttraction/" + item.Id) }}>  עדכון  </Button>
+                    <Button variant="contained" color="primary" size="medium" onClick={() => { navigate("/editAttraction/" + item.Id) }}>  עדכון  </Button>
                     {!flag ?
                         <Poppers
                             type={2}
@@ -81,7 +81,7 @@ const Buttons = ({ id, type }) => {
                             setChecked={setChecked} /> :
                         <AlertMessage
                             variant={'success'}
-                            children={<Alerts message={"עודכן בהצלחה!"} />} />}
+                            children={<Alerts message={"האטרציה עודכנה בהצלחה!"} />} />}
                 </> :
                 <>
                     {!flag ? <Poppers

@@ -7,7 +7,7 @@ import { CardActionArea } from '@mui/material';
 
 export default function CategoryCard({item}) {
   return (
-    <Card sx={{ maxWidth: 300 }}>
+    <Card sx={{ maxWidth: 345 }}>
       <CardActionArea>
         <CardMedia
           component="img"
@@ -15,7 +15,7 @@ export default function CategoryCard({item}) {
           image = { `http://localhost:81/img/${item.Img}`}
           alt={item.Name}
         />
-        <CardContent>
+        <CardContent> 
           <Typography gutterBottom variant="h5" component="div">
             {item.Name}
           </Typography>

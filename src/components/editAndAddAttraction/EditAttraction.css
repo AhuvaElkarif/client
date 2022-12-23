@@ -10,6 +10,13 @@
     text-align: center;
     background-color: lightgray;
 }
+.container-category{
+    width: 25vw; 
+    padding: 2rem;
+}
+.secondHeader{
+    margin-right: 1.2rem;
+}
 .div-container{
     width: 14rem;
     height: 11rem;
@@ -31,4 +38,32 @@
 .add-img{
     width: 14rem;
     height: 8.5rem;
+}
+.editForm{
+    width: 75vw;
+    margin: auto;
+    margin-top: 2rem;
+}
+.detailsAttraction{
+    display:flex;
+    flex-wrap: wrap;
+}
+.container-details{
+   width: 30vw;
+}
+.equipmentAttraction{
+   width:50vw;
+   display: flex;
+   flex-wrap: wrap;
+}
+.equipment-container{
+    width:15vw;
+    margin:0.5rem;
+    padding: 0.5rem;
+}
+.equipment-img{
+    width: 18vw;
+    position: absolute;
+    bottom: -18rem;
+    right:57rem;
 }

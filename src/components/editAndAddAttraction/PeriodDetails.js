@@ -31,13 +31,12 @@ const PeriodDetails = ({ id, period, setX, type }) => {
     const [submit, setSubmit] = useState(true);
     const [displayTimes, setDisplay] = useState(false);
     const [res, setRes] = useState(period);
-
+    
     useEffect(() => {
         if (period == null || period == undefined) period = {};
         if (id == null) { id = attractionId; type=kind};
     }, [id])
-    useEffect(() => {
-    }, [period])
+
     const change = (e) => {
         console.log((period))
         const { name, value, type } = e.target;
@@ -112,16 +111,18 @@ const PeriodDetails = ({ id, period, setX, type }) => {
                     shrink: true,
                 }}
             />
+            
             <Checkbox
                 defaultChecked={period?.IsOpen}
                 onChange={change}
                 name="IsOpen"
                 type='checkbox'
+                color="primary"
                 inputProps={{ 'aria-label': 'primary checkbox' }}
-            /> האטרקציה פתוחה
+            /> <span> האטרקציה פתוחה </span>
             {!submit && <p style={{ color: "red" }}> יש למלא את כל שדות התאריכים </p>}
 
-            <Button variant="contained" size="medium" onClick={addOrUpdate}> {period?.Id ? 'עדכן' : 'הוסף'} </Button>
+            <Button variant="contained" color="primary" size="medium" onClick={addOrUpdate}> {period?.Id ? 'עדכן' : 'הוסף'} </Button>
             {flag && <Button variant="contained" size="medium" onClick={() => { if (period != {}) setDisplay(!displayTimes) }}> לשעות הפעילות של תקופה זו </Button>}
             {displayTimes && <GeneralTimes id={attractionId!=undefined?attractionId:id} periodId={res.Id} type={type!=undefined?type:"new"} />}
             <br /> <br />

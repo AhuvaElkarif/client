@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
 const PeriodTime = ({ id, type, onSubmit}) => {
     const [arr, setArr] = useState([]);
     const [x,setX] = useState(type!="new"?true:false);
+    const [flag,setFlag] = useState(false);
     const navigate =  useNavigate();
     useEffect(()=>{
         if(type!="new")
@@ -39,8 +40,9 @@ const PeriodTime = ({ id, type, onSubmit}) => {
           {arr.map((item,index) => { return <li  key={index}>  
                 <PeriodDetails period={item} id={id} setX={setX} type={type}/> </li>
             })}
-            <Button onClick={()=>{navigate("period/"+id+"/new")}}>להוספת תקופה</Button>
-           <Button variant="contained" size="medium" onClick={onSubmit} disabled={!x}> להמשיך לשלב הבא </Button>
+            <Button color="primary" onClick={()=>{navigate("period/"+id+"/new")}}>להוספת תקופה</Button>
+            {/* disabled={!x} */}
+           <Button variant="contained" size="medium" onClick={onSubmit}  style={{backgroundColor:"orange", color:"white"}}> להמשיך לשלב הבא </Button>
         </ul>
     );
 }

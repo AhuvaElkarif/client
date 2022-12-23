@@ -24,18 +24,19 @@ const schema = yup.object({
     Password: yup.string().required("שדה זה חובה").matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/, "סיסמא לא תקינה, יש להזין לפחות 6 ספרות אות אחת האנגלית וספרה.")
 }).required();
 
-const Login = ({ type }) => {
+const Login = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const {type} = useParams();
     const [open, setOpen] = React.useState(false);
     const [mail, setMail] = React.useState("");
     const [showPassword, setshowPassword] = React.useState(false)
     const { user } = useSelector(state => ({ user: state.user }))
     useEffect(() => {
-        console.log(user)
-        if (user!=null) {
-            navigate("/attractionsList");
-        }
+        // console.log(user)
+        // if (user!=null) {
+        //     navigate("/attractionsList");
+        // }
     }, [user])
 
     const { register, handleSubmit, formState: { errors }, getValues } = useForm({
@@ -43,7 +44,16 @@ const Login = ({ type }) => {
     });
 
     const onSubmit = (data) => {
-         dispatch(login(data, type));
+        dispatch(login(data, type));
+        if (user != null)
+            if (type == 2)
+                navigate("/editAttraction")
+            else
+                if (user.Status == 3)
+                    navigate("/attractionsList/" + 2);
+                else
+                    navigate("/attractionsList/" + 0);
+
     };
     const openReset = () => {
         setMail(getValues('Email'))
@@ -51,11 +61,11 @@ const Login = ({ type }) => {
     }
 
 
-    return (<>
-        {type == 2 ? <h1>כניסת מעסיקים</h1> : null}
+    return (
         <form onSubmit={handleSubmit(onSubmit)} className="location">
+        {type == 2 ? <h1>כניסת מעסיקים</h1> : null}
             <TextField id="standard-basic" label="אימייל" name="Email"
-                variant="standard"  {...register("Email")} /><br/>
+                variant="standard"  {...register("Email")} /><br />
             <span style={{ color: "red" }}>{errors.Email?.message}</span> <br />
             <FormControl sx={{ m: 1, width: '25ch' }} variant="standard">
                 <InputLabel htmlFor="standard-adornment-password">סיסמא</InputLabel>
@@ -82,8 +92,10 @@ const Login = ({ type }) => {
 
             {open ? <ForgetPassword email={mail} setOpen={setOpen} /> : null}
             {type != 3 && <p className="move">לא רשום? עבור <span className="link" onClick={() => { navigate("/register/" + type); }}> להרשמה </span></p>}
+            <br/>
+            {type==2 && <p>יש להרשם בתור מנהל אטרקציה על מנת להעלות אטרקציה.</p>}
         </form>
-    </>)
+    )
 }
 export default Login;
 

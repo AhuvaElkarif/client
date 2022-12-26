@@ -1,106 +1,137 @@
-import { useState, useRef } from "react";
-import { useNavigate, useParams, useLocation } from "react-router";
-import EquipmentList from "../equipment/EquipmentList";
-import { shallowEqual, useSelector } from "react-redux";
-import TextField from '@mui/material/TextField';
-import { useForm } from "react-hook-form";
-import { yupResolver } from '@hookform/resolvers/yup';
-import { addOrder } from "../../store/actions/OrderAction";
-import FormInput from "../formInput/FormInput";
-import * as yup from "yup";
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Stepper from '@mui/material/Stepper';
+import Step from '@mui/material/Step';
+import StepLabel from '@mui/material/StepLabel';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import SelectDate from './SelectDate';
+import SelectTickets from './SelectTickets';
+import  Details from './Details';
+import swal from "sweetalert";
+import { useNavigate, useParams } from 'react-router-dom';
+import { Link } from '@material-ui/core';
 import "./Order.css";
 
+const steps = ['בחירת כרטיסים', 'בחירת מועד', 'מילוי פרטים'];
+
 const Order = () => {
-    const { user, attractions } = useSelector(state => {
-        return {
-            attractions: state.attractionArr,
-            user: state.user
-        }
-    }, shallowEqual);
-
-    const navigate = useNavigate();
-    // const [dateMessage, setDateMessage] = useState(false);
-    const { flag, type, id } = useParams();
-    const product = { ...attractions.find(x => x.Id == id) };
-    const location = useLocation();
-    const [showList, setShowList] = useState(false);
-    const [valid, setValid] = useState(null);
-    const dateRef = useRef(0);
-
-    const schema = yup.object({
-        Name: yup.string().required("שדה זה חובה").min(2, 'השם אינו תקין'),
-        Email: yup.string().email("כתובת מייל אינה תקינה").required("שדה זה חובה"),
-        Phone: yup.string().required("שדה זה חובה").min(9, 'מספר הפלאפון אינו תקין').max(10, 'מספר הפלאפון אינו תקין'),
-        Quantity: yup.string("הכנס כמות").required("שדה זה חובה").matches(/^d/).min(product.MinParticipant, 'כמות אינה תקינה').max(product.MaxParticipant, 'כמות אינה תקינה'),
-        Date: yup.date("הכנס תאריך").required("שדה זה חובה").min(new Date().toISOString().substring(0, 10), "תאריך לא תקין")
-    }).required();
-
-
-    const { register, handleSubmit, formState: { errors } } = useForm({
-        resolver: yupResolver(schema)
-    });
-    const onSubmit = (data) => {
-        console.log(data);
-        console.log(data.Date)
-        // validDate();
-        addOrder({ UserId: user.id, OrderDate: data.Date, GlobalPrice: data.Quantity * product.Price })
-            .then(navigate("/order/" + true + "/" + type + "/" + product.Id))
-            .catch(err => console.log(err));
+    const {id} = useParams();
+    const [activeStep, setActiveStep] = React.useState(0);
+    const [skipped, setSkipped] = React.useState(new Set());
+    const [flag,setFlag] = React.useState(false);
+    const [date,setDate] = React.useState(new Date());
+    const [price,setPrice] = React.useState(0);
+    const navigate= useNavigate();
+    const isStepOptional = (step) => {
+        return step === 1;
     };
-    const save = () => {
-        navigate("/message" + "/" + product.Id + "/" + 3 + "/" + false);
-        
-    }
-    // const changeDate = (e) => {
-    //     if (e.target.value < new Date().toISOString().substring(0, 10))
-    //         setDateMessage(true);
-    //     else {
-    //         setDateMessage(false);
-    //     }
-    // }
 
+    const isStepSkipped = (step) => {
+        return skipped.has(step);
+    };
 
-    // const validDate = () => {
-    //     if (dateRef.current.value == "" || dateMessage) {
-    //         alert("נא הכנס תאריך הזמנה");
-    //         return false;
-    //     }
-    //     return true;
-    // }
-    return (<>
-        <form onSubmit={handleSubmit(onSubmit)} className="location">
-            <FormInput lableName="שם משתמש" user={user} register={register} errors={errors} flag={flag} name="Name" type="text" />
-            <FormInput lableName="פלאפון" user={user} register={register} errors={errors} flag={flag} name="Phone" type="text" />
-            <FormInput lableName="מייל" user={user} register={register} errors={errors} flag={flag} name="Email" type="text" />
-            <FormInput lableName="כרטיס אשראי" user={null} register={register} errors={errors} flag={flag} name="CreditNum" type="number" />
-            <FormInput lableName="ספרות בגב הכרטיס" user={null} register={register} errors={errors} flag={flag} name="DigitsCredit" type="number" />
-            <FormInput lableName="תוקף" user={null} register={register} errors={errors} flag={flag} name="Valid" type="number" />
-            <FormInput lableName="הכנס כמות" user={null} register={register} errors={errors} flag={flag} name="Quantity" type="number" />
+    const handleNext = () => {
+        if(!flag){
+            swal({
+                title: "לא נבחרה כמות",
+                icon: "warning"
+              });
+            return;
+        }
+          
+        let newSkipped = skipped;
+        if (isStepSkipped(activeStep)) {
+            newSkipped = new Set(newSkipped.values());
+            newSkipped.delete(activeStep);
+        }
 
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        setSkipped(newSkipped);
+        // setFlag(false);
+    };
 
+    const handleBack = () => {
+        setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    };
 
+    const handleSkip = () => {
+        if (!isStepOptional(activeStep)) {
+            // You probably want to guard against something like this,
+            // it should never occur unless someone's actively trying to break something.
+            throw new Error("You can't skip a step that isn't optional.");
+        }
 
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        setSkipped((prevSkipped) => {
+            const newSkipped = new Set(prevSkipped.values());
+            newSkipped.add(activeStep);
+            return newSkipped;
+        });
+    };
 
-            {/* <TextField id="standard-basic" label="שם משתמש" name="Name" type="text" variant="standard" {...register("Name")} disabled={flag == "true"} defaultValue={user != null ? user.Name : ""} /> */}
-            {/* <TextField id="standard-basic" label="פלאפון" name="Phone" type="text" variant="standard" {...register("Phone")} disabled={flag == "true"} defaultValue={user != null ? user.Phone : ""} />
-            <TextField id="standard-basic" label="מייל" name="Email" type="text" variant="standard" {...register("Email")} disabled={flag == "true"} defaultValue={user != null ? user.Email : ""} />
-            <TextField id="standard-basic" label="כרטיס אשראי" name="CreditNum" type="number" variant="standard" disabled={flag == "true"} />
-            <TextField id="standard-basic" label="ספרות בגב הכרטיס" name="DigitsCredit" type="number" variant="standard" disabled={flag == "true"} />
-            <TextField id="standard-basic" label="תוקף" name="Valid" type="number" variant="standard" disabled={flag == "true"} />
-            <TextField id="standard-basic" label="הכנס כמות" name="Quantity" variant="standard" disabled={flag == "true"} {...register('Quantity')} />
-            <span className="warn">{valid}</span> */}
-            <TextField id="standard-basic" name="Date" type="date" variant="standard" disabled={flag == "true"}  {...register("Date")} />
-            {/* {dateMessage && <div className="warn">הכנס תאריך תקין</div>} */}
-            <p onClick={() => setShowList(!showList)} className="link" >רשימת ציוד</p>
-            {showList ? <EquipmentList id={id} /> : null}
-            {/* <br /> <input className="order" type="button" value="הזמן" onClick={() => { qty.current.value > 0 && message == null ? navigate("/order/" + false + "/" + 1+ "/" + qty.current.value) : message == null ? setValid("הכנס כמות!") : setValid(null) }} /> */}
-            {flag == "true" ? <input type="button" value="סיום" onClick={save} />
-                : type == 0 ?
-                    <input type="submit" value="בצע הזמנה" />
-                    : <input type="submit" value="עדכן הזמנה" />}
-            {/* onClick={() => { if (validDate()) navigate("/order/" + true + "/" + 1 + "/" + product.Id) }} />} */}
-        </form>
-    </>)
-
+    const handleReset = () => {
+        setActiveStep(0);
+    };
+    return (<div className='order'>
+        <h2 >יש להתעדכן בשעות הפעילות של האתר לפני רכישת הכרטיסים <br/>
+        <span onClick={() => { navigate("/activityTime/" + id) }} className="timesHeader"> לשעות הפעילות לחץ כאן </span>
+        </h2> <br/>
+        <Box sx={{ width: '100%' }}>
+            <Stepper activeStep={activeStep}>
+                {steps.map((label, index) => {
+                    const stepProps = {};
+                    const labelProps = {};
+                    //   if (isStepOptional(index)) {
+                    //     labelProps.optional = (
+                    //       <Typography variant="caption">Optional</Typography>
+                    //     );
+                    //   }
+                    if (isStepSkipped(index)) {
+                        stepProps.completed = false;
+                    }
+                    return (
+                        <Step key={label} {...stepProps}>
+                            <StepLabel {...labelProps}>{label}</StepLabel>
+                        </Step>
+                    );
+                })}
+            </Stepper>
+            {activeStep === steps.length ? (
+                <React.Fragment>
+                    <Typography sx={{ mt: 2, mb: 1 }}>
+                        All steps completed - you&apos;re finished
+                    </Typography>
+                    <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+                        <Box sx={{ flex: '1 1 auto' }} />
+                        <Button onClick={handleReset}>אתחול</Button>
+                    </Box>
+                </React.Fragment>
+            ) : (
+                <React.Fragment>
+                    <Typography sx={{ mt: 2, mb: 1 }}>
+                        {activeStep==0?<SelectTickets attractionId={id} setFlag={setFlag} setPrice={setPrice}/>
+                        :activeStep==1?<SelectDate setDate={setDate}/>:<Details price={price} date={date}/>}
+                        {/* שלב {activeStep + 1} */}
+                    </Typography>
+                    <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+                        <Button
+                            color="inherit"
+                            disabled={activeStep === 0}
+                            onClick={handleBack}
+                            sx={{ mr: 1 }}
+                        >
+                            חזור
+                        </Button>
+                        <Box sx={{ flex: '1 1 auto' }} />
+                        <Button onClick={handleNext}>
+                            {activeStep === steps.length - 1? 'סיום' : 'הבא'}
+                        </Button>
+                    </Box>
+                </React.Fragment>
+            )}
+        </Box>
+        </div>
+    );
 }
 export default Order;

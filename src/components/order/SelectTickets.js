@@ -12,6 +12,7 @@ const SelectTickets = ({ attractionId, setFlag, setPrice }) => {
     const [amount, setAmount] = useState(0);
     const attractions = useSelector(state => state.attractionArr);
     const product = { ...attractions.find(x => x.Id == attractionId) };
+    console.log(product)
     useEffect(() => {
         getImagesByAttractionId(attractionId)
             .then(x => setImage(x.data))
@@ -21,10 +22,10 @@ const SelectTickets = ({ attractionId, setFlag, setPrice }) => {
         setPrice(amount * product.Price);
     }, [image, amount]);
     return (
-        <div>
+        <div> 
             <h1>בחרו את כמות הכרטיסים</h1>
             {/* <h1>יום {date.getDay()} {date.toLocaleDateString('en-GB')}</h1> */}
-            <div className='all-images'>{image.map((item, ind) => {
+            <div className='all-images'>{image.map((item, ind) => { if(ind<3)
                 return <span key={item.Id}> {ind <= 5 ? <img src={`http://localhost:81/img/${item.Img}`}
                     className="imgOrder" /> : null} </span>
             })} </div>

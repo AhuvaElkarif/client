@@ -36,8 +36,8 @@
     text-align: center;
 }
 .add-img{
-    width: 14rem;
-    height: 8.5rem;
+    width: 13.7rem;
+    height: 7.7rem;
 }
 .editForm{
     width: 75vw;
@@ -48,7 +48,7 @@
     display:flex;
     flex-wrap: wrap;
 }
-.container-details{
+.container-details2{
    width: 30vw;
 }
 .equipmentAttraction{

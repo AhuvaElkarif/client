@@ -33,11 +33,10 @@ const currencies = [
 ];
 export default function AttractionsList() {
     const dispatch = useDispatch();
-    const { type } = useParams();
+    const { type, area } = useParams();
     const [searchValue, setSearchValue] = useState('');
     const [max, setMax] = useState(0);
     const [min, setMin] = useState(0);
-    const [display, setDisplay] = useState(false);
     const [fromAge, setFromAge] = useState(0);
     const [tillAge, setTillAge] = useState(99);
     const [categoryArr, setCategoryArr] = useState(null);
@@ -61,7 +60,9 @@ export default function AttractionsList() {
         setMax(m)
         handleChange({ target: { value: 'REC' } });
     }, [attractions, type])
-    useEffect(() => { }, [type])
+    useEffect(() => { 
+        if(area!=undefined)  setAreaArr([parseInt(area)])
+    }, [type])
     const handleChange = ({ target }) => {
         let attractionCopy = [];
         if (type == 0)
@@ -70,8 +71,8 @@ export default function AttractionsList() {
             if (type == 2)
                 attractionCopy = [...attractions];
             else
-                attractionCopy = attractions.filter(x => x.ManagerId == user.Id)
-        switch (target.value) {
+                attractionCopy = attractions.filter(x => x.ManagerId == user.Id && x.Status == true)
+        switch (target.value) {  
             case 'REC': attractionCopy.sort((a, b) => b.CountAvgGrading - a.CountAvgGrading); break;
             case 'CHE': attractionCopy.sort((a, b) => a.Price - b.Price); break;
             case 'EXP': attractionCopy.sort((a, b) => b.Price - a.Price); break;
@@ -112,7 +113,6 @@ export default function AttractionsList() {
         if (type != 4 && type != 5)
             setCount(x == "add" ? count + 1 : count - 1);
     }
-
     const zero = () => {
         setCount(0);
         setMin(0);
@@ -128,7 +128,7 @@ export default function AttractionsList() {
     return (<div >
         {/* {count > 0 && <Button size="large" variant="contained" onClick={() => { setFlag(true); zero(); }}> נקה הכל ({count}) </Button>} */}
 
-        <SideNavBar filterArr={filterArr} flag={flag} setFlag={setFlag} setDisplay={setDisplay} />
+        <SideNavBar filterArr={filterArr} flag={flag} setFlag={setFlag}  />
         <div className="selectButton">
             <SelectTextFields handleChange={handleChange} currencies={currencies} text={"סינון"} />
         </div>
@@ -141,7 +141,8 @@ export default function AttractionsList() {
             {arr != null ? arr.map(item => {
                 if (item.Name.includes(searchValue) &&
                     max >= item.Price && min <= item.Price &&
-                    (fromAge == 0 || (fromAge >= item.FromAge && fromAge <= item.TillAge && tillAge <= item.TillAge)) &&
+                    (fromAge == 0 || (fromAge >= item.FromAge && fromAge <= item.TillAge 
+                        && tillAge <= item.TillAge)) &&
                     (!categoryArr || categoryArr.includes(item.CategoryId)) &&
                     (!seasonArr || seasonArr.every(v => item.Seasons.includes(v))) &&
                     (!areaArr || areaArr.includes(item.AreaId)))

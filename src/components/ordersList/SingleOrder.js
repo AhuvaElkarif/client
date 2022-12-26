@@ -14,7 +14,7 @@ import Poppers from '../popper/Popper';
 import WriteOpinion from './WriteOpinion';
 import { useState } from 'react';
 
-export default function SingleOrder({ order, dateToEpoch }) {
+export default function SingleOrder({ order, dateToEpoch, type}) {
   const theme = useTheme();
   const navigate = useNavigate();
   const [write,setWrite] = useState(false)
@@ -35,14 +35,20 @@ export default function SingleOrder({ order, dateToEpoch }) {
 
   }
   return (
-    <Card sx={{ display: 'flex', width: '40vw', flexDirection: 'row' }}>
-      <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+    <Card sx={{ display: 'flex', width: '45vw', height:"32vh", flexDirection: 'row' }}>
+      <Box sx={{ display: 'flex', flexDirection: 'column', width: "25vw"}}>
         <CardContent sx={{ flex: '1 0 auto' }}>
           <Typography component="div" variant="h5">
             {order.Attraction.Name}
           </Typography>
           <Typography variant="subtitle1" color="text.secondary" component="div">
             תאריך הזמנה: {new Date(order.OrderDate).toLocaleDateString()}
+          </Typography>
+          {type == 1 &&  <Typography>
+            משתמש : {order.UserName}
+          </Typography>}
+          <Typography>
+            זמן התחלה : {order.StartTime.slice(0,5)}
           </Typography>
           <Typography>
             מחיר : {order.GlobalPrice}
@@ -51,18 +57,18 @@ export default function SingleOrder({ order, dateToEpoch }) {
             כמות : {order.Amount}
           </Typography>
         </CardContent>
-        <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1, left: '4rem' }}>
-          {dateToEpoch(new Date(order.OrderDate)) >= dateToEpoch(new Date()) ? <>
-            <Poppers func={() => { update(order, 1) }} type={3} text="עדכן את ההזמנה" content={"עדכן"} />
-            <Poppers func={() => { update(order, 0) }} type={3} text="בטל את ההזמנה" content={"בטל"} />
+        <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1,position:"relative",bottom:"1.4rem",right: '1rem'}}>
+          {type != 1 && dateToEpoch(new Date(order.OrderDate)) >= dateToEpoch(new Date()) ? <>
+           <span> <Poppers func={() => { update(order, 1) }} type={3} text="עדכן את ההזמנה" content={"עדכן"} /></span>
+           <span style={{margin:"1rem"}}> <Poppers func={() => { update(order, 0) }} type={3} text="בטל את ההזמנה" content={"בטל"} /></span>
           </> : null}
-          {user.Status == 1 && !order.IsWritten && !write? 
+          {type != 1 && !order.IsWritten && !write? 
             <WriteOpinion id={order.AttractionId} setWrite={setWrite}/>:null}
         </Box>
       </Box>
       <CardMedia
         component="img"
-        sx={{ width: 151 }}
+        sx={{ width: "20vw" }}
         image={`http://localhost:81/img/${order.Attraction.Images.slice(0, 14)}`}
         alt={order.Attraction.Description}
         onClick={()=>{ navigate("/detailsAttraction/" + order.AttractionId) }}

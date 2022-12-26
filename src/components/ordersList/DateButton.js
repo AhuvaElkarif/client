@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 
@@ -14,19 +14,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function DateButton({ setValue, label }) {
+export default function DateButton({value, setValue, label }) {
   const classes = useStyles();
-
   return (
     <div  className="filter-container">
       <form className={classes.container} noValidate>
-        <TextField
+         <TextField
           id="date"
           label={label}
           type="date"
-          defaultValue="2022-09-24"
+          // defaultValue={value?value:"2022-09-24"}
           className={classes.textField}
-          onBlur={(e) => { setValue(new Date(e.target.value)) }}
+          onChange={(e) => { setValue(new Date(e.target.value)) }}
           InputLabelProps={{
             shrink: true,
           }}

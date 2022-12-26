@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import CameraAltIcon from '@mui/icons-material/CameraAlt';
-import { Button } from '@mui/material';
-import { SvgIcon } from '@mui/material';
 import { makeStyles } from '@material-ui/core/styles';
-import { getAttractionDispatch, getAttractions, getAttractionsByUserId, getRelevantAttractions } from "../../store/actions/AttractionActions"
-import "./HomePage.css";
-import Grid from '@material-ui/core/Grid';
+import {  getAttractions } from "../../store/actions/AttractionActions"
 import { getCategories } from '../../store/actions/CategoryAction';
 import { getUsers } from '../../store/actions/UserActions';
 import { getWishList } from '../../store/actions/WishListAction';
-import { getOrders, getOrdersByMangerId, getOrdersByUserId } from '../../store/actions/OrderAction';
-import './HomePage.css';
+import { getOrders } from '../../store/actions/OrderAction';
 import HotAttraction from './HotAttraction';
+import AttractionsByArea from './AttractionsByArea';
+import DisplayAttractions from './DisplayAttractions';
+import "./HomePage.css";
+
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
@@ -31,55 +29,58 @@ function HomePage() {
     const classes = useStyles();
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [attractions, setAttractions] = useState(null);
+    const [recommendAttractions, setRecommendAttractions] = useState([]);
+    const [newAttractions, setNewAttractions] = useState([]);
     const [obj, setObj] = useState();
-    const user = useSelector(state => state.user);
+    const {user, attractions} = useSelector(state => {
+        return{
+            user: state.user,
+            attractions: state.attractionArr
+        }
+    },shallowEqual);
     useEffect(() => {
-        // if (user == null || user.Status == 1 || user.Status == 3)
         dispatch(getAttractions());
-        // else {
-        //     dispatch(getAttractionsByUserId(user.Id));
-        //     dispatch(getOrdersByMangerId(user.Id))
-        // }
         if (user != null)
-            if (user.Status == 3)
-                dispatch(getOrders())
-            else
-                if (user.Status == 1)
-                    dispatch(getOrdersByUserId(user.Id))
-                else
-                    dispatch(getOrdersByMangerId(user.Id))
-
+            dispatch(getOrders())
         dispatch(getCategories());
         dispatch(getUsers());
-
     }, [])
+    useEffect(()=>{
+        const vec = [...attractions.filter(x => !x.Seasons.includes(obj))];
+        vec.sort((a, b) => b.CountAvgGrading - a.CountAvgGrading);
+        setRecommendAttractions(vec);
+
+        const vec2 = [...attractions];
+        vec2.sort((a, b) => new Date(a.Date).getTime() - new Date(b.Date).getTime());
+        setNewAttractions(vec2)
+    },[attractions])
     useEffect(() => {
         if (user != null)
             dispatch(getWishList(user.Id));
+        const month = new Date().getMonth();
+        if (month >= 1 && month <= 3)
+            setObj(2);
+        else
+            if (month >= 4 && month <= 6)
+                setObj(3);
+            else
+                if (month >= 7 && month <= 9)
+                    setObj(4);
+
+                else
+                    setObj(1);
     }, [user]);
 
     return (<>
-        <HotAttraction />
-        {/* return   <Grid container spacing={2}>
-            //     {index==0?<Grid item xs={8}> 
-            //      style={{ width: '50vw', height: '60vh' }}>
-            //         <img src={`http://localhost:81/img/${item.Images.slice(0, 14)}`} width="100%" alt="" />
-            //     </Grid>:
-            //     <Grid item xs={4} >
-            //         style={{ width: '20vw', height: '60vh' }}>
-            //        {index==1? <img src={`http://localhost:81/img/${item.Images.slice(0, 14)}`} width="100%" alt="" />
-            //         :<img src={`http://localhost:81/img/${item.Images.slice(0, 14)}`} width="100%" alt="" />
-            //     }</Grid>}
-            // </Grid> */}
-        <Button variant="contained" color="primary" onClick={() => { navigate("/attractionsList") }} startIcon={<CameraAltIcon />}>
-            אטרקציות </Button> <br /> <br />
-        <Button variant="outlined" color="secondary" onClick={() => { navigate("/attractionsList") }}>
-            לכל האטרקציות</Button> <br /> <br />
-        <Button variant="contained" color="secondary" onClick={() => { navigate("/attractionsList") }} startIcon={<CameraAltIcon />}>
-            מסלולים וטיולים </Button> <br /> <br />
-        <Button variant="outlined" color="secondary" onClick={() => { navigate("/attractionsList") }}>
-            לכל הטיולים </Button>
+        <HotAttraction obj={obj} />
+        <br /> <br />
+        {newAttractions.length > 0 && <DisplayAttractions arr={newAttractions} name={"חדשות"} />}
+        {recommendAttractions.length > 0 && <DisplayAttractions arr={recommendAttractions} name={"מומלצות"} />}
+        <AttractionsByArea obj={obj} />
+
+      
+
+
     </>);
 }
 

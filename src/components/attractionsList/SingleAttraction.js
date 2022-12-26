@@ -17,6 +17,7 @@ export default function SingleAttraction({ product , type}) {
             <CardHeader
                 title={product.CategoryName}
                 subheader={product.Name}
+                color="orange"
             />
             <CardMedia
                 component="img"

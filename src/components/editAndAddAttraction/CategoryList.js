@@ -5,7 +5,7 @@ import './EditAttraction.css'
 const CategoryList = ({setCategory, setActiveStep}) => {
     const categories = useSelector(state => state.categoriesArr)
 return (
- <div className="product-list">
+ <div className="product-list" style={{marginTop:"-4rem"}}>
     {categories.map(item => <div key={item.Id} className="container-category" onClick={() => { setCategory(item); setActiveStep(1); }}>
       <CategoryCard item={item} /></div>)}
   </div>

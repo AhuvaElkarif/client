@@ -11,6 +11,7 @@ import { getAreas } from '../../store/actions/AreaAction';
 import { getSeasons } from '../../store/actions/SeasonAction';
 import { useSelector } from 'react-redux';
 import { Typography } from '@mui/material';
+import './SideNavBar';
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {

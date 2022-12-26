@@ -5,7 +5,7 @@ import FilterByAge from "./FilterByAge";
 import MinimumDistanceSlider from "./Slider";
 import './SideNavBar.css';
 
-const SideNavBar = ({ filterArr, flag, setFlag, setDisplay }) => {
+const SideNavBar = ({ filterArr, flag, setFlag }) => {
 
   return (<div className="filter-list">
     <CheckboxList func={filterArr} type={1} x={flag} setX={setFlag} />

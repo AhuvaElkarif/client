@@ -5,6 +5,8 @@ import swal from 'sweetalert';
 import "./WishList.css";
 import WishCard from "./WishCard";
 import { Button } from "@material-ui/core";
+import ButtomNavigation from "../bottomNavigation/ButtomNavigation";
+import Regions from "../regions/Regions";
 
 function WishList() {
     const navigate = useNavigate();
@@ -51,7 +53,7 @@ function WishList() {
         navigate("/register/" + 1);
     }
     return (<div className="wishesList">
-        <h1>אטרקציות שאהבתי({wishes.length})</h1> <br/>
+        <h1>אטרקציות שאהבתי ({wishes.length})</h1> <br/>
         {wishes.length > 0 ? <div >{wishes.map((item, ind) => {
             return <div key={item.Id}> <WishCard item={item} ind={ind} /> <br />
             </div>

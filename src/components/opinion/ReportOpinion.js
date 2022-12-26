@@ -14,6 +14,7 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { addReport, getKindsReports } from '../../store/actions/ReportAction';
 import { useSelector } from 'react-redux';
+import swal from 'sweetalert';
 const style = {
   position: 'absolute',
   top: '50%',
@@ -54,7 +55,9 @@ export default function ReportOpinion({ opinion }) {
     setAnchorEl(anchorEl ? null : true);
 
     if (user == null)
-      navigate('/login/' + 0);
+    swal({icon:'warn',text:"יש חהרשם לאתר על מנת לדווח!"})
+      // navigate('/login/' + 0);
+      // navigate("/login")
     else
       setOpen2(true);
   }

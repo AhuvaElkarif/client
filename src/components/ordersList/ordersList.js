@@ -1,17 +1,14 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from 'react-router';
+import { useState, useEffect, Fragment } from "react";
+import { useNavigate, useParams } from 'react-router';
 import { useSelector, shallowEqual } from "react-redux";
-import { getOrders } from "../../store/actions/OrderAction";
 import SingleOrder from "./SingleOrder";
 import { useDispatch } from "react-redux";
 import Button from '@mui/material/Button';
 import SearchButton from "../attractionsList/SearchButton";
-import WriteOpinion from "./WriteOpinion";
 import "./OrdersList.css";
 import "../opinion/Opinion.css";
-import DateButton from "./DateButton";
-import CheckboxList from "../sideNavBar/CheckboxList";
 import FilterList from "./FilterList";
+import { indigo } from "@material-ui/core/colors";
 const style = {
     position: 'absolute',
     top: '50%',
@@ -25,14 +22,13 @@ const style = {
 };
 
 function OrdersList() {
-    const dispatch = useDispatch();
+    const {type} = useParams();
     const navigate = useNavigate();
-    const date = new Date();
     const [value1, setValue1] = useState(null);
     const [value2, setValue2] = useState(null);
     const [categoryArr, setCategoryArr] = useState(null);
     const [searchValue, setSearchValue] = useState('');
-    const [ordersArr, setOrdersArr] = useState(null);
+    const [ordersArr, setOrdersArr] = useState([]);
     const { user, orders } = useSelector(state => {
         return {
             user: state.user,
@@ -41,33 +37,58 @@ function OrdersList() {
     }, shallowEqual);
 
     useEffect(() => {
-console.log(orders)
+        let vec = [...orders];
+        if(type==0)
+             vec = orders.filter(x => x.UserId == user.Id);
+        else
+        if(type==1)
+             vec = orders.filter(x => x.Attraction.ManagerId == user.Id);
+        setOrdersArr(vec);
+        const maxDate = new Date(Math.max(
+            ...orders.map(element => {
+                return new Date(element.OrderDate);
+            }),
+        ),);
+        const minDate = new Date(Math.min(
+            ...orders.map(element => {
+                return new Date(element.OrderDate);
+            }),
+        ),);
+        setValue1(minDate);
+        setValue2(maxDate);
     }, [])
-
     const dateToEpoch = (thedate) => {
         var time = thedate.getTime();
         return time - (time % 86400000);
     }
 
-    return (<>
-        <div>
-            {/* // כפתור חיפוש */}
-            {/* // אם הוא מנהל אתר או אטרקציה אז נוסף לו כפתור של סינון טווח תאריכים */}
-            {user != null && user.Status == 2 || user.Status == 3 ? 
-               <FilterList setCategoryArr={setCategoryArr} setSearchValue={setSearchValue} setValue1={setValue1} setValue2={setValue2}/>
-                :<SearchButton search={(e) =>{e.preventDefault(); setSearchValue(e.target.value)}} /> }
-            <br/> <br/> <br/>
-            {orders.length > 0 ? orders.map(item => {
-                if (item.Attraction.Name.includes(searchValue) &&
-                    (!value1 || dateToEpoch(item.OrderDate) >= dateToEpoch(value1)) &&
-                    (!value2 || dateToEpoch(item.OrderDate) <= dateToEpoch(value2)) &&
-                    (!categoryArr || categoryArr.includes(item.Attraction.CategoryId)))
+    const filterFunc = () => {
+        let vec = [...orders];
+        vec = vec.filter(x => new Date(x.OrderDate) <= value2 && new Date(x.OrderDate) >= value1 ||
+                          new Date(x.OrderDate).toDateString() == value1.toDateString() || new Date(x.OrderDate).toDateString() == value1.toDateString())
+        if (categoryArr)
+            vec = vec.filter(x => categoryArr.includes(x.Attraction.CategoryId));
+        setOrdersArr(vec);
+    }
+    return (<Fragment>
+            <div className="searchBtn"><SearchButton search={(e) => { setSearchValue(e.target.value) }} /> </div>
+            {value1!=null && value2!=null && user != null &&
+                <FilterList v1={value1} v2={value2} filterFunc={filterFunc} setCategoryArr={setCategoryArr} setValue1={setValue1} setValue2={setValue2} />}
+            {/* : <SearchButton search={(e) => { e.preventDefault(); setSearchValue(e.target.value) }} />} */}
+            <br /> <br /> <br />
+            {ordersArr.length > 0 ? ordersArr.map(item => {
+                if (item.Attraction.Name.includes(searchValue))// &&
+                    //     (!value1 || new Date(item.OrderDate) >= value1) &&
+                    //     (!value2 || new Date(item.OrderDate) <= value2) &&
+                    //     (!categoryArr || categoryArr.includes(item.Attraction.CategoryId)))
                     return <div key={item.Id} className="container">
-                        <SingleOrder order={item} dateToEpoch={dateToEpoch} />
+                        <SingleOrder order={item} dateToEpoch={dateToEpoch} type={type}/>
                     </div>
-            }) : <p> אין לך הזמנות... </p>}
-        </div>
-    </>);
+            }) : orders.length == 0? <div className="emptyMessage"> <br /><p> רשימת ההזמנות שלך ריקה  <br /> <br />
+                להזמנת אטרקציות היכנסו לאטרקציות לחצו על כפתור ההזמנה והאטרקציה תתווסף לרשימת ההזמנות:). </p> <br /> <br />
+                <Button variant="contained" size="medium" style={{ backgroundColor: "orange" }} onClick={() => { navigate("/attractionsList/" + 0) }}>  לכל האטרקציות  </Button>
+            </div>:null}
+    </Fragment>);
 }
 
 export default OrdersList;

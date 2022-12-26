@@ -18,8 +18,8 @@ export default function WishCard({ item , ind}) {
   const dispatch = useDispatch();
   const  user = useSelector(state => state.user);
   return (
-    <Card sx={{ display: 'flex', width: '40vw', flexDirection: 'row' }}>
-      <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+    <Card sx={{ display: 'flex', width: '43vw', flexDirection: 'row', height:"25vh" }}>
+      <Box sx={{ display: 'flex', flexDirection: 'column', width:"23vw" }}>
         <CardContent sx={{ flex: '1 0 auto' }}>
           <Typography component="div" variant="h5">
             {item.Name}
@@ -35,7 +35,7 @@ export default function WishCard({ item , ind}) {
       </Box>
       <CardMedia
         component="img"
-        sx={{ width: 275 }}
+        sx={{ width: "20vw", height:"25vh"}}
         image={`http://localhost:81/img/${item.Images.slice(0, 14)}`}
         alt={item.Description}
       />

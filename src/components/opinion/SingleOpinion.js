@@ -60,10 +60,6 @@ function SingleOpinion({ opinion, type }) {
             </span>
         })}
         <p>{opinion.OpinionText}</p>
-        {/* {type == 2 ? <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1, left: '4rem' }}>
-            <Poppers func={change} type={3} text="הסיר את חוות הדעת" content={"הסר"} />
-            <Poppers func={deleteR} type={3} text="בטל את הדיווח" content={"בטל דיווח"} />
-        </Box> : null} */}
     </div>);
 }
 

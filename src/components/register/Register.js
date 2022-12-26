@@ -19,42 +19,35 @@ const arr = [
 const schema = yup.object({
     Name: yup.string().required("שדה זה חובה").min(2, 'השם אינו תקין'),
     Email: yup.string().email("כתובת מייל אינה תקינה").required("שדה זה חובה"),
-    Phone: yup.string().required("שדה זה חובה").min(9, 'מספר הפלאפון אינו תקין').max(10, 'מספר הפלאפון אינו תקין'),
-    Password: yup.string().required("שדה זה חובה").matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/, "הסיסמא חייבת להכיל 6 ספרות. לפחות מספר אחד.וךפחות אות אחת באנגלית."),
-    NewPassword: yup.string().matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/, "הסיסמא חייבת להכיל 6 ספרות. לפחות מספר אחד.וךפחות אות אחת באנגלית."),
+    Phone: yup.string().required("שדה זה חובה").min(9, 'מספר הפלאפון אינו תקין')
+        .max(10, 'מספר הפלאפון אינו תקין'),
+    Password: yup.string().required("שדה זה חובה")
+        .matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/, "הסיסמא חייבת להכיל 6 ספרות. לפחות מספר אחד.וךפחות אות אחת באנגלית."),
 }).required();
 
-const Register = ({ id }) => {
+const Register = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { type } = useParams();
     const [flag, setFlag] = React.useState(true);
     const user = useSelector(state => state.user);
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
     });
+    React.useEffect(() => { }, [user])
+
+    // פונקצית הרשמה
+    // הפונקציה מתבצעת במידה וכל הנתונים שהוזנו בשדות עונים לדרישות הסכמה
     const onSubmit = (data) => {
-        data.Status = type == 2 ? 2 : 1;
+        data.Status = 1;
         data.Active = true;
-        // if (user) {
-        //     data.Id=user.Id;
-        //     swal(data.Name + " פרטיך עודכנו בהצלחה!", "המשך גלישה מהנה!");
-        //     dispatch(updateUser(data))
-        // }
-        // else {
-            swal(data.Name + " ברוך הבא!", "נרשמת בהצלחה");
-            dispatch(addUser(data));
-        // }
+        swal(data.Name + " ברוך הבא!", "נרשמת בהצלחה");
+        dispatch(addUser(data));
         setFlag(false);
-        if (type == 3)
-            navigate("./report/" + id);
-        else
-            navigate("/attractionsList/"+0);
+        navigate("/attractionsList/" + user.Status);
     };
+    
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="location">
-        {type == 2 ? <h1>הרשמת מעסיקים</h1> : null}
-<br/> <br/>
             {arr.map(item => <div key={item.name}>
                 {item.name != "Password" ? <FormInput
                     lableName={item.lableName}
@@ -62,22 +55,22 @@ const Register = ({ id }) => {
                     type={item.type}
                     errors={errors}
                     register={register}
-                    user={null}
-                    flag={false} /> : !user ?
+                    user={user}
+                    flag={false} /> :
                     <Password
                         errors={errors}
                         register={register}
                         name={"Password"}
-                        labelName={"סיסמא ישנה"} /> : null
+                        labelName={"סיסמא"} />
                 }
-                <br /> <br />
             </div>
             )}
-            <Button variant="contained" size="medium" type="submit">
-                {/* {user ? "שמירת שינויים" : "הרשם"} */} הרשם
+            <Button variant="contained" size="medium" type="submit" style={{ backgroundColor: "orange" }}>
+                {user ? "שמירת שינויים" : "הרשם"}
             </Button>
-
-            {type != 3 && !user && <p className="move">כבר רשום? עבור <span onClick={() => { navigate("/login/" + type) }} >להתחברות</span></p>}
+            <br /> <br />
+            <p className="move">כבר רשום? עבור <span onClick={() => { navigate("/login/" + 0) }} >להתחברות</span></p>
+            {/* {type != 3 && !user && <p className="move">כבר רשום? עבור <span onClick={() => { navigate("/login/" + type) }} >להתחברות</span></p>} */}
             {/* {!flag && <AlertMessage variant={'success'} children={<Alerts message={"נרשמת בהצלחה!"} />} />} */}
 
         </form>)

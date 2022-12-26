@@ -5,6 +5,7 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { addKindReport } from "../../store/actions/ReportAction";
 import AlertMessage from "../alert/AlertMessage";
 import Alerts from "../alert/Alerts";
+import '../opinion/Opinion.css';
 
 const AddKindReport = () => {
     const [flag, setFlag] = useState(false);
@@ -33,9 +34,9 @@ const AddKindReport = () => {
             .catch(err => alert("אירעה שגיאה."))
     }
     return (
-        <div>
-            <p>הוסף סוג דיווח </p> <br /> <br />
-            <AddCircleOutlineIcon onClick={() => { setFlag(!flag) }} /> <br /> <br />
+        <div className="addRport">
+            <h4>  <AddCircleOutlineIcon onClick={() => { setFlag(!flag) }} /> 
+                הוסף סוג דיווח </h4> 
             {flag && !message ? <>
                 <TextField
                     id="standard-basic"
@@ -44,15 +45,7 @@ const AddKindReport = () => {
                     variant="standard"
                     onChange={(e) => { setValue(e.target.value); if (value != "") setError(false) }} /><br />
                 {error && <span style={{ color: "red" }}>יש להכניס סוג דיווח </span>} <br />
-                <Button variant="contained" size="medium" onClick={add}>  הוסף  </Button>
-
-                {/* <Poppers
-            type={3}
-            content={"הגש"}
-            flag={value == ""}
-            func={add}
-            text="הוסיף את סוג הדיווח" />  */}
-
+                <Button variant="contained" size="medium" onClick={add} style={{ color: "white", backgroundColor: "orange" }}>  הוסף  </Button>
             </>
                 : message ?
                     <AlertMessage

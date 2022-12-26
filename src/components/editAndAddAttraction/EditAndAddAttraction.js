@@ -131,41 +131,41 @@ export default function EditAndAddAttraction() {
 
   return (
     <div className='editForm'>
-    <div className={classes.root}>
-      <Stepper activeStep={activeStep} orientation="vertical">
-        {steps.map((label, index) => (
-          <Step key={label}>
-            <StepLabel style={{color:"orange"}} > <h2 className="secondHeader"> {label} </h2></StepLabel>
-            <StepContent>
-              <div>{getStepContent(index)}</div>
-              <div className={classes.actionsContainer}>
-                {/* <br /> <br /> */}
-                <div>
-                  <Button
-                    disabled={activeStep === 0}
-                    onClick={handleBack}
-                    className={classes.button}
-                    style={{color:"white", backgroundColor:"orange"}}>
-                    חזרה
-                  </Button>
+      <div className={classes.root}>
+        <Stepper activeStep={activeStep} orientation="vertical">
+          {steps.map((label, index) => (
+            <Step key={label}>
+              <StepLabel style={{ color: "orange" }} > <h2 className="secondHeader"> {label} </h2></StepLabel>
+              <StepContent>
+                <div>{getStepContent(index)}</div>
+                <div className={classes.actionsContainer}>
+                  {/* <br /> <br /> */}
+                  <div>
+                    {index != 0 && <Button
+                      // disabled={activeStep === 0}
+                      onClick={handleBack}
+                      className={classes.button}
+                      style={{ color: "white", backgroundColor: "orange" }}>
+                      חזרה
+                    </Button>}
+                  </div>
                 </div>
-              </div>
-            </StepContent>
-          </Step>
-        ))}
-      </Stepper>
-      {activeStep === steps.length && (
-        <Paper square elevation={0} className={classes.resetContainer}>
-          <Alert severity="success" style={{fontSize:"larger"}}>
-            <AlertTitle style={{fontSize:"x-large"}}>סיימנו!</AlertTitle>
-            האטרקציה {id != undefined ? "עודכנה" : "התווספה"} <strong>בהצלחה.</strong>
-          </Alert>
-          {type == "new" ? <Button onClick={handleReset} className={classes.button} style={{color:"white", backgroundColor:"orange"}}>
-            להוספת אטרקציה נוספת
-          </Button> : null}
-        </Paper>
-      )}
-    </div>
+              </StepContent>
+            </Step>
+          ))}
+        </Stepper>
+        {activeStep === steps.length && (
+          <Paper square elevation={0} className={classes.resetContainer}>
+            <Alert severity="success" style={{ fontSize: "larger" }}>
+              <AlertTitle style={{ fontSize: "x-large" }}>סיימנו!</AlertTitle>
+              האטרקציה {id != undefined ? "עודכנה" : "התווספה"} <strong>בהצלחה.</strong>
+            </Alert>
+            {type == "new" ? <Button onClick={handleReset} className={classes.button} style={{ color: "white", backgroundColor: "orange" }}>
+              להוספת אטרקציה נוספת
+            </Button> : null}
+          </Paper>
+        )}
+      </div>
     </div>
   );
 }

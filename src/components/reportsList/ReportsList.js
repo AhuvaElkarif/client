@@ -3,9 +3,10 @@ import { useState, useEffect } from "react";
 import { changeStatus } from "../../store/actions/OpinionsActions";
 import AddKindReport from "./AddKindReport";
 import SingleReport from "./SingleReport";
+import { Fragment } from "react";
 
 const ReportsList = () => {
-    const [arr, setArr] = useState(null);
+    const [arr, setArr] = useState([]);
     
     useEffect(() => {
         getReports()
@@ -21,15 +22,16 @@ const ReportsList = () => {
             .catch(err => alert("אנו מתנצלים, ישנה תקלה זמנית בשרת."));
     }
     
-    return (
-        <div className="product-list">
-            {arr ? arr.map(item =>
-                <div key={item.Id} className="container list">
-                    <SingleReport item={item} change={change}/>
-                </div>) : null
-            }
+    return <Fragment>
           <AddKindReport/>
+        <div className="product-list">
+
+            {arr.length>0 ? arr.map(item =>
+                <div key={item.Id} className="container-opinion">
+                    <SingleReport item={item} change={change}/>
+                </div>) : <h2>רשימת הדיווחים ריקה כעת.</h2>
+            }
         </div >
-    )
+    </Fragment>
 }
 export default ReportsList;

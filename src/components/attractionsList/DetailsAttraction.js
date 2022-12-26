@@ -29,8 +29,8 @@ const DetailsAttraction = () => {
 
      return (
           <div className="detailsAttraction">
-               {product == null ? <>loading...</> : (<> <br />
-                    <h1 className="h1-details">{product.Name}</h1>
+               {product == null ? <>loading...</> : (<> 
+                    <h1 className="h1-details">{product.Name}</h1> 
                     <FullWidthGrid images={product.Images} setCarousel={setGallery} />
                     {gallery && <Gallery id={id} open={gallery} setOpen={setGallery} />}
                     <br /> <br /> <br /> <br/> <br/> <br/> <br/> <br/>

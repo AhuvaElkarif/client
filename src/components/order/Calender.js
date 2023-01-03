@@ -10,44 +10,45 @@ import "./CalenderCore.css";
 // import events from "./events";
 
 
-export default function Calender({id}) {
+export default function Calender({ id }) {
   let firstDaty = 1;
-  const [events,setEvents] = useState([]);
+  const [events, setEvents] = useState([]);
 
-  useEffect(()=>{
+  useEffect(() => {
     const today = new Date();
     const year = today.getFullYear().toString();
     let month = (today.getMonth() + 1).toString();
     if (month.length === 1) {
       month = "0" + month;
     }
-    getDaysInMoth(month,year,id)
-    .then(x => setEvents(x.data))
-    .catch(err => console.log(err));
- },[])
- console.log(events);
+    getDaysInMoth(month, year, id)
+      .then(x => {
+        console.log(x.data)
+        const vec = x.data;
+        vec.forEach(element => {
+          const dateObj = new Date(element.start);
+          var month = dateObj.getUTCMonth() + 1; //months from 1-12
+          var day = dateObj.getUTCDate();
+          var year = dateObj.getUTCFullYear();
+          element.start = year + "-" + month + "-" + day;
+      });
+        setEvents(vec)
+      })
+      .catch(err => console.log(err));
+  }, []);
 
- function getDate(dayString) {
-  const today = new Date();
-  const year = today.getFullYear().toString();
-  let month = (today.getMonth() + 1).toString();
-  if (month.length === 1) {
-    month = "0" + month;
-  }
-
-  return dayString.replace("YEAR", year).replace("MONTH", month);
-}
+ console.log(events)
   return (
     <div className="App">
       <FullCalendar
         defaultView="dayGridMonth"
         firstDay={firstDaty}
-        plugins={[ dayGridPlugin, interactionPlugin ]}
-        dateClick={(data)=>{console.log(data)}}
-        buttonHints={()=>{console.log("fa")}}
-        customButtons={()=>{console.log("dgh")}}
-        // eventClick={(data)=>console.log(data)}
-        eventChange={(data)=>{console.log(data)}}
+        plugins={[dayGridPlugin, interactionPlugin]}
+        dateClick={(data) => { console.log(data) }}
+        buttonHints={() => { console.log("fa") }}
+        customButtons={() => { console.log("dgh") }}
+        eventClick={(data)=>console.log(data)}
+        eventChange={(data) => { console.log(data) }}
         locale="il"
         header={{
           left: "prev,next",
@@ -57,7 +58,7 @@ export default function Calender({id}) {
         themeSystem="Simplex"
         // plugins={[dayGridPlugin]}
         events={events}
-        // initialEvents={[]}
+      // initialEvents={[]}
       />
     </div>
   );

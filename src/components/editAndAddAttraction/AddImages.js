@@ -45,8 +45,7 @@ const AddImages = ({ onSubmit, attraction, id }) => {
 
                     swal({ icon: "warning", text: "תמונה זו כבר קיימת!", })
             })
-            .catch(err => console.log("קרתה שגיה זמנית באתר"))
-        console.log(arr)
+            .catch(err => console.log("קרתה שגיה זמנית באתר"));
     }
     return <div>  <br />
         <p>ניתן להעלות עד 10 תמונות ע"י גרירה או לחיצה על כפתור הפלוס. אחרי הבחירה, בחרו תמונה ברורה כדי שתופיע באתר בצורה הטובה ביותר. </p>

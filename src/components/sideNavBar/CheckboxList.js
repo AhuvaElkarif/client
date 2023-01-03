@@ -50,6 +50,7 @@ export default function CheckBoxList({ type, x, setX, func , flag}) {
     }, [])
     useEffect(() => {
         if (x) {
+            setPrev([]);
             setChecked([]);
             setX(false);
         }
@@ -58,13 +59,9 @@ export default function CheckBoxList({ type, x, setX, func , flag}) {
         const {
             target: { value },
         } = event;
-        console.log(value);
-
         setChecked(
             typeof value === 'string' ? value.split(',') : value,
         );
-        console.log(value);
-        console.log(checked)
         const identityArr = [];
         arr.forEach(element => {
             if (value.indexOf(element.Name) != -1)

@@ -53,7 +53,7 @@ const AboutDetails = ({ item, type, arr, setArr }) => {
 
 
     }
-    return type == "undefined" ? <><h4 style={{color:"orange"}}>{item.HeaderText}</h4> <p>{item.ContentText}</p> </> :
+    return type == undefined ? <><h4 style={{color:"orange"}}>{item.HeaderText}</h4> <p>{item.ContentText}</p> </> :
         <form onSubmit={handleSubmit(onSubmit)}>
             <FormInput
                 lableName={"כותרת"}

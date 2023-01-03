@@ -2,7 +2,6 @@ import { Checkbox, FormControlLabel } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import './FormInput.css';
 import React from "react";
-import { InputLabel } from '@material-ui/core';
 const FormInput = ({ register, errors, name, lableName, type, flag, user }) => {
     return <>{type != "checkbox" ?<>
             {/* <InputLabel htmlFor="outlined-adornment-password" style={{position:"relative", left:"4rem", top:"2rem"}}>{lableName}</InputLabel> */}

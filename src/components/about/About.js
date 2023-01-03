@@ -10,8 +10,10 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import AboutDetails from './AboutDetails';
-import { SettingsSystemDaydream } from '@mui/icons-material';
+import "../wishList/WishList.css"
 import { Button } from '@material-ui/core';
+import Statistics from '../statistics/Statistics';
+import Details from '../statistics/Details';
 
 const schema = yup.object({
     HeaderText: yup.string().required("שדה זה חובה"),
@@ -21,30 +23,30 @@ const schema = yup.object({
 function About() {
     const [arr, setArr] = useState([]);
     const [add, setAdd] = useState(false);
-    const {type} = useParams();
+    const { type } = useParams();
     useEffect(() => {
         getAbout()
             .then(x => setArr(x.data))
             .catch(err => console.log(err))
     }, []);
-    return <div>
-        <h1 style={{color:"orange"}}>אודות</h1>
-        <br />
-        <div className="about">
-            <div className="container-about">
-                {arr.map(item => {
-                    return <div key={item.Id}>
-                        <AboutDetails item={item} type={type} arr={arr} setArr={setArr}/>
-                        <br /> <br />
-
-                    </div>
-                })}
-                {type!="undefined"? <Button style={{ backgroundColor: "orange" }} variant="contained" onClick={()=>setAdd(true)}>
-                    הוסף קטע</Button>:null}
+    return <div className="bigDiv">
+        <div className='wishesList '>
+            <h1 style={{ color: "orange", marginRight: "1rem" }}>אודות</h1>
+            <div className="about">
+                <div className="container-about">
+                    {arr.map(item => {
+                        return <div key={item.Id}>
+                            <AboutDetails item={item} type={type} arr={arr} setArr={setArr} />
+                        </div>
+                    })}
+                    {type != undefined ? <Button style={{ backgroundColor: "orange" }} variant="contained" onClick={() => setAdd(true)}>
+                        הוסף קטע</Button> : null}
                     {add && <AboutDetails type={"add"} item={null} />}
+                </div>
             </div>
-            {/* <div className="communicate">
-            </div> */}
+        </div>
+        <div className="bunner">
+            <Details/>
         </div>
     </div>
 }

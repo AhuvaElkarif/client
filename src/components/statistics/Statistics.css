@@ -1,0 +1,19 @@
+.container-s {
+    background-color: #dce5f8;
+    margin-bottom: 1rem;
+    height: 8vh;
+    width: 25vw;
+    position: relative;
+    right: 2.5rem;
+}
+
+.statisticsDiv {
+    background-color: white;
+}
+
+.container-sp {
+    /* position: relative; */
+    /* top:1rem; */
+    font-size: larger;
+    font-weight: bold;
+}

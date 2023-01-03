@@ -1,15 +1,8 @@
 body{
   direction: rtl;
-  /* text-align: center;  */
   background-color: white;
+  margin: 0;
 }
-/*
-.logo{
-  width: 15vw;
-  height: 15vh;
-  position: relative;
-  right:3rem;
-}*/
 
 .img-logo{
   height:30vh;
@@ -20,13 +13,7 @@ body{
   left:-20rem;
   bottom: 7rem;
 }
-footer{
-  background-color: black;
-  color: white;
-  text-align: center;
-  position: relative;
-  bottom: -30rem;
-}
+
 .head{
   position: relative;
   top: 3rem;
@@ -35,9 +22,10 @@ header{
   background-color: white;
   height:20vh;
   font-family: 'Agency FB';
-  font-size: xx-large;
+  font-size: 4rem;
+  font-weight: 900;
   text-align: center;
-  position: relative;
+  /* position: relative; */
   margin: auto;
   /* margin-top: 3rem; */
   /* color:#3b81af; */

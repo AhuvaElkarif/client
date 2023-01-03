@@ -22,25 +22,28 @@ export const getCategories = () => {
 }
 
 export const addCategory = (category) => {
-    return (dispatch) => {
-        axios.post("http://localhost:57828/api/category/addcategory", category)
-            .then(response => {
-                dispatch({
-                    type: actionType.CATEGORY_ADDED,
-                    payload: response.data
-                });
-            })
-            .catch(err => { console.log(err) })
-    }
+     return axios.post("http://localhost:57828/api/category/addcategory", category)
 }
-
 export const changeStatus = (category) => {
     return (dispatch) => {
-        axios.put("http://localhost:57828/api/category/ChangeStatus", category)
+        console.log(category)
+        axios.put("http://localhost:57828/Api/category/ChangeStatus", category)
             .then(response => {
                 dispatch({
                     type: actionType.CATEGORY_CHANGED,
                     payload: response.data
+                });
+            })
+            .catch(err =>  console.log(err) )
+    }
+}
+export const deleteCategory = (category) => {
+    return (dispatch) => {
+        axios.delete("http://localhost:57828/api/category/Delete?id="+ category.Id)
+            .then(response => {
+                dispatch({
+                    type: actionType.DELETE_CATEGORY,
+                    payload: category
                 });
             })
             .catch(err => { console.log(err) })

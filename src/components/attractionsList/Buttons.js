@@ -48,10 +48,8 @@ const Buttons = ({ id, type }) => {
             dispatch(addProductToWishList({ AttractionId: id, UserId: user != null ? user.Id : null }, user))
     }
     const changeAttraction = (type) => {
-        if (type == 1)
-            dispatch(changeAttractionAvailable(id));
-        else {
             dispatch(changeAttractionStatus(id));
+            if (type != 1){
             const x = status == "אשר" ? "בטל" : "אשר";
             setStatus(x);
             setS(!s);

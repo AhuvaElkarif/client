@@ -12,12 +12,12 @@ return (
     sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 200 }}>
     <InputBase
       sx={{ ml: 1, flex: 1 }}
-      placeholder="חיפוש"
+      placeholder="חיפוש לפי שם"
       inputProps={{ 'aria-label': 'חיפוש' }}
       onBlur ={search}
-      onClick={search}/>
-    <IconButton type="submit" sx={{ p: '10px' }} aria-label="search">
-      <SearchIcon />
+      />
+    <IconButton sx={{ p: '10px' }} aria-label="search" onClick={(e)=>{e.preventDefault(); search()}}>
+      <SearchIcon/>
     </IconButton>
   </Paper>
 );

@@ -28,6 +28,17 @@ export default function AccountMenu() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const arr = [
+    {name:"פרופיל", to:"/regions", icon: <Avatar />, role:[1,2]},
+    {name:"ההזמנות שלי", to:"/orderList/"+0, icon: <Avatar />, role:[1]},
+    {name:"הזמנות לקוחות", to:"/orderList/"+1, icon: <Avatar />, role:[1]},
+    {name:"האטרקציות שלי", to:"/attractionsList/"+1, icon:  <PersonAdd fontSize="small" />, role:[1]},
+    {name:"אישורי לקוחות", to:"/usersApprovals", icon: <PersonAdd fontSize="small" />, role:[1]},
+    {name:"הוספת אטרקציה", to:"/editAttraction", icon:   <AddCircleOutlineIcon fontSize="small" />, role:[1,2]},
+    {name:"עריכת אודות", to:"/about/edit", icon:    <Settings fontSize="small" />, role:[2]},
+    {name:"אפשרויות נוספות", to:"/reportsList", icon:   <Settings fontSize="small" />, role:[2]},
+    
+  ]
   return (
     <React.Fragment>
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
@@ -81,7 +92,14 @@ export default function AccountMenu() {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem onClick={()=>navigate("/regions")}>
+        {arr.map(x => {
+            return x.role.map(item => {
+                if (item == user.Status) return <MenuItem onClick={()=> navigate(`${x.to}`)}>
+               {x.icon} {x.name} 
+              </MenuItem>
+            })
+        })}
+        {/* <MenuItem onClick={()=>navigate("/regions")}>
           <Avatar />  פרופיל
         </MenuItem>
         {user.Status!=2 && <> <MenuItem onClick={()=> navigate("/orderList/"+0)}>
@@ -96,7 +114,13 @@ export default function AccountMenu() {
             <PersonAdd fontSize="small" />
           </ListItemIcon>
           האטרקציות שלי
-        </MenuItem>  </>}
+        </MenuItem> 
+        <MenuItem onClick={()=> navigate("/usersApprovals")}>
+          <ListItemIcon>
+            <PersonAdd fontSize="small" />
+          </ListItemIcon>
+            אישורי לקוחות
+        </MenuItem> </>}
         <MenuItem onClick={()=> navigate("/editAttraction")}>
           <ListItemIcon>
             <AddCircleOutlineIcon fontSize="small" />
@@ -115,7 +139,7 @@ export default function AccountMenu() {
           </ListItemIcon>
          אפשרויות נוספות
         </MenuItem>
-        </> }
+        </> } */}
         <MenuItem onClick={() => { dispatch(currentUser(null)); navigate('/attractionsList/'+0)}}>
           <ListItemIcon>
             <Logout fontSize="small" />

@@ -9,6 +9,7 @@ import '../sideNavBar/SideNavBar.css'
 import SideNavBar from '../sideNavBar/SideNavBar';
 import { Button } from '@material-ui/core';
 import { useParams } from 'react-router-dom';
+import Statistics from '../statistics/Statistics';
 const currencies = [
     {
         Id: 'REC',
@@ -60,8 +61,8 @@ export default function AttractionsList() {
         setMax(m)
         handleChange({ target: { value: 'REC' } });
     }, [attractions, type])
-    useEffect(() => { 
-        if(area!=undefined)  setAreaArr([parseInt(area)])
+    useEffect(() => {
+        if (area != undefined) { setAreaArr([parseInt(area)]); setCount(1) }
     }, [type])
     const handleChange = ({ target }) => {
         let attractionCopy = [];
@@ -72,7 +73,7 @@ export default function AttractionsList() {
                 attractionCopy = [...attractions];
             else
                 attractionCopy = attractions.filter(x => x.ManagerId == user.Id && x.Status == true)
-        switch (target.value) {  
+        switch (target.value) {
             case 'REC': attractionCopy.sort((a, b) => b.CountAvgGrading - a.CountAvgGrading); break;
             case 'CHE': attractionCopy.sort((a, b) => a.Price - b.Price); break;
             case 'EXP': attractionCopy.sort((a, b) => b.Price - a.Price); break;
@@ -126,14 +127,15 @@ export default function AttractionsList() {
         setFlag2(false);
     }
     return (<div >
-        {/* {count > 0 && <Button size="large" variant="contained" onClick={() => { setFlag(true); zero(); }}> נקה הכל ({count}) </Button>} */}
-
-        <SideNavBar filterArr={filterArr} flag={flag} setFlag={setFlag}  />
+        {count > 0 && <div className='filterButton'>
+            <Button size="large" variant="contained" onClick={() => { setFlag(true); zero(); }} style={{ backgroundColor: "orange", color: "white" }}>
+                נקה הכל ({count}) </Button>
+        </div>}
+        <SideNavBar filterArr={filterArr} flag={flag} setFlag={setFlag} />
         <div className="selectButton">
             <SelectTextFields handleChange={handleChange} currencies={currencies} text={"סינון"} />
         </div>
         <div className="searchButton">
-
             <SearchButton search={({ target }) => setSearchValue(target.value)} />
         </div>
 
@@ -141,7 +143,7 @@ export default function AttractionsList() {
             {arr != null ? arr.map(item => {
                 if (item.Name.includes(searchValue) &&
                     max >= item.Price && min <= item.Price &&
-                    (fromAge == 0 || (fromAge >= item.FromAge && fromAge <= item.TillAge 
+                    (fromAge == 0 || (fromAge >= item.FromAge && fromAge <= item.TillAge
                         && tillAge <= item.TillAge)) &&
                     (!categoryArr || categoryArr.includes(item.CategoryId)) &&
                     (!seasonArr || seasonArr.every(v => item.Seasons.includes(v))) &&

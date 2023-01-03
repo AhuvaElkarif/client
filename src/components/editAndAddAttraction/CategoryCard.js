@@ -12,7 +12,7 @@ export default function CategoryCard({item}) {
         <CardMedia
           component="img"
           height="140"
-          image = { `http://localhost:81/img/${item.Img}`}
+          image = {item.Img? `http://localhost:81/img/${item.Img}`:"../../../images/camera2.webp"}
           alt={item.Name}
         />
         <CardContent> 

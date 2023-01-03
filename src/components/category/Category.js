@@ -1,16 +1,18 @@
 import { Button } from "@mui/material";
 import { useState } from "react";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { changeStatus, getWaitingCategories } from "../../store/actions/CategoryAction";
-import DeleteIcon from '@mui/icons-material/Delete';
+import { useDispatch, useSelector } from "react-redux";
+import { changeStatus, deleteCategory, getWaitingCategories } from "../../store/actions/CategoryAction";
 import AlertMessage from "../alert/AlertMessage";
 import Alerts from "../alert/Alerts";
-import Poppers from "../popper/Popper";
+import "../reportsList/ReportsList.css"
+import SingleCategory from "./SingleCategory";
 
 const Category = () => {
     const [arr, setArr] = useState(null);
-    const [flag, setFlag] = useState(true);
+    const [flag, setFlag] = useState(false);
+    const [img, setImg] = useState('');
+    const [type,setType] = useState(0);
     const dispatch = useDispatch();
     useEffect(() => {
         getWaitingCategories()
@@ -19,35 +21,39 @@ const Category = () => {
     }, [])
 
     const add = (item) => {
-        dispatch(changeStatus(item));
+        setFlag(true);
+        setType(1);
+        const formData = new FormData();
+        formData.append('Img', img);
+        formData.append('FileName', img.name);
+        formData.append('Name', item.Name);
+        formData.append('Id', item.Id);
+        console.log(formData)
+        dispatch(changeStatus(formData));
         const x = arr.filter(x => x.Id != item.Id);
-        setFlag(false);
         setArr(x);
     }
-    const categoryDeleted = (item) =>{
-     
+    const categoryDeleted = (item) => {
+        setFlag(true);
+        setType(2);
+        dispatch(deleteCategory(item));
+        const vec = [...arr.filter(x => x.Id != item.Id)];
+        setArr([...vec]);
     }
     return (
         <div>
-            <ul>
+            <h2 className="h2"> קטגוריות ממתינות לאישור </h2>
+            {flag && <div style={{width:"60vw"}}><AlertMessage
+                            setFlag={setFlag}
+                            variant={'success'}
+                            children={<Alerts message={type==1?"אושר בהצלחה!":"נמחק בהצלחה!"} />} /> </div>}
+            <ul className="product-list" style={{ marginTop: "-5rem", marginRight: "3.4rem" }}>
                 {arr ? arr.map(item => {
-                    return <div key={item.Id}>
-                        <li>{item.Name}</li>
-                        <Poppers
-                            type={3}
-                            content={"אשר"}
-                            func={() => { add(item) }}
-                            text="אשר את הקטגוריה" />
-                        <Poppers
-                            type={1}
-                            content={<DeleteIcon/>}
-                            func={() => { categoryDeleted(item) }}
-                            text="מחוק את הקטגוריה" />
-                        {/*  <AlertMessage
-                             variant={'success'}
-                             children={<Alerts message={"אושר בהצלחה!"} />} />} */}
+                    return <div key={item.Id} className="container">
+                        <SingleCategory setImg={setImg} item={item} add={add} categoryDeleted={categoryDeleted} />
+                       
                     </div>
-                }) : null}
+                }) : <p> אין כרגע קטגוריות הממתינות לאישור. </p>}
             </ul>
         </div>
     )

@@ -10,13 +10,15 @@ const SingleAtttractionByArea = ({ obj, id }) => {
     const  attractions  = useSelector(state =>  state.attractionArr);
 
     useEffect(()=>{
-        const vec = [...attractions.filter(x => !x.Seasons.includes(obj))];
-        vec.sort((a, b) => a.CountAvgGrading - b.CountAvgGrading);
+        // const vec = [...attractions.filter(x => !x.Seasons.includes(obj))];
+        const vec=[...attractions.filter(x=>x.AreaId==id && x.Images!="")];
+        vec.sort((a, b) => b.CountAvgGrading - a.CountAvgGrading);
+        
         setArr(vec);
     }, [attractions]);
     return <Grid container spacing={2} style={{ cursor: "pointer" }}>
         {arr.length > 0 && arr.map((item, index) => {
-            if (index < 4 && item.AreaId == id)
+            if (index < 4  && item.AreaId == id)
                 return <Grid item xs={3} key={index}>
                     <img src={`http://localhost:81/img/${item.Images.slice(0, 14)}`} style={{ height: "40vh" }}
                         onClick={() => navigate("/detailsAttraction/" + item.Id)} width="100%" />

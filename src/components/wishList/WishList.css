@@ -1,9 +1,27 @@
-
-.wishesList{
-    margin-right: 3rem;
+.wishesList {
+    margin-right: 2rem;
     margin-top: 2rem;
+    width: 60vw;
+    /* margin: 25px; */
+}
+.bigDiv{
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
 }
 .emptyMessage {
-       font-size: large;
-       text-align: center;
+    font-size: large;
+    text-align: center;
+}
+
+.bunner {
+    margin-top: 2rem;
+    flex: auto;
+    /* position: "-webkit-sticky"; */
+    /* position: sticky; */
+    /* top: 0; */
+    margin-right: 5.5rem;
+    text-align: center;
+    width: 26vw;
+    height: 36vh;
 }

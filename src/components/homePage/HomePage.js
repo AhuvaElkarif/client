@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
 import {  getAttractions } from "../../store/actions/AttractionActions"
 import { getCategories } from '../../store/actions/CategoryAction';
 import { getUsers } from '../../store/actions/UserActions';
@@ -11,24 +9,10 @@ import HotAttraction from './HotAttraction';
 import AttractionsByArea from './AttractionsByArea';
 import DisplayAttractions from './DisplayAttractions';
 import "./HomePage.css";
+import { getStatistic } from '../../store/actions/StatisticsAction';
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        flexGrow: 1,
-    },
-    x: {
-        padding: theme.spacing(2),
-        textAlign: 'center',
-        color: theme.palette.text.secondary,
-    },
-    myGrid: {
-        height: '50vh'
-    }
-}));
 function HomePage() {
-    const classes = useStyles();
     const dispatch = useDispatch();
-    const navigate = useNavigate();
     const [recommendAttractions, setRecommendAttractions] = useState([]);
     const [newAttractions, setNewAttractions] = useState([]);
     const [obj, setObj] = useState();
@@ -44,14 +28,15 @@ function HomePage() {
             dispatch(getOrders())
         dispatch(getCategories());
         dispatch(getUsers());
+        dispatch(getStatistic());
     }, [])
     useEffect(()=>{
-        const vec = [...attractions.filter(x => !x.Seasons.includes(obj))];
+        const vec = [...attractions.filter(x => !x.Seasons.includes(obj) && x.Images!="")];
         vec.sort((a, b) => b.CountAvgGrading - a.CountAvgGrading);
         setRecommendAttractions(vec);
 
-        const vec2 = [...attractions];
-        vec2.sort((a, b) => new Date(a.Date).getTime() - new Date(b.Date).getTime());
+        const vec2 = [...attractions.filter(x => !x.Seasons.includes(obj) && x.Images!="")];
+        vec2.sort((a, b) => new Date(b.Date).getTime() - new Date(a.Date).getTime());
         setNewAttractions(vec2)
     },[attractions])
     useEffect(() => {
@@ -77,10 +62,6 @@ function HomePage() {
         {newAttractions.length > 0 && <DisplayAttractions arr={newAttractions} name={"חדשות"} />}
         {recommendAttractions.length > 0 && <DisplayAttractions arr={recommendAttractions} name={"מומלצות"} />}
         <AttractionsByArea obj={obj} />
-
-      
-
-
     </>);
 }
 

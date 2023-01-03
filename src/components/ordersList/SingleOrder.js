@@ -69,7 +69,7 @@ export default function SingleOrder({ order, dateToEpoch, type}) {
       <CardMedia
         component="img"
         sx={{ width: "20vw" }}
-        image={`http://localhost:81/img/${order.Attraction.Images.slice(0, 14)}`}
+        image={order.Attraction.Images!=""?`http://localhost:81/img/${order.Attraction.Images.slice(0, 14)}`:"../../../images/camera2.webp"}
         alt={order.Attraction.Description}
         onClick={()=>{ navigate("/detailsAttraction/" + order.AttractionId) }}
       />

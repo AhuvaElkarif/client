@@ -15,60 +15,21 @@ import Message from './message/Message';
 import UsersList from './usersList/UsersList';
 import DetailsAttraction from './attractionsList/DetailsAttraction';
 import OrdersList from './ordersList/ordersList';
-import Details from './order/Details';
 import ActivityTime from './ActivityTime/ActivityTime';
 import ReportsList from './reportsList/ReportsList';
 import Category from './category/Category';
 import Regions from './regions/Regions';
-import New from './navBar/New';
-import DatePicker1 from './order/DatePicker';
-import Gallery from './attractionsList/Gallery';
-import GeneralTimes from './editAndAddAttraction/GeneralTimes';
-import PeriodTime from './editAndAddAttraction/PeriodTime';
 import PeriodDetails from './editAndAddAttraction/PeriodDetails';
-import Calender from './order/Calender';
-import Nisuiii from './homePage/Nisuiii';
-import BannerExample from './Slide';
 import Order from './order/Order';
-import QuiltedImageList from './homePage/ImageList';
+import Calender from './order/Calender';
+import UsersApprovals from './usersApprovals/UsersApprovals';
 function App() {
   return (<>
-  {/* <BannerExample/> */}
-  {/* <DatePicker1/> */}
-  {/* <AddImg/> */}
-  {/* <Statistics/> */}
-  {/* <Gallery id={19}/> */}
-  {/* <PeriodTime id={19} type=""/>  */}
-  {/* <GeneralTimes id={2} periodId={8} type=""/> */}
-    {/* <Regions/> */}
-    {/* <Nisuiii/> */}
+  {/* <Calender id={19}/> */}
     {/* <EditAndAddAttraction id={19} type=""/> */}
-    {/* <MinimumDistanceSlider/> */}
-    {/* <MyCalender/> */}
-    {/* <Table/> */}
     {/* <Calender id={19}/> */}
-    {/* <ActivityTime/> */}
-    {/* <OrdersList/> */}
-    {/* <Poppers/> */}
-    {/* <RegisterAndLogin/> */}
-    {/* <LongMenu/> */}
-    {/* <SimplePopper/> */}
-    {/* <Slideshow2/> */}
-    {/* <AttractionsList/> */}
-    {/* <Login type={2}/> */}
-    {/* <Login/>
-        <Register type={1}/> */}
-    {/* <BannerExample/> */}
-    {/* <Mail/>  */}
-    {/* <Details/> */}
-    {/* <Steppers id={19}/> */}
-    {/* <SideNavBar/> */}
-    {/* <WishList/> */}
-    {/* <QuiltedImageList/> */}
-    {/* <TransitionAlerts/> */}
     <header>
-
-     <span className='head'> Discover Israel</span>
+     <span className='head'> Discover Israel <img src="../../images/Israel.png" style={{width:"13vw",opacity:0.5,position:"absolute", height:"17vh",left:"11.2rem", bottom:"-1.4rem"}}/></span>
     </header>
     <NavBar />
 
@@ -92,7 +53,9 @@ function App() {
         <Route path="equipmentList" element={<EquipmentList />} />
       </Route>
       <Route path="regions" element={<Regions />} />
+      <Route path="usersApprovals" element={<UsersApprovals />} />
       <Route path="about/:type" element={<About />} />
+      <Route path="about" element={<About />} />
       <Route path="homePage" element={<HomePage />} />
       <Route path="message/:id/:type/:possible" element={<Message />} />
       <Route path="usersList" element={<UsersList />} />

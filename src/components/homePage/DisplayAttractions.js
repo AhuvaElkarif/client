@@ -13,12 +13,12 @@ const DisplayAttractions = ({arr, name}) => {
                 return <Grid item xs={4} key={index}>
                     <img src={`http://localhost:81/img/${item.Images.slice(0, 14)}`}  style={{height:"40vh"}}
                         onClick={() => navigate("/detailsAttraction/" + item.Id)} width="100%" />
-                    <h2 style={{marginBottom:"1rem"}}>{item.CategoryName} - {item.Name}</h2>
+                    <h2 style={{marginBottom:"1rem"}}> {item.Name}</h2>
                 </Grid>
             })}
         </Grid>
         <Button variant="contained" style={{ backgroundColor: "orange" }}
-            onClick={() => { navigate(`/attractionsList/${user.Status == 1 ? 1 : 0}`) }}
+            onClick={() => { navigate(`/attractionsList/${user.Status == 2 ? 2 : 0}`) }}
         >  לכל האטרקציות ה{name}  </Button> 
     </div>
 }

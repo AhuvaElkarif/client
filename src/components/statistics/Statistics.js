@@ -1,25 +1,21 @@
 import React, { Component } from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { getPolpularAttractionsInLastYear } from '../../store/actions/StatisticsAction';
 import CanvasJSReact from './canvasjs.react';
 var CanvasJS = CanvasJSReact.CanvasJS;
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 const Statistics = () => {
-    const [arr, setArr] = useState([]);
-	useEffect(() => {
-		getPolpularAttractionsInLastYear()
-			.then(x => setArr(x.data))
-			.catch(err => alert("קרתה תקלה זמנית"))
-	}, []);
-
+	const statistics = useSelector(state => state.statisticts);
+	
 		const options = {
-			theme: "dark2",
+			theme: "#f7f7f8",
 			animationEnabled: true,
-			exportFileName: "New Year Resolutions",
+			exportFileName: "אטרקציות פופולאריות בשנה האחרונה",
 			exportEnabled: true,
 			title:{
-				text: "אטרקציות פופולאריות בשנה האחרונה"
+				// text: "מה היו האטרקציות פופולאריות בשנה האחרונה?" 
 			},
 			data: [{
 				type: "pie",
@@ -28,18 +24,11 @@ const Statistics = () => {
 				toolTipContent: "{label}: <strong>{y}%</strong>",
 				indexLabel: "{y}%",
 				indexLabelPlacement: "inside",
-				dataPoints: [
-					{ y: 32, label: "Health" },
-					{ y: 22, label: "Finance" },
-					{ y: 15, label: "Education" },
-					{ y: 19, label: "Career" },
-					{ y: 5, label: "Family" },
-					{ y: 7, label: "Real Estate" }
-				]
+				dataPoints: statistics.Popular
 			}]
         }
 		return (
-		<div>
+		<div style={{textAlign:"center"}}>
 			<CanvasJSChart options = {options}
 				/* onRef={ref => this.chart = ref} */
 			/>

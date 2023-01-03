@@ -84,7 +84,7 @@ function OrdersList() {
                     return <div key={item.Id} className="container">
                         <SingleOrder order={item} dateToEpoch={dateToEpoch} type={type}/>
                     </div>
-            }) : orders.length == 0? <div className="emptyMessage"> <br /><p> רשימת ההזמנות שלך ריקה  <br /> <br />
+            }) : orders.length == 0 && type!=1? <div className="emptyMessage"> <br /><p> רשימת ההזמנות שלך ריקה  <br /> <br />
                 להזמנת אטרקציות היכנסו לאטרקציות לחצו על כפתור ההזמנה והאטרקציה תתווסף לרשימת ההזמנות:). </p> <br /> <br />
                 <Button variant="contained" size="medium" style={{ backgroundColor: "orange" }} onClick={() => { navigate("/attractionsList/" + 0) }}>  לכל האטרקציות  </Button>
             </div>:null}

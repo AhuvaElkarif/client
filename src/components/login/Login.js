@@ -1,4 +1,4 @@
-import { login } from "../../store/actions/UserActions";
+import { currentUser, login } from "../../store/actions/UserActions";
 import { useNavigate, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import "./Login.css";
@@ -19,6 +19,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import { useEffect } from "react";
 import { Divider } from "@mui/material";
+import swal from "sweetalert";
 
 const schema = yup.object({
     Email: yup.string().email("כתובת מייל אינה תקינה").required("שדה זה חובה"),
@@ -34,15 +35,7 @@ const Login = () => {
     const [showPassword, setshowPassword] = React.useState(false)
     const { user } = useSelector(state => ({ user: state.user }))
     useEffect(() => {
-    }, [user])
-
-    const { register, handleSubmit, formState: { errors }, getValues } = useForm({
-        resolver: yupResolver(schema)
-    });
-
-    const onSubmit = (data) => {
-        dispatch(login(data, type));
-        if (user != null)
+        if (user) {
             if (type == 2)
                 navigate("/editAttraction")
             else
@@ -50,7 +43,29 @@ const Login = () => {
                     navigate("/attractionsList/" + 2);
                 else
                     navigate("/attractionsList/" + 0);
+        }
+    }, [user])
 
+    const { register, handleSubmit, formState: { errors }, getValues } = useForm({
+        resolver: yupResolver(schema)
+    });
+
+    const onSubmit = (data) => {
+        login(data)
+            .then(response => {
+                if (response.data != null) {
+                    if (response.data.Active) {
+                        dispatch(currentUser(response.data));
+                    }
+                }
+                else
+                    swal({
+                        title: "כתובת המייל או הסיסמא שגויים!",
+                        icon: "warning",
+                        button: "אישור",
+                    });
+            })
+            .catch(err => console.log(err))
     };
     const openReset = () => {
         setMail(getValues('Email'))
@@ -60,7 +75,6 @@ const Login = () => {
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="location">
-            {/* {type == 2 ? <h1>כניסת מעסיקים</h1> : null} */}
             <h2>היי, טוב לראות אותך</h2> <br />
             <TextField id="standard-basic" label="אימייל" name="Email"
                 style={{ backgroundColor: "#ebedf0" }}
@@ -89,14 +103,13 @@ const Login = () => {
             <br /> <br />
             <Button variant="contained" size="medium" type="submit" style={{ color: "white", backgroundColor: "orange" }}>  התחבר  </Button>
             <br /> <br />
-            <Divider /> <br />
+            <Divider style={{width:"30vw", color:"black", position:"relative", left:"2rem"}}/> <br />
             <p className="move" onClick={openReset}>שכחתי סיסמא</p>
 
             {open ? <ForgetPassword email={mail} setOpen={setOpen} /> : null}
             {/* {type != 3 && <p className="move"> לא רשום? עבור <span className="link" onClick={() => { navigate("/register/" + type); }}> להרשמה </span></p>} */}
             <p className="move"> לא רשום? עבור <span className="link" onClick={() => { navigate("/register"); }}> להרשמה </span></p>
             <br />
-            {/* {type==2 && <p>יש להרשם בתור מנהל אטרקציה על מנת להעלות אטרקציה.</p>} */}
         </form>
     )
 }

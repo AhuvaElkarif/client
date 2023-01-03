@@ -1,7 +1,7 @@
 import * as actionType from '../reducers/actionType';
 import axios from "axios";
 import swal from 'sweetalert';
-
+import { useNavigate } from 'react-router-dom';
 export const getUsers = () => {
     return dispatch => {
         dispatch({
@@ -10,7 +10,7 @@ export const getUsers = () => {
         });
         axios.get("http://localhost:57828/api/user/Get")
             .then(response => {
-                
+
                 dispatch({
                     type: actionType.SAVE_ALL_USERS,
                     payload: response.data
@@ -24,27 +24,8 @@ export const getUsers = () => {
     }
 }
 
-export const login = (user, type) => {
-    return dispatch => {
-        axios.post("http://localhost:57828/Api/user/post2/", user)
-            .then(response => {
-                console.log(response)
-                if (response.data != null) {
-                    if (type != 2 || type == 2 && response.data.Status == 2) {
-                        if (response.data.Active) {
-                            dispatch(currentUser(response.data))
-                           return;
-                        }
-                    }
-                }
-                swal({
-                    title: "שם המשתמש או הסיסמא שגויים!",
-                    icon: "warning",
-                    button: "אישור",
-                });
-            })
-            .catch(err => console.log(err))
-    }
+export const login = (user) => {
+       return axios.post("http://localhost:57828/Api/user/post2/", user)
 }
 
 export const addUser = (user) => {
@@ -99,5 +80,5 @@ export const getUserByEmail = (email) => {
 }
 
 export const changeUsersStatus = (users) => {
-   return axios.put("http://localhost:57828/Api/user/ChangeUsersStatus",users);
+    return axios.put("http://localhost:57828/Api/user/ChangeUsersStatus", users);
 }

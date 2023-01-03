@@ -5,16 +5,22 @@ const initialState = {
     categoriesArr: [],
     // user: null,
 user : {
-    Id: 2, Name : "שלומי שבו", Email: "ahuvael02@gmail.com",
-    Password: "hjk123", Phone: "0521234123",  Status: 2,Active: true,
+    Id: 1, Name : "שלומי שבו", Email: "ahuvael02@gmail.com",
+    Password: "hjk123", Phone: "0521234123",  Status: 1,Active: true,
 },
     userList: [],
     ordersArr: [],
+    statisticts: null,
     loading: false
 }
 
 export const storeReducer = (state = initialState, action) => {
     switch (action.type) {
+        case actionType.SAVE_ALL_STATISTICTS:
+            return {
+                ...state,
+                statisticts: action.payload
+            }
         case actionType.SAVE_ALL_USERS:
             return {
                 ...state,
@@ -111,18 +117,18 @@ export const storeReducer = (state = initialState, action) => {
                 categoriesArr: [...state.categoriesArr, action.payload]
             }
         case actionType.CATEGORY_CHANGED:
-            // if (!action.payload.Status)
+            // if (!(action.payload.Status))
             //     return;
-            console.log(action.payload)
             return {
                 ...state,
                 categoriesArr: [...state.categoriesArr, action.payload]
             }
-        // case "ZEROING_CART":
-        // return{
-        //     ...state,
-        //     cart: []
-        // }
+            case actionType.DELETE_CATEGORY:
+                const c = [...state.categoriesArr.filter(x => x.Id != action.payload.Id)];
+                return {
+                    ...state,
+                    categoriesArr: [...c]
+                }
     }
     return state;
 }

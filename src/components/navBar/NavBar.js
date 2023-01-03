@@ -11,11 +11,11 @@ const arr = [
     { to: "attractionsList/" + 2, name: "אטרקציות", role: [2] },
     { to: "register" , name: "הרשמה", role: [0] },
     { to: "login/"+0 , name: "התחברות", role: [0] },
-    { to: "about/" + undefined, name: "אודות", role: [0, 1] },
+    { to: "about" , name: "אודות", role: [0, 1] },
     { to: "wishList", name: "❤", role: [0, 1] },
     // { to: "statistics", name: "סטטיסטיקות", role: [2, 3] },
     { to: "usersList", name: "מנהלי אטרקציות", role: [2] },
-    { to: "categoriesList", name: "קטגוריות ממתינות לאישור", role: [2] },
+    // { to: "categoriesList", name: "קטגוריות ממתינות לאישור", role: [2] },
     // { to: "register", name: "הוספת מנהל אטרקציה", role: [3] },
 ];
 const NavBar = () => {

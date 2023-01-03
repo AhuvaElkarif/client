@@ -8,7 +8,6 @@ import Typography from '@mui/material/Typography';
 import { useNavigate } from "react-router";
 import "./SingleAttraction.css";
 import Buttons from './Buttons';
-
 export default function SingleAttraction({ product , type}) {
     const navigate = useNavigate();
 
@@ -22,7 +21,7 @@ export default function SingleAttraction({ product , type}) {
             <CardMedia
                 component="img"
                 height="194"
-                image={`http://localhost:81/img/${product.Images.slice(0, 14)}`}
+                image={product.Images!=""?`http://localhost:81/img/${product.Images.slice(0, 14)}`:"../../../images/camera2.webp"}
                 alt={product.Address}
                 onClick={() => { navigate("/detailsAttraction/" + product.Id) }}
             />

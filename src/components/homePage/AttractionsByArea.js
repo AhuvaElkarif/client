@@ -21,7 +21,7 @@ const AttractionsByArea = ({ obj }) => {
                 <h1 className="header">| אטרקציות ב{item.Name}</h1>
                 <SingleAtttractionByArea id={item.Id} obj={obj} />
                 <Button variant="contained" style={{ backgroundColor: "orange" }}
-                    onClick={() => { navigate(`/attractionsList/${user.Status == 1 ? 1 : 0}/`+item.Id) }}
+                    onClick={() => { navigate(`/attractionsList/${user.Status == 2 ? 2 : 0}/`+item.Id) }}
                 >  לכל האטרקציות ב{item.Name}  </Button>
             </div>
         })}

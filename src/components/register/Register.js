@@ -70,9 +70,6 @@ const Register = () => {
             </Button>
             <br /> <br />
             <p className="move">כבר רשום? עבור <span onClick={() => { navigate("/login/" + 0) }} >להתחברות</span></p>
-            {/* {type != 3 && !user && <p className="move">כבר רשום? עבור <span onClick={() => { navigate("/login/" + type) }} >להתחברות</span></p>} */}
-            {/* {!flag && <AlertMessage variant={'success'} children={<Alerts message={"נרשמת בהצלחה!"} />} />} */}
-
         </form>)
 }
 export default Register;

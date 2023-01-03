@@ -34,16 +34,7 @@ export const getOrdersByUserId = (userId) => {
     }
 }
 export const getOrdersByMangerId = (id) => {
-    return dispatch => {
-        axios.get("http://localhost:57828/Api/orderAttraction/GetordersByManagerId?managerId="+id)
-            .then(response => {
-                dispatch({
-                    type: actionType.SAVE_ALL_ORDERS,
-                    payload: response.data
-                });
-            })
-            .catch(err => alert("קרתה תקלה זמנית באתר."))
-    }
+       return axios.get("http://localhost:57828/Api/orderAttraction/GetordersByManagerId?managerId="+id)
 }
 
 export const addOrder = (order) => {
@@ -61,6 +52,9 @@ export const deleteOrder = (id) => {
             })
             .catch(err => alert("קרתה תקלה זמנית באתר."+err))
     }
+}
+export const deleteOrderAfterApproval = (id) => {
+      return axios.put("http://localhost:57828/Api/orderAttraction/ChangeApproval?id="+id)
 }
 
 export const getDaysInMoth = (month, year, id) => {

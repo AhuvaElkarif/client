@@ -10,7 +10,7 @@ import "./CalenderCore.css";
 // import events from "./events";
 
 
-export default function Calender({ id }) {
+export default function Calender({ id, amount }) {
   let firstDaty = 1;
   const [events, setEvents] = useState([]);
 
@@ -21,14 +21,17 @@ export default function Calender({ id }) {
     if (month.length === 1) {
       month = "0" + month;
     }
-    getDaysInMoth(month, year, id)
+    console.log(month+" "+year+" "+amount)
+    getDaysInMoth(month, year, id, amount)
       .then(x => {
         console.log(x.data)
         const vec = x.data;
         vec.forEach(element => {
           const dateObj = new Date(element.start);
           var month = dateObj.getUTCMonth() + 1; //months from 1-12
+          month = month<10? "0"+month:month;
           var day = dateObj.getUTCDate();
+          day = day<10? "0"+day:day;
           var year = dateObj.getUTCFullYear();
           element.start = year + "-" + month + "-" + day;
       });
@@ -40,7 +43,7 @@ export default function Calender({ id }) {
  console.log(events)
   return (
     <div className="App">
-      <FullCalendar
+    {events.length>0 && <FullCalendar
         defaultView="dayGridMonth"
         firstDay={firstDaty}
         plugins={[dayGridPlugin, interactionPlugin]}
@@ -59,7 +62,7 @@ export default function Calender({ id }) {
         // plugins={[dayGridPlugin]}
         events={events}
       // initialEvents={[]}
-      />
+      />}
     </div>
   );
 }

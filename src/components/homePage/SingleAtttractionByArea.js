@@ -11,7 +11,7 @@ const SingleAtttractionByArea = ({ obj, id }) => {
 
     useEffect(()=>{
         // const vec = [...attractions.filter(x => !x.Seasons.includes(obj))];
-        const vec=[...attractions.filter(x=>x.AreaId==id && x.Images!="")];
+        const vec=[...attractions.filter(x=>x.AreaId==id && x.Images!="" && x.Status==true)];
         vec.sort((a, b) => b.CountAvgGrading - a.CountAvgGrading);
         
         setArr(vec);

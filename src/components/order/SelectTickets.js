@@ -7,9 +7,8 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import Amount from "./Amount";
 
-const SelectTickets = ({ attractionId, setFlag, setPrice }) => {
+const SelectTickets = ({ attractionId, setFlag, setPrice,amount,setAmount }) => {
     const [image, setImage] = useState([]);
-    const [amount, setAmount] = useState(0);
     const attractions = useSelector(state => state.attractionArr);
     const product = { ...attractions.find(x => x.Id == attractionId) };
     console.log(product)

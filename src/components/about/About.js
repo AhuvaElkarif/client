@@ -31,12 +31,12 @@ function About() {
     }, []);
     return <div className="bigDiv">
         <div className='wishesList '>
-            <h1 style={{ color: "orange", marginRight: "1rem" }}>אודות</h1>
+            <h1 style={{ color: "orange", marginRight: "1rem" }}>אודות</h1> <br/>
             <div className="about">
                 <div className="container-about">
                     {arr.map(item => {
                         return <div key={item.Id}>
-                            <AboutDetails item={item} type={type} arr={arr} setArr={setArr} />
+                            <AboutDetails item={item} type={type} arr={arr} setArr={setArr} /><br/><br/>
                         </div>
                     })}
                     {type != undefined ? <Button style={{ backgroundColor: "orange" }} variant="contained" onClick={() => setAdd(true)}>
@@ -46,7 +46,9 @@ function About() {
             </div>
         </div>
         <div className="bunner">
-            <Details/>
+            <Details/> <br/> <br/>
+            <img src="../../images/advertisment.png"/>
+             {/* className='add'style={{width:"20vw", height:""}}/> */}
         </div>
     </div>
 }

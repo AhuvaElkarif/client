@@ -1,3 +1,4 @@
+import Map from './map'
 import React from 'react';
 import './App.css';
 import AttractionsList from './attractionsList/AttractionsList';
@@ -27,6 +28,7 @@ function App() {
   return (<>
   {/* <Calender id={19}/> */}
     {/* <EditAndAddAttraction id={19} type=""/> */}
+{/* <Map/> */}
     {/* <Calender id={19}/> */}
     <header>
      <span className='head'> Discover Israel <img src="../../images/Israel.png" style={{width:"13vw",opacity:0.5,position:"absolute", height:"17vh",left:"11.2rem", bottom:"-1.4rem"}}/></span>
@@ -49,7 +51,7 @@ function App() {
       <Route path="wishList" element={<WishList />} />
       <Route path="activityTime/:id" element={<ActivityTime />} />
       {/* <Route path="order/:flag/:type/:id" element={<Details />} > */}
-      <Route path="order/:flag/:type/:id" element={<Order />} >
+      <Route path="order/:id" element={<Order />} >
         <Route path="equipmentList" element={<EquipmentList />} />
       </Route>
       <Route path="regions" element={<Regions />} />
@@ -63,7 +65,6 @@ function App() {
       <Route path="statistics" element={<Statistics />} />
       <Route path="detailsAttraction/:id" element={<DetailsAttraction />} />
     </Routes>
-
     {/* <footer> אטרקציות צור קשר 03-9378755 </footer> */}
   </>);
 }

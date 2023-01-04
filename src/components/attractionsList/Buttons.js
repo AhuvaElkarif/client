@@ -63,7 +63,7 @@ const Buttons = ({ id, type }) => {
                 <IconButton aria-label="favorite" onClick={addProduct} style={{ color: "red" }}>
                     <SvgIcon component={wishList.find(x => x.Id == item.Id) ? FavoriteIcon : FavoriteBorderIcon} inheritViewBox />
                 </IconButton>
-                <IconButton aria-label='send' onClick={() => navigate("/order/" + false + "/" + 0 + "/" + item.Id)} >
+                <IconButton aria-label='send' onClick={() => navigate("/order/" + item.Id)} >
                     <SendIcon size="large" />
                 </IconButton>
             </Stack>

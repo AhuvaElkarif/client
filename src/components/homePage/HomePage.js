@@ -31,11 +31,11 @@ function HomePage() {
         dispatch(getStatistic());
     }, [])
     useEffect(()=>{
-        const vec = [...attractions.filter(x => !x.Seasons.includes(obj) && x.Images!="")];
+        const vec = [...attractions.filter(x => !x.Seasons.includes(obj) && x.Images!="" && x.Status==true)];
         vec.sort((a, b) => b.CountAvgGrading - a.CountAvgGrading);
         setRecommendAttractions(vec);
 
-        const vec2 = [...attractions.filter(x => !x.Seasons.includes(obj) && x.Images!="")];
+        const vec2 = [...attractions.filter(x => !x.Seasons.includes(obj) && x.Images!="" && x.Status==true)];
         vec2.sort((a, b) => new Date(b.Date).getTime() - new Date(a.Date).getTime());
         setNewAttractions(vec2)
     },[attractions])
@@ -56,13 +56,13 @@ function HomePage() {
                     setObj(1);
     }, [user]);
 
-    return (<>
+    return (<div className='home'>
         <HotAttraction obj={obj} />
         <br /> <br />
         {newAttractions.length > 0 && <DisplayAttractions arr={newAttractions} name={"חדשות"} />}
         {recommendAttractions.length > 0 && <DisplayAttractions arr={recommendAttractions} name={"מומלצות"} />}
         <AttractionsByArea obj={obj} />
-    </>);
+    </div>);
 }
 
 export default HomePage;

@@ -1,7 +1,7 @@
 .wishesList {
     margin-right: 2rem;
     margin-top: 2rem;
-    width: 60vw;
+    width: 55vw;
     /* margin: 25px; */
 }
 .bigDiv{
@@ -22,6 +22,7 @@
     /* top: 0; */
     margin-right: 5.5rem;
     text-align: center;
-    width: 26vw;
+    width: 28vw;
     height: 36vh;
+    margin-left: 2rem;
 }

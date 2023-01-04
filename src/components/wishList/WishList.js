@@ -24,7 +24,8 @@ function WishList() {
 
     return (<div className="bigDiv">
         <div className="wishesList">
-            <h1>אטרקציות שאהבתי ({wishes.length})</h1> <br />
+            <h1>אטרקציות שאהבתי ({wishes.length})</h1>
+            <br />
             {!user && <div> <p> שים ❤️ : היות והנך משתמש לא רשום הפריטים שברשימה זו אינם ישמרו. </p> <br /></div>}
             {wishes.length > 0 ? <div >{wishes.map((item, ind) => {
                 return <div key={item.Id}> <WishCard item={item} ind={ind} /> <br />
@@ -36,7 +37,7 @@ function WishList() {
         </div>
         <div className="bunner">
             <h3>מה היו האטרקציות הפופולאריות בשנה האחרונה?</h3>
-            <Statistics /> <br />
+            <Statistics /> <br /><br/>
             <h3>אז מהו האיזור המבוקש ביותר בארץ לאטרקציות?</h3>
             <CommonSeason />
         </div>

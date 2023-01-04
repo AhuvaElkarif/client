@@ -18,7 +18,7 @@ export default function WishCard({ item , ind}) {
   const dispatch = useDispatch();
   const  user = useSelector(state => state.user);
   return (
-    <Card sx={{ display: 'flex', width: '50vw', flexDirection: 'row', height:"25vh" }}>
+    <Card sx={{ display: 'flex', width: '45vw', flexDirection: 'row', height:"25vh" }}>
       <Box sx={{ display: 'flex', flexDirection: 'column', width:"30vw" }}>
         <CardContent sx={{ flex: '1 0 auto' }}>
           <Typography component="div" variant="h5">
@@ -38,6 +38,7 @@ export default function WishCard({ item , ind}) {
         sx={{ width: "20vw", height:"25vh"}}
         image={item.Images!=""?`http://localhost:81/img/${item.Images.slice(0, 14)}`:"../../../images/camera2.webp"}
         alt={item.Description}
+        style={{cursor:"pointer"}}
         onClick={()=> navigate("/detailsAttraction/"+item.Id)}
       />
 

@@ -71,11 +71,11 @@ function OrdersList() {
         setOrdersArr(vec);
     }
     return (<Fragment>
-            <div className="searchBtn"><SearchButton search={(e) => { setSearchValue(e.target.value) }} /> </div>
+            <div className="searchBtn"><SearchButton setSearchValue={setSearchValue} search={({target}) => { setSearchValue(target.value) }} /> </div>
             {value1!=null && value2!=null && user != null &&
                 <FilterList v1={value1} v2={value2} filterFunc={filterFunc} setCategoryArr={setCategoryArr} setValue1={setValue1} setValue2={setValue2} />}
-            {/* : <SearchButton search={(e) => { e.preventDefault(); setSearchValue(e.target.value) }} />} */}
             <br /> <br /> <br />
+            <div style={{position:"relative", right:"20rem"}}>
             {ordersArr.length > 0 ? ordersArr.map(item => {
                 if (item.Attraction.Name.includes(searchValue))// &&
                     //     (!value1 || new Date(item.OrderDate) >= value1) &&
@@ -88,6 +88,7 @@ function OrdersList() {
                 להזמנת אטרקציות היכנסו לאטרקציות לחצו על כפתור ההזמנה והאטרקציה תתווסף לרשימת ההזמנות:). </p> <br /> <br />
                 <Button variant="contained" size="medium" style={{ backgroundColor: "orange" }} onClick={() => { navigate("/attractionsList/" + 0) }}>  לכל האטרקציות  </Button>
             </div>:null}
+            </div>
     </Fragment>);
 }
 

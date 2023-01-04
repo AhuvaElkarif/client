@@ -5,7 +5,7 @@ import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 
 export default function SearchButton({search}) {
-
+const [value,setValue]=React.useState("");
 return (
   <Paper
     component="form"
@@ -15,8 +15,9 @@ return (
       placeholder="חיפוש לפי שם"
       inputProps={{ 'aria-label': 'חיפוש' }}
       onBlur ={search}
+      onChange={({target})=>setValue(target.value)}
       />
-    <IconButton sx={{ p: '10px' }} aria-label="search" onClick={(e)=>{e.preventDefault(); search()}}>
+    <IconButton sx={{ p: '10px' }} aria-label="search" onClick={()=> search({target:{value:value}})}>
       <SearchIcon/>
     </IconButton>
   </Paper>

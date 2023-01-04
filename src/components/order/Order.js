@@ -12,11 +12,13 @@ import swal from "sweetalert";
 import { useNavigate, useParams } from 'react-router-dom';
 import { Link } from '@material-ui/core';
 import "./Order.css";
+import Calender from './Calender';
 
 const steps = ['בחירת כרטיסים', 'בחירת מועד', 'מילוי פרטים'];
 
 const Order = () => {
     const {id} = useParams();
+    const [amount, setAmount] = React.useState(0);
     const [activeStep, setActiveStep] = React.useState(0);
     const [skipped, setSkipped] = React.useState(new Set());
     const [flag,setFlag] = React.useState(false);
@@ -57,8 +59,6 @@ const Order = () => {
 
     const handleSkip = () => {
         if (!isStepOptional(activeStep)) {
-            // You probably want to guard against something like this,
-            // it should never occur unless someone's actively trying to break something.
             throw new Error("You can't skip a step that isn't optional.");
         }
 
@@ -75,7 +75,7 @@ const Order = () => {
     };
     return (<div className='order'>
         <h2 >יש להתעדכן בשעות הפעילות של האתר לפני רכישת הכרטיסים <br/>
-        <span onClick={() => { navigate("/activityTime/" + id) }} className="timesHeader"> לשעות הפעילות לחץ כאן </span>
+        {/* <span onClick={() => { navigate("/activityTime/" + id) }} className="timesHeader"> לשעות הפעילות לחץ כאן </span> */}
         </h2> <br/>
         <Box sx={{ width: '100%' }}>
             <Stepper activeStep={activeStep}>
@@ -110,8 +110,8 @@ const Order = () => {
             ) : (
                 <React.Fragment>
                     <Typography sx={{ mt: 2, mb: 1 }}>
-                        {activeStep==0?<SelectTickets attractionId={id} setFlag={setFlag} setPrice={setPrice}/>
-                        :activeStep==1?<SelectDate setDate={setDate}/>:<Details price={price} date={date}/>}
+                        {activeStep==0?<SelectTickets attractionId={id} amount={amount} setAmount={setAmount} setFlag={setFlag} setPrice={setPrice}/>
+                        :activeStep==1?<Calender id={id} setDate={setDate} amount={amount}/>:<Details price={price} date={date}/>}
                         {/* שלב {activeStep + 1} */}
                     </Typography>
                     <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>

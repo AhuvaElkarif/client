@@ -17,7 +17,7 @@ const DisplayAttractions = ({arr, name}) => {
                 </Grid>
             })}
         </Grid>
-        <Button variant="contained" style={{ backgroundColor: "orange" }}
+        <Button variant="contained" style={{ backgroundColor: "orange", color:"white" }}
             onClick={() => { navigate(`/attractionsList/${user.Status == 2 ? 2 : 0}`) }}
         >  לכל האטרקציות ה{name}  </Button> 
     </div>

@@ -1,42 +1,45 @@
-.h1-details{
+.h1-details {
     font-size: 2.25rem;
     margin-top: 1rem;
     margin-bottom: 1rem;
     font-family: Arial, Helvetica, sans-serif;
 }
-.p-details{
-   font-size: large;
-}
-.container-details{
 
-width: 60vw; 
-margin: 5px;
-
+.p-details {
+    font-size: large;
 }
-.details{
+
+.container-details {
+    width: 60vw;
+    margin: 5px;
+    margin-right: 1.5rem;
+}
+
+.details {
     margin-top: 2rem;
-    display:flex;
+    display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
 }
 
-.communicate{
-    flex:auto;
+.communicate {
+    flex: auto;
     position: "-webkit-sticky";
     position: sticky;
     top: 0;
     margin-right: 5.5rem;
     font-size: x-large;
     text-align: center;
-    width:26vw;
+    width: 26vw;
     height: 36vh;
     border: 2px solid #757575;
     border-radius: 1rem;
     background-color: #FFEDDC;
-    color:#757575;
+    color: #757575;
 }
-.communicate-container{
-    position:relative;
-    top:2.4rem;
-    
+
+.communicate-container {
+    position: relative;
+    top: 2.4rem;
+
 }

@@ -6,7 +6,6 @@ import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
@@ -15,7 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { currentUser } from '../../store/actions/UserActions';
-
+import '../App.css';
 export default function AccountMenu() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -52,7 +51,7 @@ export default function AccountMenu() {
             aria-expanded={open ? 'true' : undefined}
           >
             <Avatar />
-            {/* <Avatar sx={{ width: 32, height: 32 }}>M</Avatar> */}
+            {/* <Avatar sx={{ width: 32, height: 32 }}>{user.Name[0]}</Avatar> */}
           </IconButton>
         </Tooltip>
       </Box>

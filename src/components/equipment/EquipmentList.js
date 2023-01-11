@@ -10,9 +10,6 @@ import CheckIcon from '@mui/icons-material/Check';
 import { useEffect, useState } from 'react';
 import { getEquipmentsByAttractionId } from '../../store/actions/EquipmentAction';
 
-const Demo = styled('div')(({ theme }) => ({
-    backgroundColor: theme.palette.background.paper,
-}));
 
 export default function EquipmentList({id}) {
     let [equipment, setEquipment] = useState([]);
@@ -24,19 +21,18 @@ export default function EquipmentList({id}) {
 
     return (
     equipment != null ?<Box sx={{ flexGrow: 1, maxWidth: 752 }}>
-            <Grid item xs={12} md={6}>
-                <Demo>
+            <Grid item xs={12} md={6} >
                     <List>
-                            {equipment.map(item => <ListItem key={item.Id}>
+                            {equipment.length>0 ? equipment.map(item => <ListItem key={item.Id} style={{padding:0}}>
                                 <ListItemIcon>
                                     <CheckIcon />
                                 </ListItemIcon>
                                 <ListItemText
+                                   style={{textAlign:"right"}}
                                     primary={item.Name}
                                 />
-                            </ListItem>)}
+                            </ListItem>):<p>רשימת הציוד ריקה כרגע.</p>}
                     </List>
-                </Demo>
             </Grid>
 
         </Box>:null

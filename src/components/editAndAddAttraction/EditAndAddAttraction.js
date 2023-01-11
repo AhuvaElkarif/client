@@ -13,7 +13,7 @@ import { useState } from 'react';
 import CategoryList from './CategoryList';
 import AddImages from './AddImages';
 import ManagerDetails from './ManagerDetails';
-import { addAttraction, addAttractionDispatch, changeAttractionStatus, updateAttraction } from '../../store/actions/AttractionActions';
+import { addAttraction, changeAttractionStatus, updateAttraction } from '../../store/actions/AttractionActions';
 import Equipment from './Equipment';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import { useParams } from 'react-router-dom';
@@ -41,21 +41,20 @@ function getSteps() {
   return ['אני רוצה אטרקציה בלוח...', 'פרטי האטרקציה', 'זמני פתיחה', 'הוספת תמונות', 'ציוד נדרש לאטרקציה', 'פרטי התקשרות ותשלום'];
 }
 
-
-
-export default function EditAndAddAttraction() {
+export default function EditAndAddAttraction({type}) {
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
   const [category, setCategory] = useState(null);
+  const [object, setObject] = useState(null);
   const dispatch = useDispatch();
   const steps = getSteps();
   const { id } = useParams();
-  const [IdSelected, setIdSelected] = useState(id);
 
   useEffect(() => {
-    setIdSelected(id)
-  }, [id])
-  const type = id != undefined ? "edit" : "new";
+    if(activeStep==steps.length){
+      if(type=="new") dispatch(addAttraction(object));
+    console.log(object)}
+  }, [activeStep])
   const { user, attractions } = useSelector(state => {
     return {
       user: state.user,
@@ -64,41 +63,46 @@ export default function EditAndAddAttraction() {
   }, shallowEqual);
   let attraction = id != undefined ? { ...attractions.find(x => x.Id == id) } : null;
   const onSubmit = (data) => {
-    if (attraction != null) data.Id = attraction.Id;
-    console.log(data)
-    attraction = data;
-    data.Date = new Date();
-    data.Status = false;
-    data.CategoryId = category.Id;
-    data.ManagerId = user.Id;
-    setActiveStep(activeStep + 1);
-    if (activeStep == 1)
-      addAndUpdate();
-  }
-  const addAndUpdate = () => {
-    attraction.Date = new Date();
-    attraction.Status = true;
-    attraction.CategoryId = category.Id;
-    attraction.ManagerId = user.Id;
-    if (type == "new") {
-      addAttraction(attraction).then(x => {
-        setIdSelected(x.data.Id);
-        dispatch(addAttractionDispatch(x.data));
-      })
+    const o = {...object}
+    switch (activeStep) {
+      case 1:
+        if (attraction != null) data.Id = attraction.Id;
+        attraction = data;
+        attraction.Date = new Date();
+        attraction.Status = true;
+        attraction.CategoryId = category.Id;
+        attraction.ManagerId = user.Id;
+        o.Attraction = attraction;
+        setObject({...o});
+        break;
+      case 2:
+        o.PeriodsList = data;
+        setObject({...o});
+        break;
+      case 3:
+        o.ImagesList = data;
+        setObject({...o});
+        break;
+      case 4:
+        o.EquipmentsList = data;
+        setObject({...o});
+        break;
+      case 5:
+        data.Id = user.Id;
+        data.Password = user.Password;
+        data.Status = user.Status;
+        data.Active = user.Active;
+        o.Manager = data;
+        setObject({...o});
+        break;
+      default:
+        break;
     }
-    else
-      dispatch(updateAttraction(attraction));
-  }
-  const onSubmitUserDetails = (data) => {
-    data.Id = user.Id;
-    data.Password = user.Password;
-    data.Status = user.Status;
-    data.Active = user.Active;
-    dispatch(updateUser(data));
+  
     setActiveStep(activeStep + 1);
-    dispatch(changeAttractionStatus(IdSelected));
 
   }
+  
   const getStepContent = (step) => {
     switch (step) {
       case 0:
@@ -106,13 +110,13 @@ export default function EditAndAddAttraction() {
       case 1:
         return <AttractionDetails type={type} attraction={attraction} onSubmit={onSubmit} />;
       case 2:
-        return <PeriodTime type={type} id={IdSelected} onSubmit={() => { setActiveStep(activeStep + 1) }} />;
+        return <PeriodTime type={type} id={id} onSubmit={onSubmit} />;
       case 3:
-        return <AddImages onSubmit={() => { setActiveStep(activeStep + 1) }} id={IdSelected} attraction={attraction} />;
+        return <AddImages onSubmit={onSubmit} id={id} attraction={attraction} />;
       case 4:
-        return <Equipment id={IdSelected} type={type} onSubmit={() => { setActiveStep(activeStep + 1) }} />;
+        return <Equipment id={id} type={type} onSubmit={onSubmit} />;
       case 5:
-        return <ManagerDetails onSubmit={onSubmitUserDetails} />;
+        return <ManagerDetails onSubmit={onSubmit} />;
       default:
         return;
     }
@@ -139,7 +143,6 @@ export default function EditAndAddAttraction() {
               <StepContent>
                 <div>{getStepContent(index)}</div>
                 <div className={classes.actionsContainer}>
-                  {/* <br /> <br /> */}
                   <div>
                     {index != 0 && <Button
                       // disabled={activeStep === 0}

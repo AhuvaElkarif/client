@@ -1,6 +1,6 @@
 .h1-details {
     font-size: 2.25rem;
-    margin-top: 1rem;
+    margin-top: 2rem;
     margin-bottom: 1rem;
     font-family: Arial, Helvetica, sans-serif;
 }
@@ -12,7 +12,7 @@
 .container-details {
     width: 60vw;
     margin: 5px;
-    margin-right: 1.5rem;
+    /* margin-right: 1.5rem; */
 }
 
 .details {

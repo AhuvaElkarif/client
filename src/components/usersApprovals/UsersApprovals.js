@@ -278,7 +278,7 @@ export default function EnhancedTable() {
   React.useEffect(() => {
     getOrdersByMangerId(user.Id)
       .then(x => {
-        const vec = [...x.data.filter(x => x.IsApproval == false)];
+        const vec = [...x.data.filter(x => x.IsApproval == false && x.Status==false)];
         const arr = [];
         vec.forEach(x => {
           arr.push(createData(x.Id, x.User.Name, x.User.Phone, x.User.Email,

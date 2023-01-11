@@ -17,6 +17,8 @@ export const WISH_LIST_ACCEPTED="WISH_LIST_ACCEPTED";
 // Order
 export const SAVE_ALL_ORDERS = "SAVE_ALL_ORDERS";
 export const ORDER_DELETED = "ORDER_DELETED";
+export const ORDER_ADDED = "ORDER_ADDED";
+export const ORDER_UPDATED = "ORDER_UPDATED";
 
 // Category
 export const SAVE_ALL_CATEGORIES = "SAVE_ALL_CATEGORIES";

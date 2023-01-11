@@ -13,10 +13,7 @@ const arr = [
     { to: "login/"+0 , name: "התחברות", role: [0] },
     { to: "about" , name: "אודות", role: [0, 1] },
     { to: "wishList", name: "❤", role: [0, 1] },
-    // { to: "statistics", name: "סטטיסטיקות", role: [2, 3] },
-    { to: "usersList", name: "מנהלי אטרקציות", role: [2] },
-    // { to: "categoriesList", name: "קטגוריות ממתינות לאישור", role: [2] },
-    // { to: "register", name: "הוספת מנהל אטרקציה", role: [3] },
+    // { to: "usersList", name: "מנהלי אטרקציות", role: [2] },
 ];
 const NavBar = () => {
     const navigate = useNavigate();
@@ -35,7 +32,6 @@ const NavBar = () => {
             })
         })}
 
-        {/* {user.Status == 0 || user.Status == 1 ? */}
         {user.Status == 0  ?
             <div onClick={() => { navigate("/login/" + 2) }} className='campaign'>
                 <CampaignIcon />

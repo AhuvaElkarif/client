@@ -24,7 +24,7 @@ export default function SingleOrder({ order, dateToEpoch, type}) {
     const isPossible = new Date(order.OrderDate) > new Date(date.setDate(date.getDate() + order.Attraction.DaysToCancel));
     if (type == 1)
       if (isPossible)
-        navigate("/order/" + false + "/" + 1 + "/" + item.AttractionId);
+        navigate("/order/" + item.AttractionId+"/"+item.Id);
       else
         navigate("/message/" + item.Id + "/" + 1 + "/" + false);
     else

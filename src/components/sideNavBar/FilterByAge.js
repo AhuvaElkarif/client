@@ -40,10 +40,10 @@ const FilterByAge = ({ filterAge, x, setX }) => {
                     autoComplete="off"
                 >
                     <TextField id="outlined-basic" label="מגיל" variant="outlined" type="number"
-                        onBlur={() => { filterAge([value1, value2], 5) }}
+                        onBlur={() => {if(value1!=0 || value2 != 99) filterAge([value1, value2], 5) }}
                         onChange={(e) => { handleInputChange(e, 1) }} style={{color:"orange"}}/>
                     <TextField id="outlined-basic" label="עד גיל" variant="outlined"
-                        onBlur={() => { filterAge([value1, value2], 5) }} type="number"
+                        onBlur={() => {if(value1!=0 || value2 != 99)  filterAge([value1, value2], 5) }} type="number"
                         onChange={(e) => { handleInputChange(e, 2) }} />
                 </Box>
 

@@ -2,7 +2,7 @@ import { Button, TextField } from "@material-ui/core";
 import { useEffect } from "react";
 import { useState } from "react";
 import './EditAttraction.css';
-import { addEquipment, getEquipmentsByAttractionId, updateEquipment } from "../../store/actions/EquipmentAction";
+import { getEquipmentsByAttractionId } from "../../store/actions/EquipmentAction";
 
 const Equipment = ({ id, type, onSubmit }) => {
     const [arr, setArr] = useState([]);
@@ -11,7 +11,7 @@ const Equipment = ({ id, type, onSubmit }) => {
             setArr(new Array(15).fill(""));
         else
             getEquipmentsByAttractionId(id)
-                .then(x => setArr([...x.data, "", "", "", ""]))
+                .then(x => setArr([...x.data, "", "", "", "","","","","",""]))
                 .catch(err => console.log(err));
     }, [])
     const handleChange = (e, ind) => {
@@ -20,34 +20,25 @@ const Equipment = ({ id, type, onSubmit }) => {
         setArr(copy)
     }
     const handleClick = () => {
-        if (type != "new") {
-            const array = arr.filter(x => x.Id != undefined)
-            updateEquipment(array)
-                .then(x => console.log(x.data))
-                .catch(err => console.log(err));
-        }
-        const copy = arr.filter(x => x.Name != undefined && x.Id == undefined);
-        console.log(copy)
-        if (copy.length > 0)
-            addEquipment(copy)
-                .then(x => console.log(x.data))
-                .catch(err => console.log(err));
-        onSubmit();
+        const array = [...arr.filter(x => x.Name != undefined)];
+        onSubmit(array);
+        // const copy = arr.filter(x => x.Name != undefined && x.Id == undefined);
+        // onSubmit({ arrAdd: copy, arrUpdate: array });
     }
     return (
-        <div> <br/>
-            <h3>ציוד שחשוב ומומלץ להביא:</h3> <br/>
+        <div> <br />
+            <h3>ציוד שחשוב ומומלץ להביא:</h3> <br />
             <ul className="equipmentAttraction">
                 {arr.map((item, index) => {
                     return <li key={index} className="equipment-container">
-                          <TextField id="outlined-basic" variant="outlined"  size="small"
-                          defaultValue={item != "" ? item.Name : null}
+                        <TextField id="outlined-basic" variant="outlined" size="small"
+                            defaultValue={item != "" ? item.Name : null}
                             onChange={(e) => { handleChange(e, index) }} />
-                       </li>
+                    </li>
                 })}
             </ul>
-             <img src="../../images/equipment.jpg"  className="equipment-img"/>
-            <Button variant="contained" size="medium" onClick={handleClick} style={{color:"white", backgroundColor:"orange"}}> להמשיך לשלב הבא </Button>
+            <img src="../../images/equipment.jpg" className="equipment-img" />
+            <Button variant="contained" size="medium" onClick={handleClick} style={{ color: "white", backgroundColor: "orange" }}> להמשיך לשלב הבא </Button>
 
         </div>
     )

@@ -9,7 +9,7 @@ import EquipmentList from './equipment/EquipmentList';
 import About from './about/About';
 import HomePage from './homePage/HomePage';
 import WishList from './wishList/WishList';
-import { Routes, Route } from 'react-router';
+import { Routes, Route, useNavigate } from 'react-router';
 import NavBar from './navBar/NavBar';
 import EditAndAddAttraction from './editAndAddAttraction/EditAndAddAttraction';
 import Message from './message/Message';
@@ -24,14 +24,17 @@ import PeriodDetails from './editAndAddAttraction/PeriodDetails';
 import Order from './order/Order';
 import Calender from './order/Calender';
 import UsersApprovals from './usersApprovals/UsersApprovals';
+// import MapWithAMarkerClustered from './map2';
 function App() {
+  const navigate = useNavigate();
   return (<>
-  {/* <Calender id={19}/> */}
-    {/* <EditAndAddAttraction id={19} type=""/> */}
-{/* <Map/> */}
+  {/* <MapWithAMarkerClustered/> */}
     {/* <Calender id={19}/> */}
+    {/* <EditAndAddAttraction id={19} type=""/> */}
+    {/* <Map/> */}
     <header>
-     <span className='head'> Discover Israel <img src="../../images/Israel.png" style={{width:"13vw",opacity:0.5,position:"absolute", height:"17vh",left:"11.2rem", bottom:"-1.4rem"}}/></span>
+      <span className='head' onClick={() => navigate("")}> <img src="../../images/img2.png"  style={{ width: "25vw", height: "16vh",marginTop:"-1.5rem"}}/></span>
+       {/* <img src="../../images/Israel.png" style={{ width: "13vw", opacity: 0.5, position: "absolute", height: "17vh", left: "11.2rem", bottom: "-1.4rem" }} /></span> */}
     </header>
     <NavBar />
 
@@ -40,18 +43,22 @@ function App() {
       <Route path="attractionsList/:type" element={<AttractionsList />} />
       <Route path="attractionsList/:type/:area" element={<AttractionsList />} />
       <Route path="editAttraction/:id" element={<EditAndAddAttraction type="edit" />} />
-      <Route path="editAttraction" element={<EditAndAddAttraction type="new" />} />
+      <Route path="editAttraction" element={<EditAndAddAttraction type="new" />} >
+        <Route path="period/:attractionId/:kind" element={<PeriodDetails />} />
+      </Route>
       <Route path="exit" element={<AttractionsList />} />
       <Route path="reportsList" element={<ReportsList />} />
       <Route path="categoriesList" element={<Category />} />
       <Route path=""></Route>
-      <Route path="period/:attractionId/:kind" element={<PeriodDetails/>}></Route>
+      <Route path="period/:attractionId/:kind" element={<PeriodDetails />}></Route>
       <Route path="login/:type" element={<Login />} />
       <Route path="register" element={<Register />} />
       <Route path="wishList" element={<WishList />} />
       <Route path="activityTime/:id" element={<ActivityTime />} />
-      {/* <Route path="order/:flag/:type/:id" element={<Details />} > */}
-      <Route path="order/:id" element={<Order />} >
+      <Route path="order/:id" element={<Order type={0}/>} >
+        <Route path="equipmentList" element={<EquipmentList />} />
+      </Route>
+      <Route path="order/:id/:orderId" element={<Order type={1}/>} >
         <Route path="equipmentList" element={<EquipmentList />} />
       </Route>
       <Route path="regions" element={<Regions />} />
@@ -65,7 +72,6 @@ function App() {
       <Route path="statistics" element={<Statistics />} />
       <Route path="detailsAttraction/:id" element={<DetailsAttraction />} />
     </Routes>
-    {/* <footer> אטרקציות צור קשר 03-9378755 </footer> */}
   </>);
 }
 

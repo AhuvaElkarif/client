@@ -28,45 +28,45 @@ const DetailsAttraction = () => {
      }, shallowEqual);
      const product = { ...attractionArr.find(x => x.Id == id) };
 
-     return (
+     return (<div style={{marginRight:"1.3rem", marginLeft:"1.3rem"}}>
+          <h1 className="h1-details">{product.Name}</h1> <br />
           <div className="detailsAttraction">
-               {product == null ? <Fragment>loading...</Fragment> : (<Fragment> 
-                    <h1 className="h1-details">{product.Name}</h1> <br/>
-                    {product.Images.length> 14 && <FullWidthGrid images={product.Images} setCarousel={setGallery} />}
+               {product == null ? <Fragment>loading...</Fragment> : (<Fragment>
+                    {product.Images.length >= 14 && <FullWidthGrid images={product.Images} setCarousel={setGallery} />}
                     {gallery && <Gallery id={id} open={gallery} setOpen={setGallery} />}
                     <div className="details">
                          <div className="container-details">
                               <h2>מה תמצאו שם?</h2>
                               <p className="p-details">{product.Description}</p>
-                              <br/>
-                              {product && <ActivityTime id={product.Id}/>} <br/> 
+                              <br />
+                              {product && <ActivityTime id={product.Id} />} <br />
                               <h4> <PlaceIcon /> איפה זה?</h4>
                               <p> כתובת: {product.Address} </p>
-                              <br/>
+                              <br />
 
                               <h4> <PaymentIcon /> כמה זה עולה?</h4>
                               <p>  {product.Price} ש"ח</p>
-                              <br/>
+                              <br />
 
                               <h4> <QuestionMarkIcon /> מהי כמות האנשים לאטרקציה? </h4>
                               <p> מספר האנשים המינימלי: {product.MinParticipant}  מספר האנשים המקסימלי: {product.MaxParticipant}</p>
-                              <br/>
+                              <br />
 
                               <h4> <QueryBuilderIcon /> משך זמן האטרקציה</h4>
                               <p>  {product.TimeDuration} דקות</p>
-                              <br/>
+                              <br />
                               <h4> <FlipToFrontIcon /> טווח גילאי האטרקציה</h4>
                               <p> {product.TillAge} - {product.FromAge}</p>
-                              <br/>
+                              <br />
 
                               <Opinions attractionId={id} />
 
                          </div>
                          <div className="communicate">
                               <div className="communicate-container">
-                                   <p> התקשרו לפרטים והזמנות:</p> <br/>
-                                   <p> <PhoneEnabledIcon/> {product.Phone} </p><br/>
-                                   {user == null || user.Status == 1 ? <Button onClick={() => { navigate("/order/" + product.Id) }} variant="contained" size="large" style={{backgroundColor:"orange"}}>
+                                   <p> התקשרו לפרטים והזמנות:</p> <br />
+                                   <p> <PhoneEnabledIcon /> {product.Phone} </p><br />
+                                   {user == null || user.Status == 1 ? <Button onClick={() => { navigate("/order/" + product.Id ) }} variant="contained" size="large" style={{ backgroundColor: "orange" }}>
                                         להזמנת כרטיסים באונליין</Button> :
                                         <Buttons id={product.Id} />}
                               </div>
@@ -74,6 +74,7 @@ const DetailsAttraction = () => {
                     </div>
                </Fragment>)}
 
-          </div>);
+          </div>
+     </div>);
 }
 export default DetailsAttraction;

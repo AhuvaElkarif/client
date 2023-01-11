@@ -5,7 +5,7 @@ const initialState = {
     categoriesArr: [],
     // user: null,
 user : {
-    Id: 1, Name : "שלומי שבו", Email: "ahuvael02@gmail.com",
+    Id: 2, Name : "שלומי שבו", Email: "ahuvael02@gmail.com",
     Password: "hjk123", Phone: "0521234123",  Status: 1,Active: true,
 },
     userList: [],
@@ -75,19 +75,8 @@ export const storeReducer = (state = initialState, action) => {
                 ...state,
                 attractionArr: [...a]
             }
-
-        // case "UPDATE_AMOUNT":
-        //     let arr = [...state.cart];
-        //     arr.find(x => x.id == action.payload.id).amount += action.payload.amount;   
-        //     console.log(arr) 
-        //     return {
-        //         ...state,
-        //         cart: [...arr]
-        //     }
-
         case actionType.ATTRACTION_UPDATED:
             const vec = [...state.attractionArr];
-            console.log(action.payload)
             const findIndex = vec.findIndex(x => x.Id === action.payload.Id);
             vec[findIndex] = action.payload;
             return {
@@ -106,6 +95,19 @@ export const storeReducer = (state = initialState, action) => {
                     ...state,
                     ordersArr: [...a3]
                 }
+                case actionType.ORDER_UPDATED:
+                    const v = [...state.ordersArr];
+                    const index = v.findIndex(x => x.Id === action.payload.Id);
+                    v[index] = action.payload;
+                    return {
+                        ...state,
+                        ordersArr: [...v]
+                    }
+                    case actionType.ORDER_ADDED:
+                        return {
+                            ...state,
+                            ordersArr: [...state.ordersArr, action.payload]
+                        }
         case actionType.SAVE_ALL_CATEGORIES:
             return {
                 ...state,

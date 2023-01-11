@@ -16,7 +16,6 @@ const AddImages = ({ onSubmit, attraction, id }) => {
             for (let index = 0; index < copy.length; index++) {
                 copy[index] = attraction.Images.substring(i, i + 14);
                 i += 15;
-
             }
             setArr(copy);
         }
@@ -38,7 +37,7 @@ const AddImages = ({ onSubmit, attraction, id }) => {
             .then(x => {
                 if (x.data != null) {
                     const copy = [...arr];
-                    copy[ind] = FileName;
+                    copy[ind] ={Img:x.data.Img, Id: x.data.Id};
                     setArr([...copy]);
                 }
                 else
@@ -57,7 +56,7 @@ const AddImages = ({ onSubmit, attraction, id }) => {
                     <input hidden accept="image/*" type="file" onChange={(e) => { handleChange(e, 0) }} />
                     <AddIcon />
                 </IconButton>
-                {arr[0] != '' ? <img src={`http://localhost:81/img/${arr[0]}`} className="add-img" /> : <p> העלאת תמונות </p>}
+                {arr[0] != '' ? <img src={`http://localhost:81/img/${arr[0].Img}`} className="add-img" /> : <p> העלאת תמונות </p>}
             </div>
         </div> <br />  <hr /> <br />
         <h2> תמונות שיופיעו בגוף האטרציה </h2>
@@ -68,11 +67,11 @@ const AddImages = ({ onSubmit, attraction, id }) => {
                         <input hidden accept="image/*" type="file" onChange={(e) => { handleChange(e, index) }} />
                         <AddIcon />
                     </IconButton>
-                    {item != '' && index != 0 ? <img src={`http://localhost:81/img/${item}`} className="add-img" /> : <p> העלאת תמונות </p>}
+                    {item != '' && index != 0 ? <img src={`http://localhost:81/img/${item.Img}`} className="add-img" /> : <p> העלאת תמונות </p>}
                 </div>
             }) : null}
         </div>
-        <Button variant="contained" size="medium" style={{ color: "white", backgroundColor: "orange" }} onClick={onSubmit}> להמשיך לשלב הבא </Button>
+        <Button variant="contained" size="medium" style={{ color: "white", backgroundColor: "orange" }} onClick={()=>{const vec=[...arr.filter(x=>x!="")]; onSubmit(vec)}}> להמשיך לשלב הבא </Button>
     </div>
 }
 export default AddImages;

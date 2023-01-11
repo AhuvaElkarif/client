@@ -30,7 +30,7 @@ export default function WishCard({ item , ind}) {
         </CardContent>
         <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1, left:'4rem' }}>
           <Poppers func={()=>{dispatch(deleteProductFromWishList(user, item.Id))}} type={1} text="מחוק" content={<DeleteIcon style={{color:"orange"}}/>}/>
-          <Button size="small" variant="contained" style={{backgroundColor:"orange"}}onClick={() => navigate("/order/" + false + "/" + 0 + "/" + item.Id)}>  הזמן  </Button>
+          <Button size="small" variant="contained" style={{backgroundColor:"orange"}}onClick={() =>navigate("/order/" + item.Id)}>  הזמן  </Button>
         </Box>
       </Box>
       <CardMedia

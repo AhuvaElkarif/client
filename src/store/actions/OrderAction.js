@@ -38,7 +38,16 @@ export const getOrdersByMangerId = (id) => {
 }
 
 export const addOrder = (order) => {
-    return axios.post("http://localhost:57828/api/orderAttraction/Post", order);
+    return dispatch => {
+        axios.post("http://localhost:57828/api/orderAttraction/Post", order)
+            .then(x => {
+                dispatch({
+                    type: actionType.ORDER_ADDED,
+                    payload: x.data
+                });
+            })
+            .catch(err => alert("קרתה תקלה זמנית באתר."+err))
+    }
 }
 
 export const deleteOrder = (id) => {
@@ -48,6 +57,18 @@ export const deleteOrder = (id) => {
                 dispatch({
                     type: actionType.ORDER_DELETED,
                     payload: id
+                });
+            })
+            .catch(err => alert("קרתה תקלה זמנית באתר."+err))
+    }
+}
+export const updateOrder = (order) => {
+    return dispatch => {
+        axios.put("http://localhost:57828/Api/orderAttraction/Update", order)
+            .then(x => {
+                dispatch({
+                    type: actionType.ORDER_UPDATED,
+                    payload: x.data
                 });
             })
             .catch(err => alert("קרתה תקלה זמנית באתר."+err))

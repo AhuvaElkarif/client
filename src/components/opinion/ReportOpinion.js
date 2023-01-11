@@ -55,9 +55,7 @@ export default function ReportOpinion({ opinion }) {
     setAnchorEl(anchorEl ? null : true);
 
     if (user == null)
-    swal({icon:'warn',text:"יש חהרשם לאתר על מנת לדווח!"})
-      // navigate('/login/' + 0);
-      // navigate("/login")
+    swal({icon:'warning',title:"יש להתחבר לאתר על מנת לדווח!"})
     else
       setOpen2(true);
   }
@@ -89,18 +87,19 @@ export default function ReportOpinion({ opinion }) {
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
-          <Box sx={style}>
-            <Typography id="modal-modal-title" variant="h6" component="h2">
+          <Box sx={style} style={{textAlign:"center"}}>
+            <Typography id="modal-modal-title" variant="h5" component="h2">
               דווח
             </Typography>
-            בחר את הסיבה לדיווח:
+            בחר את הסיבה לדיווח: 
+            <br/>
             {arr.length > 0 ? <RadioGroup
               aria-labelledby="demo-controlled-radio-buttons-group"
               name="controlled-radio-buttons-group"
               value={value}
               onChange={handleChange} >
               {arr.map(item => <FormControlLabel key={item.Id} value={item.Name}
-                control={<Radio />} label={item.Name} />)}
+                control={<Radio />} label={item.Name} style={{margin:"0.3rem"}}/>)}
             </RadioGroup> : null}
             {flag ? <AlertMessage variant={'success'} children={<Alerts message={"הדוח הצליח. תודה על המשוב שלך. אנו נוודא בהקדם האפשרי."} />} />
              : <Button variant='contained' size='large' disabled={value == '' ? true : false} onClick={submit} >הגש</Button>}

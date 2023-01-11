@@ -30,6 +30,7 @@ const ManagerDetails = ({ onSubmit }) => {
         <form onSubmit={handleSubmit(onSubmit)}> 
             <br/> <p>רגע לפני שמפרסמים את המודעה, נרצה להכיר אותך:</p> <br/>
             {arr.map(item => <FormInput
+            key={item.name}
                 lableName={item.labelName}
                 name={item.name}
                 type={item.type}
@@ -39,7 +40,7 @@ const ManagerDetails = ({ onSubmit }) => {
                 flag={false} />)}
             <div className="creditCard">
                 <p>אתר זה מכבד את הכרטיסים הבאים:</p>
-                <img src="./images/creditCards.png" />
+                <img src="../../images/creditCards.png" />
             </div>
             <br/>
             <Button variant="contained" size="medium" type="submit" style={{ color: "white", backgroundColor: "orange" }}>

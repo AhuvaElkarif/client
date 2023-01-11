@@ -1,7 +1,6 @@
 import * as actionType from '../reducers/actionType';
 import axios from "axios";
 import swal from 'sweetalert';
-import { useNavigate } from 'react-router-dom';
 export const getUsers = () => {
     return dispatch => {
         dispatch({
@@ -25,7 +24,7 @@ export const getUsers = () => {
 }
 
 export const login = (user) => {
-       return axios.post("http://localhost:57828/Api/user/post2/", user)
+    return axios.post("http://localhost:57828/Api/user/post2/", user)
 }
 
 export const addUser = (user) => {
@@ -34,7 +33,10 @@ export const addUser = (user) => {
             .then(x => {
                 if (x.data == null)
                     alert("שם זה כבר קיים אצלנו");
-                dispatch(currentUser(x.data));
+                else {
+                    dispatch(currentUser(x.data));
+                    swal(x.data.Name + " ברוך הבא!", "נרשמת בהצלחה");
+                }
             })
             .catch(err => console.log(err))
     }

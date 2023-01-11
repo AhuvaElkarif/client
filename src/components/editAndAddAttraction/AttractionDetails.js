@@ -14,7 +14,7 @@ import './EditAttraction.css';
 const schema = yup.object({
     Name: yup.string().required("שדה זה חובה"),
     Phone: yup.string().required("שדה זה חובה").min(9, 'מספר הפלאפון אינו תקין').max(10, 'מספר הפלאפון אינו תקין'),
-    Description: yup.string().required("שדה זה חובה").max(1000, 'מספר תווים מקסימלי הוא 400'),
+    Description: yup.string().required("שדה זה חובה").max(1000, 'מספר תווים מקסימלי הוא 1000'),
     Address: yup.string().required("שדה זה חובה"),
     Price: yup.string().required("שדה זה חובה"),
     MinParticipant: yup.number().required("שדה זה חובה"),///.matches(/^(?!(?:0|0\.0|0\.00)$)[+]?\d+(\.\d|\.\d[0-9])?$/),
@@ -76,23 +76,23 @@ const AttractionDetails = ({ type, attraction, onSubmit }) => {
         const cnt = target.value.length;
         setCount(cnt);
         switch (true) {
-            case cnt >= 1 && cnt < 50:
+            case cnt >= 1 && cnt < 250:
                 setColor("red");
                 setText("מרגיש לנו שהתיאור שכתבת קצר מידי")
                 break;
-            case cnt >= 50 && cnt < 150:
+            case cnt >= 250 && cnt < 500:
                 setColor("orange");
                 setText("יופי, המודעה הולכת לכיוון הנכון");
                 break;
-            case cnt >= 150 && cnt < 250:
+            case cnt >= 500 && cnt < 750:
                 setColor("yellow");
                 setText("עוד ממש קצת וזה שם");
                 break;
-            case cnt >= 250 && cnt < 350:
+            case cnt >= 750 && cnt < 1000:
                 setColor("light-green");
                 setText("אוטוטו");
                 break;
-            case cnt >= 350:
+            case cnt >= 1000:
                 setColor("green");
                 setText("בול!");
                 break;
@@ -123,25 +123,24 @@ const AttractionDetails = ({ type, attraction, onSubmit }) => {
                 </div>
             </div>
             <div>
-                <h4>פרטים נוספים (עד 400 תווים) {count}/400</h4> <br />
+                <h4>פרטים נוספים (עד 1000 תווים) {count}/1000</h4> <br />
                 <span>{text}</span>
                 <BorderLinearProgress
                     color1={color}
-                    variant="determinate" value={count / 4} />
+                    variant="determinate" value={count / 10} />
                 <br/>
                 <TextField
                     id="outlined-multiline-static"
                     variant='outlined'
                     multiline
                     minRows={7}
+                    maxLength={1000}
                     {...register("Description")}
                     style={{ width: "30rem" }}
                     label="תיאור"
                     onChange={handleChange}
                     defaultValue={attraction ? attraction.Description : "זה המקום לציין את כל המידע לגבי האטרקציה כדי להתקדם לאטרקציה מעולה."}
                 />
-                <br /> <br />
-                <p>*אין צורך להוסיף מספר טלפון כחלק מהתיאור, בהמשך התהליך יש אזור מסודר לזה.</p>
             </div>
 
             <br /> <br />

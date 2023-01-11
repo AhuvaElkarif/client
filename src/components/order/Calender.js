@@ -61,6 +61,7 @@ export default function Calender({ id, amount }) {
         themeSystem="Simplex"
         // plugins={[dayGridPlugin]}
         events={events}
+        allDayText={true}
       // initialEvents={[]}
       />}
     </div>

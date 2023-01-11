@@ -23,11 +23,12 @@ body{
   bottom: 7rem;
 }
 .MuiButtonBase-root{
-  display: none;
+  display: block;
 }
 .head{
   position: relative;
   top: 3rem;
+  cursor: pointer;
 }
 header{
   background-color: white;

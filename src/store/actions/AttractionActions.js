@@ -35,15 +35,16 @@ export const getRelevantAttractions = () => {
     axios.get("http://localhost:57828/api/attraction/getRelevantAttractions")
 }
 export const addAttraction = (attraction) => {
-    return axios.post("http://localhost:57828/api/attraction/addAttraction", attraction)
-}
-export const addAttractionDispatch = (attraction) => {
-    return (dispatch) => {
-
-        dispatch({
-            type: actionType.ATTRACTION_ADDED,
-            payload: attraction
-        })
+    return dispatch => {
+         axios.post("http://localhost:57828/api/attraction/addAttraction", attraction)
+            .then(response => {
+                dispatch({
+                    type: actionType.ATTRACTION_ADDED,
+                    payload: response.data
+                })
+                console.log(response);
+            })
+            .catch(err => { console.log(err) })
     }
 }
 

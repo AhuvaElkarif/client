@@ -1,6 +1,6 @@
 import { compose, withProps } from "recompose";
-import { withScriptjs, withGoogleMap, GoogleMap, Marker, } from "google-map-react";
-//import { withScriptjs, withGoogleMap, GoogleMap, Marker, } from "react-google-maps";
+// import { withScriptjs, withGoogleMap, } from "google-map-react";
+import { withScriptjs, withGoogleMap, Marker, GoogleMap} from "react-google-maps";
 
 
 const MapWithAMarkerClustered = compose(
@@ -9,7 +9,7 @@ const MapWithAMarkerClustered = compose(
         loadingElement: <div style={{ height: `100%` }} />,
         containerElement: <div style={{ height: `500px` }} />,
         mapElement: <div style={{ height: `100%` }} />,
-    }),
+    }), 
 
     withScriptjs,
     withGoogleMap
@@ -21,8 +21,8 @@ const MapWithAMarkerClustered = compose(
         onClick={({ latLng }) => setAddMarks({ lat: latLng.lat(), lng: latLng.lng() })}
     >
         <Marker label={marker.PointName}
-
             title={marker.PointName} position={{ lat: marker.lat, lng: marker.lng }} />
+            
     </GoogleMap>
 }
 );

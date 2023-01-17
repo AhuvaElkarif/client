@@ -41,7 +41,7 @@ function getSteps() {
   return ['אני רוצה אטרקציה בלוח...', 'פרטי האטרקציה', 'זמני פתיחה', 'הוספת תמונות', 'ציוד נדרש לאטרקציה', 'פרטי התקשרות ותשלום'];
 }
 
-export default function EditAndAddAttraction({type}) {
+export default function EditAndAddAttraction({ type }) {
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
   const [category, setCategory] = useState(null);
@@ -51,9 +51,10 @@ export default function EditAndAddAttraction({type}) {
   const { id } = useParams();
 
   useEffect(() => {
-    if(activeStep==steps.length){
-      if(type=="new") dispatch(addAttraction(object));
-    console.log(object)}
+    if (activeStep == steps.length) {
+      if (type == "new") dispatch(addAttraction(object));
+      console.log(object)
+    }
   }, [activeStep])
   const { user, attractions } = useSelector(state => {
     return {
@@ -63,46 +64,49 @@ export default function EditAndAddAttraction({type}) {
   }, shallowEqual);
   let attraction = id != undefined ? { ...attractions.find(x => x.Id == id) } : null;
   const onSubmit = (data) => {
-    const o = {...object}
-    switch (activeStep) {
-      case 1:
-        if (attraction != null) data.Id = attraction.Id;
-        attraction = data;
-        attraction.Date = new Date();
-        attraction.Status = true;
-        attraction.CategoryId = category.Id;
-        attraction.ManagerId = user.Id;
-        o.Attraction = attraction;
-        setObject({...o});
-        break;
-      case 2:
-        o.PeriodsList = data;
-        setObject({...o});
-        break;
-      case 3:
-        o.ImagesList = data;
-        setObject({...o});
-        break;
-      case 4:
-        o.EquipmentsList = data;
-        setObject({...o});
-        break;
-      case 5:
-        data.Id = user.Id;
-        data.Password = user.Password;
-        data.Status = user.Status;
-        data.Active = user.Active;
-        o.Manager = data;
-        setObject({...o});
-        break;
-      default:
-        break;
-    }
-  
+    const o = { ...object }
+    if (type == "new" || activeStep == 1)
+      switch (activeStep) {
+        case 1:
+          data.Status = true;
+          data.CategoryId = category.Id;
+          data.Date = new Date();
+          data.ManagerId = user.Id;
+          if (attraction != null && type == "edit") {
+            data.Id = attraction.Id;
+            dispatch(updateAttraction(data))
+          }          
+          o.Attraction = data;
+          setObject({ ...o });
+          break;
+        case 2:
+          o.PeriodsList = data;
+          setObject({ ...o });
+          break;
+        case 3:
+          o.ImagesList = data;
+          setObject({ ...o });
+          break;
+        case 4:
+          o.EquipmentsList = data;
+          setObject({ ...o });
+          break;
+        case 5:
+          data.Id = user.Id;
+          data.Password = user.Password;
+          data.Status = user.Status;
+          data.Active = user.Active;
+          o.Manager = data;
+          setObject({ ...o });
+          break;
+        default:
+          break;
+      }
+
     setActiveStep(activeStep + 1);
 
   }
-  
+
   const getStepContent = (step) => {
     switch (step) {
       case 0:
@@ -116,7 +120,7 @@ export default function EditAndAddAttraction({type}) {
       case 4:
         return <Equipment id={id} type={type} onSubmit={onSubmit} />;
       case 5:
-        return <ManagerDetails onSubmit={onSubmit} />;
+        return <ManagerDetails onSubmit={onSubmit} type={type} />;
       default:
         return;
     }

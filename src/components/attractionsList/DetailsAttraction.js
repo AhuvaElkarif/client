@@ -16,9 +16,10 @@ import FlipToFrontIcon from '@mui/icons-material/FlipToFront';
 import { Fragment, useState } from "react";
 import { Button } from "@mui/material";
 import ActivityTime from "../ActivityTime/ActivityTime";
+import MapWithAMarkerClustered from '../map';
 const DetailsAttraction = () => {
      const navigate = useNavigate();
-     const { id } = useParams();
+     const { id, type } = useParams();
      const [gallery, setGallery] = useState(false);
      const { user, attractionArr } = useSelector(state => {
           return {
@@ -28,7 +29,7 @@ const DetailsAttraction = () => {
      }, shallowEqual);
      const product = { ...attractionArr.find(x => x.Id == id) };
 
-     return (<div style={{marginRight:"1.3rem", marginLeft:"1.3rem"}}>
+     return (<div style={{ marginRight: "1.3rem", marginLeft: "1.3rem"}}>
           <h1 className="h1-details">{product.Name}</h1> <br />
           <div className="detailsAttraction">
                {product == null ? <Fragment>loading...</Fragment> : (<Fragment>
@@ -60,17 +61,17 @@ const DetailsAttraction = () => {
                               <br />
 
                               <Opinions attractionId={id} />
-
                          </div>
                          <div className="communicate">
                               <div className="communicate-container">
                                    <p> התקשרו לפרטים והזמנות:</p> <br />
                                    <p> <PhoneEnabledIcon /> {product.Phone} </p><br />
-                                   {user == null || user.Status == 1 ? <Button onClick={() => { navigate("/order/" + product.Id ) }} variant="contained" size="large" style={{ backgroundColor: "orange" }}>
+                                   {user == null || user.Status == 1 ? <Button onClick={() => { navigate("/order/" + product.Id) }} variant="contained" size="large" style={{ backgroundColor: "orange" }}>
                                         להזמנת כרטיסים באונליין</Button> :
-                                        <Buttons id={product.Id} />}
+                                        <Buttons id={product.Id} type={type}/>}
                               </div>
                          </div>
+                         {product.lat && <MapWithAMarkerClustered type={0} lat={product.lat} lng={product.lng} /> }
                     </div>
                </Fragment>)}
 

@@ -1,8 +1,6 @@
 import { Button, Checkbox, TextField } from "@material-ui/core";
-import swal from "sweetalert";
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { addPeriod, updatePeriod } from '../../store/actions/PeriodAction';
 import { useParams } from "react-router-dom";
 import { display } from "@mui/system";
 import GeneralTimes from "./GeneralTimes";
@@ -24,89 +22,91 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: theme.palette.background.paper,
     },
 }));
-const PeriodDetails = ({ id, period, setX, type, arr, addOrUpdateP, index, onSubmit }) => {
+const PeriodDetails = ({ id, period, type, change, submit, addOrUpdate, onSubmit }) => {
     const classes = useStyles();
     const { attractionId, kind } = useParams();
-    const [flag, setFlag] = useState(period?.Id ? true : false);
-    const [submit, setSubmit] = useState(true);
     const [displayTimes, setDisplay] = useState(false);
-    // const [res, setRes] = useState(period);
+    const [flag, setFlag] = useState(false);
+
 
     useEffect(() => {
         if (id == null) { id = attractionId; type = kind };
-    }, [id, period, index]);
-    useEffect(() => { }, [period, index]);
+    }, [id]);
+    useEffect(() => {
+        if (period?.Id)
+            setFlag(true);
+        if (period?.FromDate && period?.TillDate && submit)
+            setFlag(true);
+    }, [period]);
 
-    function dateToEpoch2(thedate) {
-        return thedate.setHours(0, 0, 0, 0);
-    }
-    const change = (e) => {
-        const { name, value, type } = e.target;
-        if (type == "checkbox")
-            period[name] = e.target.checked;
-        else
-            if (dateToEpoch2(new Date(value)) >= dateToEpoch2(new Date()))
-                period[name] = value;
-        console.log(period)
-        if (period?.TillDate && period?.FromDate)
-            addOrUpdate();
-        else
-            setSubmit(false);
-        console.log(arr)
-    }
-    const addOrUpdate = () => {
-        // if (!(period?.TillDate && period?.FromDate)) {
-        //     setSubmit(false);
-        //     return;
-        // }
-        if (setX != undefined)
-            setX(true);
-        if (period.Id == undefined)
-            // {
-            period.AttractionId = id;
 
-        if (period.IsOpen == undefined)
-            period.IsOpen = false;
-        if (arr.find((x, ind) => (x.FromDate != undefined && ind != index && (period.FromDate >= x.FromDate && period.FromDate <= x.TillDate ||
-            period.TillDate >= x.FromDate && period.TillDate <= x.TillDate ||
-            x.FromDate > period.FromDate && x.TillDate < period.TillDate))) != undefined) {
-            // addPeriod(period)
-            //     .then(x => {
-            //         if (x.data == null)
-            swal({
-                title: "שים לב!",
-                text: "זמני התקופה אינם תקינים!",
-                icon: "warning",
-            })
-            return;
-        }
-        //         else {
-        //             setFlag(true);
-        //             setRes(x.data);
-        //         }
-        //     })
-        //     .catch(err => console.log(err))
-        // }
-        setSubmit(true);
-        setFlag(true);
-        addOrUpdateP(index, period);
-        // const vec = [...arr];
-        // vec[index] = { ...period };
-        // setArr([...vec]);
-        //    else
-        // updatePeriod(period)
-        //     .then(x => {
-        //         if (x.data == null)
-        //             swal({
-        //                 title: "שים לב!",
-        //                 text: "זמני התקופה אינם תקינים!",
-        //                 icon: "warning",
-        //             })
-        //         else
-        //             setFlag(true);
-        //     })
-        //     .catch(err => console.log(err))
-    }
+    // const change = (e) => {
+    //     const { name, value, type } = e.target;
+    //     if (type == "checkbox")
+    //         period[name] = e.target.checked;
+    //     else
+    //         if (dateToEpoch2(new Date(value)) >= dateToEpoch2(new Date()))
+    //             period[name] = value;
+    //     console.log(period)
+    //     if (period.TillDate && period.FromDate && type=="new")
+    //         addOrUpdate();
+    //     else
+    //         setSubmit(false);
+    //     console.log(arr)
+    // }
+    // const addOrUpdate = () => {
+    //     if (!(period?.TillDate && period?.FromDate)) {
+    //         setSubmit(false);
+    //         return;
+    //     }
+    //     if (setX != undefined)
+    //         setX(true);
+    //     if (period.Id == undefined)
+    //         period.AttractionId = id;
+
+    //     if (period.IsOpen == undefined)
+    //         period.IsOpen = false;
+    //     if (arr.find((x, ind) => (x.FromDate != undefined && ind != index && (period.FromDate >= x.FromDate && period.FromDate <= x.TillDate ||
+    //         period.TillDate >= x.FromDate && period.TillDate <= x.TillDate ||
+    //         x.FromDate > period.FromDate && x.TillDate < period.TillDate))) != undefined) {
+
+    //         swal({
+    //             title: "שים לב!",
+    //             text: "זמני התקופה אינם תקינים!",
+    //             icon: "warning",
+    //         })
+    //         return;
+    //     }
+    //     setSubmit(true);
+    //     setFlag(true);
+    //     if (type == "new")
+    //         addOrUpdateP(index, period);
+    //     else {
+    //         console.log(period)
+    //         if (period.Id == undefined){
+    //             addPeriod(period)
+    //                 .then(x => {
+    //                     period.Id = x.data.Id;
+    //                     swal({ icon: 'success', title: "התווסף בהצלחה!" })
+    //                 })
+    //                 .catch(err => console.log(err));
+    //                 return;
+    //             }
+    //         // const vec = [...arr];
+    //         // vec[index] = { ...period };
+    //         // setArr([...vec]);
+    //         //    else
+    //         if (type == "edit")
+    //             updatePeriod(period)
+    //                 .then(x => {
+    //                     console.log(x.data);
+    //                     swal({ icon: 'success', title: "עודכן בהצלחה!" })
+    //                 })
+    //                 .catch(err => console.log(err))
+    //     }
+    // }
+
+
     return (
         <div>
             <TextField
@@ -114,7 +114,7 @@ const PeriodDetails = ({ id, period, setX, type, arr, addOrUpdateP, index, onSub
                 label="מתאריך"
                 type="date"
                 defaultValue={period ? new Date(period.FromDate).toLocaleDateString('en-CA') : new Date()}
-                onChange={change}
+                onChange={(e) => change(e)}
                 className={classes.textField}
                 name="FromDate"
                 InputLabelProps={{
@@ -127,7 +127,7 @@ const PeriodDetails = ({ id, period, setX, type, arr, addOrUpdateP, index, onSub
                 type="date"
                 name="TillDate"
                 defaultValue={period ? new Date(period.TillDate).toLocaleDateString('en-CA') : new Date()}
-                onChange={change}
+                onChange={(e) => change(e)}
                 className={classes.textField}
                 InputLabelProps={{
                     shrink: true,
@@ -136,18 +136,18 @@ const PeriodDetails = ({ id, period, setX, type, arr, addOrUpdateP, index, onSub
 
             <Checkbox
                 defaultChecked={period?.IsOpen}
-                onChange={change}
+                onChange={(e) => change(e)}
                 name="IsOpen"
                 type='checkbox'
                 color="primary"
                 inputProps={{ 'aria-label': 'primary checkbox' }}
             /> <span> האטרקציה פתוחה </span>
             {!submit && <p style={{ color: "red" }}> בדוק שהשדות מלאים וכן ערכיהם גדולים או שווים לתאריך הנוכחי </p>}
-
-            {/* <Button variant="contained" color="primary" size="medium" onClick={addOrUpdate}> {period?.Id ? 'עדכן' : 'הוסף'} </Button> */}
-            {flag && <Button variant="contained" size="medium" onClick={() => { if (period != {}) setDisplay(!displayTimes) }}> לשעות הפעילות של תקופה זו </Button>}
-            {displayTimes && <GeneralTimes onSubmit={onSubmit} periodId={period.Id} id={attractionId != undefined ? attractionId : null} type={type != undefined ? type : "new"} />}
-            {/* id={attractionId != undefined ? attractionId : id} periodId={res.Id} */}
+            {period?.Id || type == "edit" && flag ? <Button variant="contained" color="primary" size="medium" onClick={()=>addOrUpdate(period)}> עדכן </Button> :
+                type == "edit" && <Button variant="contained" color="primary" size="medium" onClick={()=>addOrUpdate(period)}> הוסף </Button>}
+            {flag && <Button variant="contained" color="primary" size="medium" onClick={() => { if (period != {}) setDisplay(!displayTimes) }} style={{ margin: "1rem" }}> לשעות הפעילות של תקופה זו </Button>}
+            {displayTimes && <GeneralTimes onSubmit={onSubmit} periodId={period.Id} style={{ marginRight: "1rem" }}
+                id={attractionId ? attractionId : null} type={type} />}
             <br /> <br />
         </div>
     );

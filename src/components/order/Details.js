@@ -36,7 +36,6 @@ console.log(type)
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
     });
-
     return (<div style={{ marginTop: "3rem", textAlign:"right", marginRight:"3rem", marginLeft:"3rem"}}>
         <form onSubmit={handleSubmit(onSubmit)}>
                 {arr.map(item => <div key={item.name}>
@@ -47,7 +46,7 @@ console.log(type)
                         errors={errors}
                         register={register}
                         user={user}
-                        flag={user?"true":"false"}
+                        // flag={user}
                         width={"20vw"} />
                 </div>
                 )}

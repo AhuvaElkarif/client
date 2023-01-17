@@ -24,11 +24,9 @@ import PeriodDetails from './editAndAddAttraction/PeriodDetails';
 import Order from './order/Order';
 import Calender from './order/Calender';
 import UsersApprovals from './usersApprovals/UsersApprovals';
-// import MapWithAMarkerClustered from './map2';
 function App() {
   const navigate = useNavigate();
   return (<>
-  {/* <MapWithAMarkerClustered/> */}
     {/* <Calender id={19}/> */}
     {/* <EditAndAddAttraction id={19} type=""/> */}
     {/* <Map/> */}
@@ -49,7 +47,6 @@ function App() {
       <Route path="exit" element={<AttractionsList />} />
       <Route path="reportsList" element={<ReportsList />} />
       <Route path="categoriesList" element={<Category />} />
-      <Route path=""></Route>
       <Route path="period/:attractionId/:kind" element={<PeriodDetails />}></Route>
       <Route path="login/:type" element={<Login />} />
       <Route path="register" element={<Register />} />
@@ -70,6 +67,7 @@ function App() {
       <Route path="usersList" element={<UsersList />} />
       <Route path="orderList/:type" element={<OrdersList />} />
       <Route path="statistics" element={<Statistics />} />
+      <Route path="detailsAttraction/:id/:type" element={<DetailsAttraction />} />
       <Route path="detailsAttraction/:id" element={<DetailsAttraction />} />
     </Routes>
   </>);

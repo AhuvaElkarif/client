@@ -11,3 +11,7 @@ export const addEquipment = (equipment) => {
 export const updateEquipment = (arr) => {
     return axios.put("http://localhost:57828/api/equipment/Put", arr);
 }
+
+export const deleteEquipment = (equipment) => {
+    return axios.delete("http://localhost:57828/api/equipment/Delete",equipment);
+}

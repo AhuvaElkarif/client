@@ -20,6 +20,7 @@ const AddImages = ({ onSubmit, attraction, id }) => {
             setArr(copy);
         }
     }, [])
+
     const handleChange = (e, ind) => {
         const FileName = e.target.files[0].name.slice(-14);
         const formData = new FormData();
@@ -56,7 +57,7 @@ const AddImages = ({ onSubmit, attraction, id }) => {
                     <input hidden accept="image/*" type="file" onChange={(e) => { handleChange(e, 0) }} />
                     <AddIcon />
                 </IconButton>
-                {arr[0] != '' ? <img src={`http://localhost:81/img/${arr[0].Img}`} className="add-img" /> : <p> העלאת תמונות </p>}
+                {arr[0] != '' ? <img src={`http://localhost:81/img/${arr[0].Img==undefined?arr[0]:arr[0].Img}`} className="add-img" /> : <p> העלאת תמונות </p>}
             </div>
         </div> <br />  <hr /> <br />
         <h2> תמונות שיופיעו בגוף האטרציה </h2>
@@ -67,7 +68,7 @@ const AddImages = ({ onSubmit, attraction, id }) => {
                         <input hidden accept="image/*" type="file" onChange={(e) => { handleChange(e, index) }} />
                         <AddIcon />
                     </IconButton>
-                    {item != '' && index != 0 ? <img src={`http://localhost:81/img/${item.Img}`} className="add-img" /> : <p> העלאת תמונות </p>}
+                    {item != '' && index != 0 ? <img src={`http://localhost:81/img/${item.Img==undefined?item:item.Img}`} className="add-img" /> : <p> העלאת תמונות </p>}
                 </div>
             }) : null}
         </div>

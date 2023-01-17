@@ -4,16 +4,16 @@ import { useParams } from "react-router-dom";
 import { getTimesByAttractionId } from "../../store/actions/GeneralTimes";
 import ActivityTimeDetails from './ActivityTimeDetails';
 
-const ActivityTime = () => {
-    const {id} = useParams();
+const ActivityTime = ({id}) => {
     const attractions = useSelector(state => state.attractionArr);
     const product = { ...attractions.find(x => x.Id == id) };
     const [times, setTimes] = useState([]);
+    console.log(id)
     useEffect(() => {
         getTimesByAttractionId(id)
         .then(x => setTimes(x.data))
         .catch(err => console.log(err));
-    }, []);
+    }, [id]);
 console.log(times)
     return (
         <div>

@@ -82,6 +82,7 @@ function OrdersList() {
                     //     (!value2 || new Date(item.OrderDate) <= value2) &&
                     //     (!categoryArr || categoryArr.includes(item.Attraction.CategoryId)))
                     return <div key={item.Id} className="container">
+            {console.log(item)}
                         <SingleOrder order={item} dateToEpoch={dateToEpoch} type={type}/>
                     </div>
             }) : orders.length == 0 && type!=1? <div className="emptyMessage"> <br /><p> רשימת ההזמנות שלך ריקה  <br /> <br />

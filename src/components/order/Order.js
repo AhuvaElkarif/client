@@ -27,8 +27,9 @@ const Order = ({ type }) => {
     const [activeStep, setActiveStep] = React.useState(0);
     const [skipped, setSkipped] = React.useState(new Set());
     const [flag, setFlag] = React.useState(false);
-    const [date, setDate] = React.useState(new Date());
+    const [date, setDate] = React.useState(null);
     const [price, setPrice] = React.useState(0);
+    const [startTime, setStart] = React.useState(null);
     const { user, orders } = useSelector(state => {
         return {
             user: state.user,
@@ -37,23 +38,39 @@ const Order = ({ type }) => {
     }, shallowEqual);
     useEffect(() => {
         if (type == 1) {
-            setOrder({ ...orders.find(x => x.Id == orderId) })
+            setOrder({ ...orders.find(x => x.Id == orderId) });
         }
-    }, [id])
-    useEffect(() => {if(order!=null) setAmount(order.Amount) }, [order])
+        // if(!order)
+        // navigate("/");
+    }, [id]);
+    useEffect(() => {
+        if (order)
+            setAmount(order.Amount);
+        // else
+        // navigate("/");
+    }, [order]);
+    
     const isStepSkipped = (step) => {
         return skipped.has(step);
     };
 
     const handleNext = () => {
-        if (amount==0) {
+        if (amount == 0) {
             swal({
                 title: "לא נבחרה כמות",
                 icon: "warning"
             });
             return;
         }
-
+        if (activeStep == 1 && (date == null || startTime == null)) {
+            swal({
+                title: "לא נבחר מועד/זמן ",
+                icon: "warning"
+            });
+            return;
+        }
+        
+        
         let newSkipped = skipped;
         if (isStepSkipped(activeStep)) {
             newSkipped = new Set(newSkipped.values());
@@ -62,28 +79,24 @@ const Order = ({ type }) => {
 
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
         setSkipped(newSkipped);
-        // setFlag(false);
     };
 
     const handleBack = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
-    const handleReset = () => {
-        setActiveStep(0);
-    };
     const onSubmit = (data) => {
-        console.log(data);
+        console.log(data,startTime,date);
         if (user == null) {
             data.Active = false;
             data.Status = 0
         }
-        const obj = { UserId: user ? user.Id : -1, User: data, OrderDate: new Date(), StartTime: new Date().getTime(), GlobalPrice: price, Amount: amount, AttractionId: id, IsApproval: false, Status: true }
+        const obj = { UserId: user ? user.Id : -1, User: data, OrderDate: date, StartTime: startTime, GlobalPrice: price, Amount: amount, AttractionId: id, IsApproval: false, Status: true }
         if (type == 0) {
             dispatch(addOrder(obj));
         }
         else {
-            obj.Id=orderId;
+            obj.Id = orderId;
             dispatch(updateOrder(obj));
         }
         handleNext();
@@ -120,7 +133,7 @@ const Order = ({ type }) => {
                 <React.Fragment>
                     <Typography sx={{ mt: 2, mb: 1 }}>
                         {activeStep == 0 ? <SelectTickets attractionId={id} amount={amount} setAmount={setAmount} setFlag={setFlag} setPrice={setPrice} />
-                            : activeStep == 1 ? <Calender id={id} setDate={setDate} amount={amount} type={type} /> :
+                            : activeStep == 1 ? <Calender setStart={setStart} id={id} setDate={setDate} amount={amount} type={type} /> :
                                 <Details price={price} date={date} flag={flag} id={id} onSubmit={onSubmit} type={type} />}
                     </Typography>
                     <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>

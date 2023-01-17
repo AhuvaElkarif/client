@@ -23,7 +23,6 @@ const SelectTickets = ({ attractionId, setFlag, setPrice,amount,setAmount }) => 
     return (
         <div> 
             <h1>בחרו את כמות הכרטיסים</h1>
-            {/* <h1>יום {date.getDay()} {date.toLocaleDateString('en-GB')}</h1> */}
             <div className='all-images'>{image.map((item, ind) => { if(ind<3)
                 return <span key={item.Id}> {ind <= 5 ? <img src={`http://localhost:81/img/${item.Img}`}
                     className="imgOrder" /> : null} </span>

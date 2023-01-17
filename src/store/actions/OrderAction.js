@@ -81,3 +81,7 @@ export const deleteOrderAfterApproval = (id) => {
 export const getDaysInMoth = (month, year, id,amount) => {
     return axios.get("http://localhost:57828/Api/orderAttraction/GetDaysInMonth?id="+id+"&month="+month+"&year="+year+"&amount="+amount);
 }
+
+export const GetTimesInDay = (day, month,year,id) => {
+    return axios.get("http://localhost:57828/Api/orderAttraction/GetTimesInDay?day="+day+"&month="+month+"&year="+year+"&id="+id);
+}

@@ -7,7 +7,7 @@ const FormInput = ({ register, errors, name, lableName, type, flag, user, width 
             {/* <InputLabel htmlFor="outlined-adornment-password" style={{position:"relative", left:"4rem", top:"2rem"}}>{lableName}</InputLabel> */}
         <TextField id="standard-basic" className='c1' label={lableName}  style={{backgroundColor:"#ebedf0", width:width!=undefined?width:null}}
             name={name} type={type} {...register(name)} variant="outlined" 
-            disabled={flag == "true"} defaultValue={user != null ? user[name] : ""} />
+        defaultValue={user != null ? user[name] : ""}  disabled={flag} />
        </> : <>  <FormControlLabel control={<Checkbox defaultChecked />} label={lableName} name={name} {...register(name)}
             disabled={flag == "true"} defaultValue={user != null ? user[name] : ""} /></>}
         <br /> <span style={{ color: "red" }}>{errors[name]?.message}</span> <br />

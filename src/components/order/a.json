@@ -1,0 +1,131 @@
+{
+    "el": {
+        "l": {},
+        "fcSeg": {
+            "row": 3,
+            "firstCol": 0,
+            "lastCol": 0,
+            "isStart": true,
+            "isEnd": true,
+            "eventRange": {
+                "def": {
+                    "title": "יש כרטיסים",
+                    "groupId": "",
+                    "publicId": "",
+                    "url": "",
+                    "recurringDef": null,
+                    "defId": "41",
+                    "sourceId": "9",
+                    "allDay": true,
+                    "hasEnd": false,
+                    "ui": {
+                        "display": null,
+                        "constraints": [],
+                        "overlap": null,
+                        "allows": [],
+                        "backgroundColor": "green",
+                        "borderColor": "",
+                        "textColor": "",
+                        "classNames": []
+                    },
+                    "extendedProps": {
+                        "disabled": true
+                    }
+                },
+                "ui": {
+                    "display": "auto",
+                    "startEditable": false,
+                    "durationEditable": false,
+                    "constraints": [],
+                    "overlap": null,
+                    "allows": [],
+                    "backgroundColor": "green",
+                    "borderColor": "",
+                    "textColor": "",
+                    "classNames": []
+                },
+                "instance": {
+                    "instanceId": "42",
+                    "defId": "41",
+                    "range": {
+                        "start": "2023-01-16T00:00:00.000Z",
+                        "end": "2023-01-17T00:00:00.000Z"
+                    },
+                    "forcedStartTzo": null,
+                    "forcedEndTzo": null
+                },
+                "range": {
+                    "start": "2023-01-16T00:00:00.000Z",
+                    "end": "2023-01-17T00:00:00.000Z"
+                },
+                "isStart": true,
+                "isEnd": true
+            }
+        }
+    },
+    "event": {
+        "title": "יש כרטיסים",
+        "start": "2023-01-16",
+        "backgroundColor": "green",
+        "extendedProps": {
+            "disabled": true
+        }
+    },
+    "jsEvent": {
+        "isTrusted": true
+    },
+    "view": {
+        "type": "dayGridMonth",
+        "dateEnv": {
+            "timeZone": "local",
+            "canComputeOffset": true,
+            "calendarSystem": {},
+            "locale": {
+                "codeArg": "il",
+                "codes": [
+                    "il"
+                ],
+                "week": {
+                    "dow": 0,
+                    "doy": 4
+                },
+                "simpleNumberFormat": {},
+                "options": {
+                    "direction": "ltr",
+                    "buttonText": {
+                        "prev": "prev",
+                        "next": "next",
+                        "prevYear": "prev year",
+                        "nextYear": "next year",
+                        "year": "year",
+                        "today": "today",
+                        "month": "month",
+                        "week": "week",
+                        "day": "day",
+                        "list": "list"
+                    },
+                    "weekText": "W",
+                    "weekTextLong": "Week",
+                    "closeHint": "Close",
+                    "timeHint": "Time",
+                    "eventHint": "Event",
+                    "allDayText": "all-day",
+                    "moreLinkText": "more",
+                    "noEventsText": "No events to display",
+                    "buttonHints": {
+                        "prev": "Previous $0",
+                        "next": "Next $0"
+                    },
+                    "viewHint": "$0 view",
+                    "navLinkHint": "Go to $0"
+                }
+            },
+            "weekDow": 1,
+            "weekDoy": 4,
+            "weekText": "W",
+            "weekTextLong": "Week",
+            "cmdFormatter": null,
+            "defaultSeparator": " - "
+        }
+    }
+}

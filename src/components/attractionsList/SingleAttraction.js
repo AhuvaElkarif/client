@@ -23,7 +23,7 @@ export default function SingleAttraction({ product , type}) {
                 height="194"
                 image={product.Images!=""?`http://localhost:81/img/${product.Images.slice(0, 14)}`:"../../../images/camera2.webp"}
                 alt={product.Address}
-                onClick={() => { navigate("/detailsAttraction/" + product.Id) }}
+                onClick={() => { navigate("/detailsAttraction/" + product.Id+"/"+type) }}
             />
             <CardContent>
                 <Typography variant="body2" color="text.secondary">

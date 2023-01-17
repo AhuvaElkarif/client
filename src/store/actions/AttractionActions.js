@@ -42,7 +42,6 @@ export const addAttraction = (attraction) => {
                     type: actionType.ATTRACTION_ADDED,
                     payload: response.data
                 })
-                console.log(response);
             })
             .catch(err => { console.log(err) })
     }
@@ -57,7 +56,6 @@ export const deleteAttraction = (id, ind) => {
                     type:actionType.ATTRACTION_DELETED,
                     payload: ind
                 });
-                console.log(response);
             })
             .catch(err => { console.log(err) })
     }
@@ -66,12 +64,12 @@ export const deleteAttraction = (id, ind) => {
 export const updateAttraction = (item) => {
     return (dispatch) => {
         axios.put("http://localhost:57828/api/attraction/updateAttraction/", item)
-            .then(response => {
+            .then(x => {
                 dispatch({
                     type: actionType.ATTRACTION_UPDATED,
-                    payload: item
+                    payload: x.data
                 });
-                console.log(response);
+                
             })
             .catch(err => console.log(err))
     }

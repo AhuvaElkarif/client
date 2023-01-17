@@ -57,11 +57,11 @@ function HomePage() {
     }, [user]);
 
     return (<div className='home'>
-        <HotAttraction obj={obj} />
+         <HotAttraction obj={obj} />
         <br /> <br />
         {newAttractions.length > 0 && <DisplayAttractions arr={newAttractions} name={"חדשות"} />}
         {recommendAttractions.length > 0 && <DisplayAttractions arr={recommendAttractions} name={"מומלצות"} />}
-        <AttractionsByArea obj={obj} />
+        <AttractionsByArea obj={obj} /> 
     </div>);
 }
 

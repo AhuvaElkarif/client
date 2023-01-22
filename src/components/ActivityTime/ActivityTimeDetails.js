@@ -23,7 +23,7 @@ const ActivityTimeDetails = ({ times }) => {
     return (<div>
         {times.map(item => {
             const x = getDayInWord(item.DayInWeek);
-            return <p key={item.Id}>  יום {x}: {(item.StartTime).slice(0,5)} - {(item.EndTime).slice(0,5)} </p>
+            return <p key={item.Id}>  יום {x}: {(item.EndTime).slice(0,5)} - {(item.StartTime).slice(0,5)} </p>
         })}
     </div>
     )

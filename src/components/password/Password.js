@@ -4,7 +4,8 @@ import { FormControl, IconButton, InputAdornment, InputLabel } from "@mui/materi
 import { useState } from "react";
 
 const Password = ({ errors, register, labelName, name }) => {
-    const [showPassword, setshowPassword] = useState(false)
+    const [showPassword, setshowPassword] = useState(false);
+    
     return (
         <FormControl sx={{ m: 1, width: '25ch' }} variant="standard" style={{marginTop:'-1.2rem'}}>
             <InputLabel htmlFor="outlined-adornment-password" style={{position:"relative", left:"4rem", top:"1.2rem"}}>{labelName}</InputLabel>

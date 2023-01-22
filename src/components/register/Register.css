@@ -15,6 +15,7 @@
 
 .move {
     color: blue;
+    cursor: pointer;
 }
 .MuiTextField-root{
 right:auto;

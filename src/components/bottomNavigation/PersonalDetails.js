@@ -24,10 +24,15 @@ const PersonalDetails = () => {
     const dispatch = useDispatch();
     const [flag, setFlag] = React.useState(false);
     const user = useSelector(state => state.user);
-    const { register, handleSubmit, formState: { errors } } = useForm({
-        resolver: yupResolver(schema)
+    const { register, handleSubmit, formState: { errors }, setValue } = useForm({
+        resolver: yupResolver(schema),
+        defaultValues: { user }
     });
-    React.useEffect(() => { }, [user])
+    React.useEffect(() => {
+        if (user) {
+            arr.forEach(x => setValue(x.name, user[x.name]))
+        }
+     }, [user])
     const onSubmit = (data) => {
         data.Status = user.Status;
         data.Active = true;
@@ -39,18 +44,17 @@ const PersonalDetails = () => {
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="location">
             {arr.map(item => <div key={item.name}>
-                 <FormInput
+                <FormInput
                     lableName={item.lableName}
                     name={item.name}
                     type={item.type}
                     errors={errors}
                     register={register}
-                    user={user}
                     flag={false} />
             </div>
             )}
             <Button variant="contained" size="medium" type="submit" style={{ backgroundColor: "orange" }}>
-                 שמירת שינויים
+                שמירת שינויים
             </Button>
             <br /> <br />
             {flag && <AlertMessage variant={'success'} setFlag={setFlag} children={<Alerts message={"פרטיך עודכנו בהצלחה!"} />} />}

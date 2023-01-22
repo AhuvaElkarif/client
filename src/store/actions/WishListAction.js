@@ -37,11 +37,13 @@ export const addProductToWishList = (wish, user) => {
 
 export const deleteProductFromWishList = (user, attractionId) => {
     return dispatch => {
-        if (user == null)
+        if (user == null){
             dispatch({
                 type: actionType.ATTRACTION_DELETED_FROM_WISH_LIST,
                 payload: attractionId
             })
+            return;
+        }
         axios.delete("http://localhost:57828/Api/wish/Delete?attractionId=" + attractionId)
             .then(response => {
                 dispatch({

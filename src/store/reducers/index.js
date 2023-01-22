@@ -3,11 +3,8 @@ const initialState = {
     attractionArr: [],
     wishesArr: [],
     categoriesArr: [],
-    // user: null,
-user : {
-    Id: 2, Name : "שלומי שבו", Email: "ahuvael02@gmail.com",
-    Password: "hjk123", Phone: "0521234123",  Status: 1,Active: true,
-},
+    loginApp:false,
+    user: null,
     userList: [],
     ordersArr: [],
     statisticts: null,
@@ -16,6 +13,11 @@ user : {
 
 export const storeReducer = (state = initialState, action) => {
     switch (action.type) {
+        case actionType.CHANGE_LOGIN_APP:
+            return {
+                ...state,
+                loginApp: action.payload
+            }
         case actionType.SAVE_ALL_STATISTICTS:
             return {
                 ...state,
@@ -51,7 +53,7 @@ export const storeReducer = (state = initialState, action) => {
             }
 
         case actionType.ADDED_ATTRACTION_TO_WISH_LIST:
-            const x = state.attractionArr.find(x => x.Id == action.payload.AttractionId);
+            const x = state.attractionArr.find(x => x.Id === action.payload.AttractionId);
             return {
                 ...state,
                 wishesArr: [...state.wishesArr, x]
@@ -62,8 +64,9 @@ export const storeReducer = (state = initialState, action) => {
                 ...state,
                 wishesArr: action.payload
             }
+
         case actionType.ATTRACTION_DELETED_FROM_WISH_LIST:
-            const array = state.wishesArr.filter(x => x.Id != action.payload);
+            const array = state.wishesArr.filter(x => x.Id !== action.payload);
             return {
                 ...state,
                 wishesArr: array
@@ -88,26 +91,27 @@ export const storeReducer = (state = initialState, action) => {
                 ...state,
                 ordersArr: action.payload
             }
-            case actionType.ORDER_DELETED:
-                const a2 = [...state.ordersArr];
-                const a3 = a2.filter(x => x.Id != action.payload)
-                return {
-                    ...state,
-                    ordersArr: [...a3]
-                }
-                case actionType.ORDER_UPDATED:
-                    const v = [...state.ordersArr];
-                    const index = v.findIndex(x => x.Id === action.payload.Id);
-                    v[index] = action.payload;
-                    return {
-                        ...state,
-                        ordersArr: [...v]
-                    }
-                    case actionType.ORDER_ADDED:
-                        return {
-                            ...state,
-                            ordersArr: [...state.ordersArr, action.payload]
-                        }
+        case actionType.ORDER_DELETED:
+            const a2 = [...state.ordersArr];
+            const a3 = a2.filter(x => x.Id != action.payload);
+            return {
+                ...state,
+                ordersArr: [...a3]
+            }
+        case actionType.ORDER_UPDATED:
+            const v = [...state.ordersArr];
+            const index = v.findIndex(x => x.Id === action.payload.Id);
+            v[index] = action.payload;
+            return {
+                ...state,
+                ordersArr: [...v]
+            }
+        case actionType.ORDER_ADDED:
+            action.payload.Attraction = {...state.attractionArr.find(x=>x.Id==action.payload.AttractionId)}
+            return {
+                ...state,
+                ordersArr: [...state.ordersArr, action.payload]
+            }
         case actionType.SAVE_ALL_CATEGORIES:
             return {
                 ...state,
@@ -119,18 +123,18 @@ export const storeReducer = (state = initialState, action) => {
                 categoriesArr: [...state.categoriesArr, action.payload]
             }
         case actionType.CATEGORY_CHANGED:
-            // if (!(action.payload.Status))
-            //     return;
             return {
                 ...state,
                 categoriesArr: [...state.categoriesArr, action.payload]
             }
-            case actionType.DELETE_CATEGORY:
-                const c = [...state.categoriesArr.filter(x => x.Id != action.payload.Id)];
-                return {
-                    ...state,
-                    categoriesArr: [...c]
-                }
+        case actionType.DELETE_CATEGORY:
+            const c = [...state.categoriesArr.filter(x => x.Id !== action.payload.Id)];
+            return {
+                ...state,
+                categoriesArr: [...c]
+            }
+        default:
+            break;
     }
     return state;
 }

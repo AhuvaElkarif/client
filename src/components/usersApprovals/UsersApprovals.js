@@ -16,8 +16,6 @@ import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
@@ -66,7 +64,7 @@ function stableSort(array, comparator) {
   const stabilizedThis = array.map((el, index) => [el, index]);
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
-    if (order !== 0) {
+    if (order != 0) {
       return order;
     }
     return a[1] - b[1];
@@ -287,7 +285,7 @@ export default function EnhancedTable() {
         setRows(arr);
       })
       .catch(err => console.log(err));
-  }, [])
+  }, [user.Id]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -331,18 +329,14 @@ export default function EnhancedTable() {
     setPage(0);
   };
 
-  const handleChangeDense = (event) => {
-    setDense(event.target.checked);
-  };
-
-  const isSelected = (name) => selected.indexOf(name) !== -1;
+  const isSelected = (name) => selected.indexOf(name) != -1;
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
   return (
-    <Box sx={{ width: '100%', marginTop:"4rem", width:"85vw", marginRight:"6rem", marginBottom:"2rem"}}>
+    <Box sx={{ marginTop:"4rem", width:"85vw", marginRight:"6rem", marginBottom:"2rem"}}>
       <Paper sx={{ width: '100%', mb: 2 }}>
         <EnhancedTableToolbar setSelected={setSelected} setNumSelected={setNumSelected} numSelected={selected.length} selected={selected} rows={rows} setRows={setRows} />
         <TableContainer>
@@ -425,10 +419,6 @@ export default function EnhancedTable() {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
-      {/* <FormControlLabel
-        control={<Switch checked={dense} onChange={handleChangeDense} />}
-        label="Dense padding"
-      /> */}
     </Box>
   );
 }

@@ -9,9 +9,10 @@ import { Button, SvgIcon } from '@material-ui/core';
 import Stack from '@mui/material/Stack';
 import SendIcon from '@mui/icons-material/Send';
 import Poppers from '../popper/Popper';
-import { changeAttractionAvailable, changeAttractionStatus } from '../../store/actions/AttractionActions';
+import { changeAttractionStatus } from '../../store/actions/AttractionActions';
 import AlertMessage from '../alert/AlertMessage';
 import Alerts from '../alert/Alerts';
+import { Fragment } from 'react';
 
 const Buttons = ({ id, type }) => {
     const navigate = useNavigate();
@@ -26,34 +27,36 @@ const Buttons = ({ id, type }) => {
             wishList: state.wishesArr
         }
     }, shallowEqual);
-    const index = attractions.findIndex(x => x.Id === id);
+
+    const index = attractions.findIndex(x => x.Id == id);
     const item = { ...attractions.find(x => x.Id == id) };
-    const [checked, setChecked] = useState(item.IsAvailable);
+    const [checked, setChecked] = useState(item.Status);
     useEffect(() => {
         setStatus(item.Status ? "בטל" : "אשר");
         setS(!item.Status);
-    }, [])
+    }, []);
+
     useEffect(() => {
         if (flag) {
             const interval = setInterval(() => {
                 setFlag(false);
             }, 3000);
         }
-    }, [id, flag])
+    }, [id, flag]);
 
     const addProduct = () => {
         if (wishList.find(x => x.Id == item.Id))
             dispatch(deleteProductFromWishList(user, item.Id, index));
         else
-            dispatch(addProductToWishList({ AttractionId: id, UserId: user != null ? user.Id : null }, user))
+            dispatch(addProductToWishList({ AttractionId: id, UserId: user  ? user.Id : null }, user))
     }
+
     const changeAttraction = (type) => {
-            dispatch(changeAttractionStatus(id));
-            if (type != 1){
+        dispatch(changeAttractionStatus(id));
+        if (type !== 1) {
             const x = status == "אשר" ? "בטל" : "אשר";
             setStatus(x);
             setS(!s);
-
         }
         setFlag(true);
     }
@@ -68,7 +71,7 @@ const Buttons = ({ id, type }) => {
                 </IconButton>
             </Stack>
             : type == 1 ?
-                <>
+                <Fragment>
                     <Button variant="contained" color="primary" size="medium" onClick={() => { navigate("/editAttraction/" + item.Id) }}>  עדכון  </Button>
                     {!flag ?
                         <Poppers
@@ -80,8 +83,8 @@ const Buttons = ({ id, type }) => {
                         <AlertMessage
                             variant={'success'}
                             children={<Alerts message={"האטרציה עודכנה בהצלחה!"} />} />}
-                </> :
-                <>
+                </Fragment> :
+                <Fragment>
                     {!flag ? <Poppers
                         type={3}
                         content={status}
@@ -91,7 +94,7 @@ const Buttons = ({ id, type }) => {
                             variant={'success'}
                             children={<Alerts message={s ? "בוטל בהצלחה!" : "אושר בהצלחה!"} />}
                         />}
-                </>
+                </Fragment>
     )
 }
 export default Buttons;

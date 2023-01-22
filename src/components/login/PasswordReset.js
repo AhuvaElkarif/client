@@ -1,7 +1,7 @@
+import { Button } from "@material-ui/core";
 import React, { useState } from "react";
 import { HiEyeOff, HiEye } from "react-icons/hi";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
 import { changePassword } from "../../store/actions/UserActions";
 
 const PasswordReset = ({ email, setOpen }) => {
@@ -22,7 +22,7 @@ const PasswordReset = ({ email, setOpen }) => {
 
   const handleconfirmPassword = (event) => {
     setconfirmPassword(event.target.value);
-    if (newPassword !== event.target.value){
+    if (newPassword != event.target.value) {
       setErrorState("הסיסמא לא מתאימה");
       setFlag(false);
     }
@@ -38,29 +38,30 @@ const PasswordReset = ({ email, setOpen }) => {
         setOpen(false)
       }
   }
-  return (
-    <div>
-      <div>אתחול סיסמא: </div>
-      <form>
-        <label>סיסמא חדשה</label> <br />
-        <input type="text" value={newPassword} onChange={handleNewPassword}></input> <br />
-        <label type="text" > אשר סיסמא </label> <br />
-        <input
-          type={eye ? "text" : "password"}
-          value={confirmPassword}
-          onChange={handleconfirmPassword}>
-        </input>
+  return <div>
+    <h4 style={{ textAlign: "center" }}>אתחול סיסמא: </h4>
+    <form>
+      <label>סיסמא חדשה</label> <br />
+      <input
+        type="text"
+        value={newPassword}
+        onChange={handleNewPassword}></input> <br /> <br />
 
-        <div onClick={() => { setEye(!eye) }}>
-          {eye ? <HiEyeOff color="grey" /> : <HiEye color="grey" />}
-        </div>
-        <span style={{ color: "red" }}>{errorState}</span>  <br />
+      <label type="text" > אשר סיסמא </label> <br />
+      <input
+        type={eye ? "text" : "password"}
+        value={confirmPassword}
+        onChange={handleconfirmPassword}>
+      </input>
 
-        <p onClick={resetPassword}> המשך </p>
-        {flag && <span style={{ color: "red" }}>יש למלא את כל השדות</span>}
+      <div onClick={() => { setEye(!eye) }} >
+        {eye ? <HiEyeOff color="grey" /> : <HiEye color="grey" />}
+      </div>
+      <span style={{ color: "red" }}>{errorState}</span>  <br /> <br />
 
-      </form>
-    </div>
-  );
+      {flag && <span style={{ color: "red" }}>יש למלא את כל השדות</span>}
+      <Button variant="contained" color="primary" onClick={resetPassword}> המשך </Button>
+    </form>
+  </div>
 }
 export default PasswordReset;

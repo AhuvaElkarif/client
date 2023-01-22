@@ -1,4 +1,5 @@
 import React from 'react';
+import { Fragment } from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import { Button, FormControlLabel, Switch } from '@material-ui/core';
@@ -34,7 +35,7 @@ const GeneralTimesDetails = ({ item, change, type, updateAndAdd, message }) => {
             }
             label={item.name}
         />
-        {item?.IsOpen ? <>
+        {item?.IsOpen ? <Fragment>
             <TextField
                 id="time"
                 label="שעת פתיחה"
@@ -62,11 +63,12 @@ const GeneralTimesDetails = ({ item, change, type, updateAndAdd, message }) => {
                     shrink: true,
                 }}
                 inputProps={{
-                    step: 300, // 5 min
+                    step: 300,
                 }}
             />
             <br /> <span className='spanTimes'>פתוח</span>
-        </> : <><br /> <span className='spanTimes'>סגור</span></>}
+        </Fragment> :
+            <Fragment> <br /> <span className='spanTimes'> סגור </span> </Fragment>}
         {type != "new" && <Button onClick={() => updateAndAdd(item)} variant="contained" style={{ margin: "1rem" }}>{item?.Id ? 'עדכן' : 'הוסף'}</Button>}
         {message && <p style={{ color: "red" }}> יש להכניס נתונים </p>}
     </div>

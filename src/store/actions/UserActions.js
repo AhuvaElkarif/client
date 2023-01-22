@@ -35,12 +35,13 @@ export const addUser = (user) => {
                     alert("שם זה כבר קיים אצלנו");
                 else {
                     dispatch(currentUser(x.data));
-                    swal(x.data.Name + " ברוך הבא!", "נרשמת בהצלחה");
+                    swal({ icon: "success", title:"נרשמת בהצלחה!",text: x.data.Name + " ברוכ.ה הבא.ה!"});
                 }
             })
             .catch(err => console.log(err))
     }
 }
+
 export const updateUser = (user) => {
     return dispatch => {
         axios.put("http://localhost:57828/Api/user/Put", user)
@@ -50,6 +51,7 @@ export const updateUser = (user) => {
             .catch(err => console.log(err))
     }
 }
+
 export const changePassword = (user) => {
     return dispatch => {
         axios.put("http://localhost:57828/Api/user/ChangePassword", user)

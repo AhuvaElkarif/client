@@ -9,6 +9,7 @@ import PasswordDetails from './PasswordDetails';
 const useStyles = makeStyles({
   root: {
     width: 500,
+    margin:"auto"
   },
 });
 
@@ -24,12 +25,13 @@ export default function ButtomNavigation() {
           setValue(newValue);
         }}
         showLabels
-        className={classes.root}>
-
+        className={classes.root}
+      >
         <BottomNavigationAction label="עדכון פרטים אישיים" icon={<PersonIcon />} />
         <BottomNavigationAction label="עדכון סיסמא" icon={<LockIcon />} />
       </BottomNavigation>
-      {value == 0 ? <PersonalDetails /> : <PasswordDetails/>}
+
+      {value == 0 ? <PersonalDetails /> : <PasswordDetails />}
     </div>
   );
 }

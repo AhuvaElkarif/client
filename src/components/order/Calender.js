@@ -7,47 +7,48 @@ import ShowTimes from './ShowTimes';
 import interactionPlugin from "@fullcalendar/interaction"
 import "./CalenderCore.css";
 import './Order.css';
+import { CircularProgress } from "@material-ui/core";
 // import "@fullcalendar/daygrid/main.css";
 // import "@fullcalendar/timegrid/main.css";
 // import events from "./events";
 
 
-export default function Calender({ id, amount, setStart, setDate, type }) {
+export default function Calender({ id, amount, setStart, setDate, date }) {
   let firstDaty = 1;
   const [events, setEvents] = useState([]);
-  const [times, setTimes] = useState([]);
+  const [times, setTimes] = useState(null);
   useEffect(() => {
     const today = new Date();
     const year = today.getFullYear().toString();
     let month = (today.getMonth() + 1).toString();
-    if (month.length === 1) {
+    if (month.length == 1) {
       month = "0" + month;
     }
     console.log(month + " " + year + " " + amount)
     getDaysInMoth(month, year, id, amount)
       .then(x => {
-        console.log(x.data)
         const vec = x.data;
         vec.forEach(element => {
           const dateObj = new Date(element.start);
-          var month = dateObj.getUTCMonth() + 1; //months from 1-12
+          var month = dateObj.getMonth() + 1; //months from 1-12
           month = month < 10 ? "0" + month : month;
-          var day = dateObj.getUTCDate();
+          var day = dateObj.getDate();
           day = day < 10 ? "0" + day : day;
-          var year = dateObj.getUTCFullYear();
+          var year = dateObj.getFullYear();
           element.start = year + "-" + month + "-" + day;
         });
-        setEvents(vec)
+        setEvents(vec);
       })
       .catch(err => console.log(err));
   }, []);
+  
   const handleClick = (data) => {
-    console.log(data.event)
+    console.log(data.event.disabled)
     console.log(data.event.start)
     if (data.event.title == "יש כרטיסים") {
       const date = new Date(data.event.start);
       console.log(date);
-      GetTimesInDay(date.getDate(), date.getMonth() + 1, date.getFullYear(), id)
+      GetTimesInDay(date.getDate(), date.getMonth() + 1, date.getFullYear(), id, amount)
         .then(x => {
           console.log(x.data);
           setTimes(x.data);
@@ -56,12 +57,14 @@ export default function Calender({ id, amount, setStart, setDate, type }) {
         .catch(err => console.log(err));
     }
     else
-      setTimes([]);
+      setTimes(null);
   }
   console.log(events)
-  return (<div>
+  return (<div style={{margin:"2.5rem"}}>
     <div className="App">
-      {events.length > 0 && <FullCalendar
+      {events.length == 0 ?
+      <div className="circular-progress"> <CircularProgress /> </div>
+      : <FullCalendar
         defaultView="dayGridMonth"
         firstDay={firstDaty}
         plugins={[dayGridPlugin, interactionPlugin]}
@@ -85,8 +88,8 @@ export default function Calender({ id, amount, setStart, setDate, type }) {
       />}
     </div>
 
-    {times.length > 0 && <div className="showTimes">
-      <ShowTimes arr={times} setStart={setStart} /> </div>}
+    {times && <div className="showTimes">
+      <ShowTimes arr={times} setStart={setStart} date={date}/> </div>}
 
   </div>
   );

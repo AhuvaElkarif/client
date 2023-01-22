@@ -1,4 +1,3 @@
-import Map from './map'
 import React from 'react';
 import './App.css';
 import AttractionsList from './attractionsList/AttractionsList';
@@ -9,7 +8,7 @@ import EquipmentList from './equipment/EquipmentList';
 import About from './about/About';
 import HomePage from './homePage/HomePage';
 import WishList from './wishList/WishList';
-import { Routes, Route, useNavigate } from 'react-router';
+import { Routes, Route, useNavigate, useLocation } from 'react-router';
 import NavBar from './navBar/NavBar';
 import EditAndAddAttraction from './editAndAddAttraction/EditAndAddAttraction';
 import Message from './message/Message';
@@ -22,20 +21,56 @@ import Category from './category/Category';
 import Regions from './regions/Regions';
 import PeriodDetails from './editAndAddAttraction/PeriodDetails';
 import Order from './order/Order';
-import Calender from './order/Calender';
 import UsersApprovals from './usersApprovals/UsersApprovals';
+import { useEffect } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { stepButtonClasses } from '@mui/material';
+import { changeLoginApp } from '../store/actions/LoginAppAction';
+import { KeyOff } from '@mui/icons-material';
+import { getAttractions } from '../store/actions/AttractionActions';
+import { getOrders } from '../store/actions/OrderAction';
+import { getCategories } from '../store/actions/CategoryAction';
+import { getUsers } from '../store/actions/UserActions';
+import { getStatistic } from '../store/actions/StatisticsAction';
+
 function App() {
   const navigate = useNavigate();
-  return (<>
-    {/* <Calender id={19}/> */}
-    {/* <EditAndAddAttraction id={19} type=""/> */}
-    {/* <Map/> */}
+  const path = useLocation();
+  const dispatch = useDispatch();
+  const { user, isApp } = useSelector(state => {
+    return {
+      isApp: state.loginApp,
+      user: state.user
+    }
+  }, shallowEqual);
+
+  useEffect(() => {
+    dispatch(getAttractions());
+    if (user)
+      dispatch(getOrders())
+    dispatch(getCategories());
+    dispatch(getUsers());
+    dispatch(getStatistic());
+  }, [user]);
+
+  useEffect(() => {
+    if (!isApp) {
+      console.log(path)
+      if (path.pathname != "/") {
+        navigate('/');
+      }
+      else {
+        dispatch(changeLoginApp());
+      }
+    }
+  }, [path])
+  return (<div className='myApp'>
     <header>
-      <span className='head' onClick={() => navigate("")}> <img src="../../images/img2.png"  style={{ width: "25vw", height: "16vh",marginTop:"-1.5rem"}}/></span>
-       {/* <img src="../../images/Israel.png" style={{ width: "13vw", opacity: 0.5, position: "absolute", height: "17vh", left: "11.2rem", bottom: "-1.4rem" }} /></span> */}
+      <span className='head' onClick={() => navigate("")}>
+        <img src="../../images/img2.png" style={{ width: "25vw", height: "16vh", marginTop: "-1.5rem" }} />
+      </span>
     </header>
     <NavBar />
-
     <Routes>
       <Route path="" element={<HomePage />} />
       <Route path="attractionsList/:type" element={<AttractionsList />} />
@@ -52,10 +87,10 @@ function App() {
       <Route path="register" element={<Register />} />
       <Route path="wishList" element={<WishList />} />
       <Route path="activityTime/:id" element={<ActivityTime />} />
-      <Route path="order/:id" element={<Order type={0}/>} >
+      <Route path="order/:id" element={<Order type={0} />} >
         <Route path="equipmentList" element={<EquipmentList />} />
       </Route>
-      <Route path="order/:id/:orderId" element={<Order type={1}/>} >
+      <Route path="order/:id/:orderId" element={<Order type={1} />} >
         <Route path="equipmentList" element={<EquipmentList />} />
       </Route>
       <Route path="regions" element={<Regions />} />
@@ -70,7 +105,6 @@ function App() {
       <Route path="detailsAttraction/:id/:type" element={<DetailsAttraction />} />
       <Route path="detailsAttraction/:id" element={<DetailsAttraction />} />
     </Routes>
-  </>);
+  </div>);
 }
-
 export default App;

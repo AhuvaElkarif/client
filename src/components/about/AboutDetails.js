@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { TextField } from '@mui/material';
 import * as yup from "yup";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import FormInput from "../formInput/FormInput";
 import { addAbout, deleteAbout, updateAbout } from "../../store/actions/AboutAction";
 import AlertMessage from "../alert/AlertMessage";
@@ -17,10 +17,16 @@ const AboutDetails = ({ item, type, arr, setArr }) => {
     const [flag, setFlag] = useState(false);
     const [text, setText] = useState("");
 
-    const { register, handleSubmit, formState: { errors } } = useForm({
-        resolver: yupResolver(schema)
+    const { register, handleSubmit, formState: { errors }, setValue  } = useForm({
+        resolver: yupResolver(schema),
+        defaultValues: { item }
     });
-    useEffect(() => { }, [item])
+
+    useEffect(() => {
+        if (item) {
+          setValue("HeaderText", item.HeaderText)
+        }
+    }, [item]);
     const delAbout = () => {
         deleteAbout(item.Id)
             .then(x => {
@@ -32,15 +38,15 @@ const AboutDetails = ({ item, type, arr, setArr }) => {
             .catch(err => alert('אנו מתנצלים קרתה תקלה זמנית הטקסט לא נמחק'));
     }
     const onSubmit = (data) => {
-        if (type == "add"){
-            data.Status=true;
+        if (type == "add") {
+            data.Status = true;
             addAbout(data)
                 .then(x => {
                     setFlag(true);
                     setText("התווסף בהצלחה!")
                 })
                 .catch(err => alert('אנו מתנצלים קרתה תקלה זמנית הטקסט לא עודכן'));
-            }
+        }
         else {
             data.Id = item.Id;
             updateAbout(data)
@@ -53,7 +59,7 @@ const AboutDetails = ({ item, type, arr, setArr }) => {
 
 
     }
-    return type == undefined ? <><h4 style={{color:"orange"}}>{item.HeaderText}</h4> <p>{item.ContentText}</p> </> :
+    return !type ? <Fragment><h4 style={{ color: "orange" }}>{item.HeaderText}</h4> <p>{item.ContentText}</p> </Fragment> :
         <form onSubmit={handleSubmit(onSubmit)}>
             <FormInput
                 lableName={"כותרת"}
@@ -61,7 +67,6 @@ const AboutDetails = ({ item, type, arr, setArr }) => {
                 type={"text"}
                 errors={errors}
                 register={register}
-                user={item}
                 flag={false} />
             <TextField
                 id="outlined-multiline-static"
@@ -71,7 +76,7 @@ const AboutDetails = ({ item, type, arr, setArr }) => {
                 {...register("ContentText")}
                 style={{ width: "30rem" }}
                 label="תיאור"
-                defaultValue={item != null ? item.ContentText : ""}
+                defaultValue={item ? item.ContentText : ""}
             />
             <br /> <span style={{ color: "red" }}>{errors['ContentText']?.message}</span> <br />
             <Button style={{ backgroundColor: "orange" }} variant="contained" type="submit">{type == "add" ? "הוסף" : "עדכן"}</Button>

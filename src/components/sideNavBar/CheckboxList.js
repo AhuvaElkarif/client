@@ -47,14 +47,14 @@ export default function CheckBoxList({ type, x, setX, func , flag}) {
             default:
                 break;
         }
-    }, [])
+    }, []);
     useEffect(() => {
         if (x) {
             setPrev([]);
             setChecked([]);
             setX(false);
         }
-    }, [x])
+    }, [x]);
     const handleChange = (event) => {
         const {
             target: { value },
@@ -73,7 +73,7 @@ export default function CheckBoxList({ type, x, setX, func , flag}) {
 
     return (
         <div className='filter-container'>
-            {flag==undefined && <Typography gutterBottom >
+            {!flag && <Typography gutterBottom >
                      {kind}
                 </Typography>}
             <FormControl sx={{ m: 1, width: 200 }}>

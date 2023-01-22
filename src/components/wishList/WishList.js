@@ -1,11 +1,11 @@
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router';
 import { useSelector, shallowEqual } from "react-redux";
 import WishCard from "./WishCard";
 import { Button } from "@material-ui/core";
-import "./WishList.css";
 import CommonSeason from "../statistics/CommonSeason";
 import Statistics from "../statistics/Statistics";
+import "./WishList.css";
 
 function WishList() {
     const navigate = useNavigate();
@@ -37,7 +37,7 @@ function WishList() {
         </div>
         <div className="bunner">
             <h3>מה היו האטרקציות הפופולאריות בשנה האחרונה?</h3>
-            <Statistics /> <br /><br/>
+            <Statistics /> <br /><br />
             <h3>אז מהו האיזור המבוקש ביותר בארץ לאטרקציות?</h3>
             <CommonSeason />
         </div>

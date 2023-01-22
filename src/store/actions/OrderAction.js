@@ -23,7 +23,7 @@ export const getOrders = () => {
 }
 export const getOrdersByUserId = (userId) => {
     return dispatch => {
-        axios.get("http://localhost:57828/Api/orderAttraction/GetordersByUserId?userId="+userId)
+        axios.get("http://localhost:57828/Api/orderAttraction/GetordersByUserId?userId=" + userId)
             .then(response => {
                 dispatch({
                     type: actionType.SAVE_ALL_ORDERS,
@@ -34,7 +34,7 @@ export const getOrdersByUserId = (userId) => {
     }
 }
 export const getOrdersByMangerId = (id) => {
-       return axios.get("http://localhost:57828/Api/orderAttraction/GetordersByManagerId?managerId="+id)
+    return axios.get("http://localhost:57828/Api/orderAttraction/GetordersByManagerId?managerId=" + id)
 }
 
 export const addOrder = (order) => {
@@ -46,20 +46,20 @@ export const addOrder = (order) => {
                     payload: x.data
                 });
             })
-            .catch(err => alert("קרתה תקלה זמנית באתר."+err))
+            .catch(err => alert("קרתה תקלה זמנית באתר." + err))
     }
 }
 
 export const deleteOrder = (id) => {
     return dispatch => {
-        axios.put("http://localhost:57828/Api/orderAttraction/ChangeOrderStaus?orderId="+id)
+        axios.put("http://localhost:57828/Api/orderAttraction/ChangeOrderStaus?orderId=" + id)
             .then(response => {
                 dispatch({
                     type: actionType.ORDER_DELETED,
                     payload: id
                 });
             })
-            .catch(err => alert("קרתה תקלה זמנית באתר."+err))
+            .catch(err => alert("קרתה תקלה זמנית באתר." + err))
     }
 }
 export const updateOrder = (order) => {
@@ -71,17 +71,17 @@ export const updateOrder = (order) => {
                     payload: x.data
                 });
             })
-            .catch(err => alert("קרתה תקלה זמנית באתר."+err))
+            .catch(err => alert("קרתה תקלה זמנית באתר." + err))
     }
 }
 export const deleteOrderAfterApproval = (id) => {
-      return axios.put("http://localhost:57828/Api/orderAttraction/ChangeApproval?id="+id)
+    return axios.put("http://localhost:57828/Api/orderAttraction/ChangeApproval?id=" + id)
 }
 
-export const getDaysInMoth = (month, year, id,amount) => {
-    return axios.get("http://localhost:57828/Api/orderAttraction/GetDaysInMonth?id="+id+"&month="+month+"&year="+year+"&amount="+amount);
+export const getDaysInMoth = (month, year, id, amount) => {
+    return axios.get("http://localhost:57828/Api/orderAttraction/GetDaysInMonth?id=" + id + "&month=" + month + "&year=" + year + "&amount=" + amount);
 }
 
-export const GetTimesInDay = (day, month,year,id) => {
-    return axios.get("http://localhost:57828/Api/orderAttraction/GetTimesInDay?day="+day+"&month="+month+"&year="+year+"&id="+id);
+export const GetTimesInDay = (day, month, year, id, amount) => {
+    return axios.get("http://localhost:57828/Api/orderAttraction/GetTimesInDay?day=" + day + "&month=" + month + "&year=" + year + "&id=" + id +"&amount="+amount);
 }

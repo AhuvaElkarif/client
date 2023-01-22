@@ -7,8 +7,8 @@ import { CardActionArea } from '@mui/material';
 
 export default function CategoryCard({item}) {
   return (
-    <Card sx={{ maxWidth: 345 }}>
-      <CardActionArea>
+    <Card sx={{ maxWidth: 250, margin:"1rem" ,padding:0}} >
+      <CardActionArea style={{display:"flex", flexDirection:"column"}}>
         <CardMedia
           component="img"
           height="140"

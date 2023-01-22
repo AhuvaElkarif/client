@@ -5,8 +5,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import PasswordReset from './PasswordReset';
 import { getUserByEmail } from '../../store/actions/UserActions';
-import { IconButton, SvgIcon } from '@material-ui/core';
-import CancelIcon from  '@material-ui/icons/Cancel';
+import { Fragment } from 'react';
 
 const style = {
   position: 'absolute',
@@ -32,42 +31,38 @@ export default function ForgetPassword({ email, setOpen }) {
           setIsError(true);
           setFlag(true);
         }
-        else{
+        else {
           setIsError(false);
           setFlag(false);
         }
       })
       .catch(err => console.log(err));
   }
-  return (
-    <div>
-      <Modal
-        keepMounted
-        open={true}
-        onClose={() => setOpen(false)}
-        aria-labelledby="keep-mounted-modal-title"
-        aria-describedby="keep-mounted-modal-description">
-        <Box sx={style}>
-         {!flag?<> <Typography id="keep-mounted-modal-title" variant="h6" component="h2">
-         {/* <IconButton onClick={() => setOpen(false)}>
-              <SvgIcon fontSize="large" >
-                <CancelIcon></CancelIcon>
-              </SvgIcon>
-            </IconButton> */}
-          <label className="small-text bold-text">הכנס כתובת מייל</label> <br/>
-            <input type="text" defaultValue={mail} name="Email" onChange={(e) => { setMail(e.target.value); }}/>
+
+  return <div>
+    <Modal
+      keepMounted
+      open={true}
+      onClose={() => setOpen(false)}
+      aria-labelledby="keep-mounted-modal-title"
+      aria-describedby="keep-mounted-modal-description">
+
+      <Box sx={style}>
+        {!flag ? <Fragment>
+          <Typography id="keep-mounted-modal-title" variant="h6" component="h2">
+            <label className="small-text bold-text">הכנס כתובת מייל</label> <br />
+            <input type="text" defaultValue={mail} name="Email" onChange={(e) => { setMail(e.target.value); }} />
           </Typography>
           {!isError ? <span style={{ color: "red" }}>משתמש זה אינו קיים</span> : null}
-          <br/>
+          <br />
           <Typography id="keep-mounted-modal-title" variant="h6" component="h2">
             <Button variant="contained" size="medium" onClick={resetPassword}>  איפוס סיסמא  </Button>
-          </Typography></>:null}
-          {flag ?
-            <Typography id="keep-mounted-modal-description" sx={{ mt: 2 }}>
-              <PasswordReset email={mail} setOpen={setOpen}/>
-            </Typography> : null}
-        </Box>
-      </Modal>
-    </div>
-  );
+          </Typography></Fragment> :
+
+          <Typography id="keep-mounted-modal-description" sx={{ mt: 2 }}>
+            <PasswordReset email={mail} setOpen={setOpen} />
+          </Typography>}
+      </Box>
+    </Modal>
+  </div>
 }

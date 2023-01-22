@@ -1,49 +1,54 @@
-*{
-  margin:0;
+* {
+  margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-html,body{
+
+html,
+body {
   height: 100vh;
 }
 
-body{
+body {
   direction: rtl;
   background-color: white;
   margin: 0;
 }
 
-.img-logo{
-  height:30vh;
-  width:20vw;
-  display:flex;
-  position:relative;
+.myApp {
+  margin-bottom: 4rem;
+}
+
+.img-logo {
+  height: 30vh;
+  width: 20vw;
+  display: flex;
+  position: relative;
   text-align: center;
-  left:-20rem;
+  left: -20rem;
   bottom: 7rem;
 }
-.MuiButtonBase-root{
+
+.MuiButtonBase-root {
   display: block;
 }
-.head{
+
+.head {
   position: relative;
   top: 3rem;
   cursor: pointer;
 }
-header{
+
+header {
   background-color: white;
-  height:20vh;
+  height: 20vh;
   font-family: 'Agency FB';
   font-size: 4rem;
   font-weight: 900;
   text-align: center;
-  /* position: relative; */
   margin: auto;
-  /* margin-top: 3rem; */
-  /* color:#3b81af; */
-
 }
-body{
+
+body {
   background-color: #f7f7f8;
-  /* background-color: #fdf9c5; */
 }

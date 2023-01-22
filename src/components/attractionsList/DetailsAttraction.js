@@ -16,7 +16,8 @@ import FlipToFrontIcon from '@mui/icons-material/FlipToFront';
 import { Fragment, useState } from "react";
 import { Button } from "@mui/material";
 import ActivityTime from "../ActivityTime/ActivityTime";
-import MapWithAMarkerClustered from '../map';
+import MapWithAMarkerClustered from '../map/Map';
+
 const DetailsAttraction = () => {
      const navigate = useNavigate();
      const { id, type } = useParams();
@@ -29,17 +30,19 @@ const DetailsAttraction = () => {
      }, shallowEqual);
      const product = { ...attractionArr.find(x => x.Id == id) };
 
-     return (<div style={{ marginRight: "1.3rem", marginLeft: "1.3rem"}}>
+     return <div style={{ marginRight: "1.3rem", marginLeft: "1.3rem" }}>
           <h1 className="h1-details">{product.Name}</h1> <br />
           <div className="detailsAttraction">
-               {product == null ? <Fragment>loading...</Fragment> : (<Fragment>
+               {!product ? <Fragment>loading...</Fragment> : (<Fragment>
                     {product.Images.length >= 14 && <FullWidthGrid images={product.Images} setCarousel={setGallery} />}
                     {gallery && <Gallery id={id} open={gallery} setOpen={setGallery} />}
                     <div className="details">
                          <div className="container-details">
+
                               <h2>מה תמצאו שם?</h2>
                               <p className="p-details">{product.Description}</p>
                               <br />
+
                               {product && <ActivityTime id={product.Id} />} <br />
                               <h4> <PlaceIcon /> איפה זה?</h4>
                               <p> כתובת: {product.Address} </p>
@@ -56,6 +59,7 @@ const DetailsAttraction = () => {
                               <h4> <QueryBuilderIcon /> משך זמן האטרקציה</h4>
                               <p>  {product.TimeDuration} דקות</p>
                               <br />
+
                               <h4> <FlipToFrontIcon /> טווח גילאי האטרקציה</h4>
                               <p> {product.TillAge} - {product.FromAge}</p>
                               <br />
@@ -66,16 +70,18 @@ const DetailsAttraction = () => {
                               <div className="communicate-container">
                                    <p> התקשרו לפרטים והזמנות:</p> <br />
                                    <p> <PhoneEnabledIcon /> {product.Phone} </p><br />
-                                   {user == null || user.Status == 1 ? <Button onClick={() => { navigate("/order/" + product.Id) }} variant="contained" size="large" style={{ backgroundColor: "orange" }}>
+                                   {!user || user.Status == 1 ? <Button onClick={() => { navigate("/order/" + product.Id) }}
+                                        variant="contained"
+                                        size="large"
+                                        style={{ backgroundColor: "orange" }}>
                                         להזמנת כרטיסים באונליין</Button> :
-                                        <Buttons id={product.Id} type={type}/>}
+                                        <Buttons id={product.Id} type={type} />}
                               </div>
                          </div>
-                         {product.lat && <MapWithAMarkerClustered type={0} lat={product.lat} lng={product.lng} /> }
+                         {product.lat && <MapWithAMarkerClustered type={0} lat={product.lat} lng={product.lng} />}
                     </div>
                </Fragment>)}
-
           </div>
-     </div>);
+     </div>
 }
 export default DetailsAttraction;

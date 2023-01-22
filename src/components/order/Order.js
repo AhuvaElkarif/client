@@ -36,6 +36,7 @@ const Order = ({ type }) => {
             orders: state.ordersArr
         }
     }, shallowEqual);
+
     useEffect(() => {
         if (type == 1) {
             setOrder({ ...orders.find(x => x.Id == orderId) });
@@ -49,7 +50,7 @@ const Order = ({ type }) => {
         // else
         // navigate("/");
     }, [order]);
-    
+
     const isStepSkipped = (step) => {
         return skipped.has(step);
     };
@@ -62,15 +63,14 @@ const Order = ({ type }) => {
             });
             return;
         }
-        if (activeStep == 1 && (date == null || startTime == null)) {
+        if (activeStep === 1 && (date == null || startTime == null)) {
             swal({
                 title: "לא נבחר מועד/זמן ",
                 icon: "warning"
             });
             return;
         }
-        
-        
+
         let newSkipped = skipped;
         if (isStepSkipped(activeStep)) {
             newSkipped = new Set(newSkipped.values());
@@ -86,12 +86,12 @@ const Order = ({ type }) => {
     };
 
     const onSubmit = (data) => {
-        console.log(data,startTime,date);
+        console.log(data, startTime, date);
         if (user == null) {
             data.Active = false;
             data.Status = 0
         }
-        const obj = { UserId: user ? user.Id : -1, User: data, OrderDate: date, StartTime: startTime, GlobalPrice: price, Amount: amount, AttractionId: id, IsApproval: false, Status: true }
+        const obj = { UserId: user ? user.Id : -1, User: data, OrderDate: new Date(date), StartTime: startTime, GlobalPrice: price, Amount: amount, AttractionId: id, IsApproval: false, Status: true }
         if (type == 0) {
             dispatch(addOrder(obj));
         }
@@ -101,6 +101,7 @@ const Order = ({ type }) => {
         }
         handleNext();
     };
+
     return (<div className='order'>
         <h2 >יש להתעדכן בשעות הפעילות של האטרקציה לפני רכישת הכרטיסים <br />
             <span onClick={() => { navigate("/detailsAttraction/" + id) }} className="timesHeader"> לשעות הפעילות לחץ כאן </span>
@@ -120,7 +121,7 @@ const Order = ({ type }) => {
                     );
                 })}
             </Stepper>
-            {activeStep === steps.length ? (
+            {activeStep == steps.length ? (
                 <Typography sx={{ mt: 2, mb: 1 }} style={{ marginRight: "4.5rem", textAlign: "center", marginTop: "5rem", marginBottom: "5rem", width: "60vw" }}>
                     <Alert severity="success" style={{ fontSize: "x-large" }}>
                         <AlertTitle style={{ fontSize: "xx-large" }}>סיימנו!</AlertTitle>
@@ -128,29 +129,34 @@ const Order = ({ type }) => {
                         <br />
                         נשלחה אליך הודעת מייל על פרטי ההזמנה. תודה שהזמנתם ב- Discover Israel
                     </Alert>
-                </Typography>
-            ) : (
-                <React.Fragment>
+                </Typography>) :
+                (<React.Fragment>
                     <Typography sx={{ mt: 2, mb: 1 }}>
-                        {activeStep == 0 ? <SelectTickets attractionId={id} amount={amount} setAmount={setAmount} setFlag={setFlag} setPrice={setPrice} />
-                            : activeStep == 1 ? <Calender setStart={setStart} id={id} setDate={setDate} amount={amount} type={type} /> :
-                                <Details price={price} date={date} flag={flag} id={id} onSubmit={onSubmit} type={type} />}
+                        {activeStep == 0 ? <SelectTickets setPrice={setPrice}
+                            attractionId={id} amount={amount}
+                            setAmount={setAmount} setFlag={setFlag} />
+
+                            : activeStep == 1 ? <Calender setStart={setStart} date={date}
+                                id={id} setDate={setDate} amount={amount} type={type} /> :
+
+                                <Details price={price} date={date}
+                                    flag={flag} id={id} onSubmit={onSubmit} type={type} />}
                     </Typography>
                     <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                         <Button
                             color="inherit"
-                            disabled={activeStep === 0}
+                            disabled={activeStep == 0}
                             onClick={handleBack}
                             sx={{ mr: 1 }}>
                             חזור
                         </Button>
                         <Box sx={{ flex: '1 1 auto' }} />
-                        {activeStep != steps.length - 1 && <Button onClick={handleNext} >
+                        {activeStep !== steps.length - 1 && <Button onClick={handleNext} >
                             הבא
                         </Button>}
                     </Box>
                 </React.Fragment>
-            )}
+                )}
         </Box>
     </div>
     );

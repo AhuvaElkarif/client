@@ -5,7 +5,6 @@ import "./Login.css";
 import "../register/Register.css";
 import * as React from "react";
 import IconButton from '@mui/material/IconButton';
-import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
 import FormControl from '@mui/material/FormControl';
@@ -39,7 +38,7 @@ const Login = () => {
             if (type == 2)
                 navigate("/editAttraction")
             else
-                if (user.Status == 2)
+                if (user.Status === 2)
                     navigate("/attractionsList/" + 2);
                 else
                     navigate("/attractionsList/" + 0);
@@ -73,45 +72,43 @@ const Login = () => {
     }
 
 
-    return (
-        <form onSubmit={handleSubmit(onSubmit)} className="location">
-            <h2>היי, טוב לראות אותך</h2> <br />
-            <TextField id="standard-basic" label="אימייל" name="Email"
+    return <form onSubmit={handleSubmit(onSubmit)} className="location">
+        <h2>היי, טוב לראות אותך</h2> <br />
+        <TextField id="standard-basic" label="אימייל" name="Email"
+            style={{ backgroundColor: "#ebedf0" }}
+            variant="outlined"  {...register("Email")} /><br />
+        <span style={{ color: "red" }}>{errors.Email?.message}</span> <br />
+
+        <FormControl sx={{ m: 1, width: '25ch' }} variant="standard">
+            <InputLabel htmlFor="outlined-adornment-password" style={{ position: "relative", left: "4rem", top: "1.2rem" }}>סיסמא</InputLabel>
+            <OutlinedInput
+                {...register("Password")}
+                id="outlined-adornment-password"
+                type={showPassword ? 'text' : 'password'}
                 style={{ backgroundColor: "#ebedf0" }}
-                variant="outlined"  {...register("Email")} /><br />
-            <span style={{ color: "red" }}>{errors.Email?.message}</span> <br />
-            <FormControl sx={{ m: 1, width: '25ch' }} variant="standard">
-                <InputLabel htmlFor="outlined-adornment-password" style={{ position: "relative", left: "4rem", top: "1.2rem" }}>סיסמא</InputLabel>
-                <OutlinedInput
-                    {...register("Password")}
-                    id="outlined-adornment-password"
-                    type={showPassword ? 'text' : 'password'}
-                    style={{ backgroundColor: "#ebedf0" }}
-                    endAdornment={
-                        <InputAdornment position="start">
-                            <IconButton
-                                aria-label="toggle password visibility"
-                                onClick={() => setshowPassword(!showPassword)}                            >
-                                {showPassword ? <VisibilityOff /> : <Visibility />}
-                            </IconButton>
-                        </InputAdornment>
-                    }
-                />
-                <span style={{ color: "red" }}>{errors.Password?.message}</span> <br />
-            </FormControl>
+                endAdornment={
+                    <InputAdornment position="start">
+                        <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={() => setshowPassword(!showPassword)}                            >
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                    </InputAdornment>
+                }
+            />
+            <span style={{ color: "red" }}>{errors.Password?.message}</span> <br />
+        </FormControl>
 
-            <br /> <br />
-            <Button variant="contained" size="medium" type="submit" style={{ color: "white", backgroundColor: "orange" }}>  התחבר  </Button>
-            <br /> <br />
-            <Divider style={{width:"30vw", color:"black", position:"relative", left:"2rem"}}/> <br />
-            <p className="move" onClick={openReset}>שכחתי סיסמא</p>
+        <br /> <br />
+        <Button variant="contained" size="medium" type="submit" style={{ color: "white", backgroundColor: "orange" }}>  התחבר  </Button>
+        <br /> <br />
+        <Divider style={{ width: "30vw", color: "black", position: "relative", left: "2rem" }} /> <br />
+        <p className="move" onClick={openReset}>שכחתי סיסמא</p>
 
-            {open ? <ForgetPassword email={mail} setOpen={setOpen} /> : null}
-            {/* {type != 3 && <p className="move"> לא רשום? עבור <span className="link" onClick={() => { navigate("/register/" + type); }}> להרשמה </span></p>} */}
-            <p className="move"> לא רשום? עבור <span className="link" onClick={() => { navigate("/register"); }}> להרשמה </span></p>
-            <br />
-        </form>
-    )
+        {open ? <ForgetPassword email={mail} setOpen={setOpen} /> : null}
+        <p className="move"> לא רשום? עבור <span className="link" onClick={() => { navigate("/register"); }}> להרשמה </span></p>
+        <br />
+    </form>
 }
 export default Login;
 

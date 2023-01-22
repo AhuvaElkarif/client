@@ -8,7 +8,7 @@ export const addGeneralTimes = (item) => {
 }
 
 export const getGeneralTimesByPeriodId = (id) => {
-    return axios.get("http://localhost:57828/api/generalTime/GetGeneralTimesByPeriodId?id="+ id);
+    return axios.get("http://localhost:57828/api/generalTime/GetGeneralTimesByPeriodId?id=" + id);
 }
 
 export const updateGeneralTime = (item) => {
@@ -16,6 +16,6 @@ export const updateGeneralTime = (item) => {
 }
 
 export const deleteGeneralTime = (id) => {
-    return axios.delete("http://localhost:57828/api/generalTime/Delete?generalTimeId="+ id);
+    return axios.delete("http://localhost:57828/api/generalTime/Delete?generalTimeId=" + id);
 }
 

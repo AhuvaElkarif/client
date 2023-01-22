@@ -8,7 +8,7 @@ const AlertMessage = ({ variant, children ,setFlag}) => {
     const timeId = setTimeout(() => {
       // After 3 seconds set the show value to false
       setShow(false);
-      if(setFlag!=undefined)setFlag(false);
+      if(setFlag) setFlag(false);
     }, 3000)
     return () => {
       clearTimeout(timeId);

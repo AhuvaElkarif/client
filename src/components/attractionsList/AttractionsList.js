@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { shallowEqual, useSelector } from 'react-redux';
 import SingleAttraction from "./SingleAttraction";
-import { getAttractions, getAttractionsByUserId } from "../../store/actions/AttractionActions";
 import SearchButton from './SearchButton';
 import SelectTextFields from './SelectTextFields';
 import './AttractionsList.css';
@@ -9,7 +8,6 @@ import '../sideNavBar/SideNavBar.css'
 import SideNavBar from '../sideNavBar/SideNavBar';
 import { Button } from '@material-ui/core';
 import { useParams } from 'react-router-dom';
-import Statistics from '../statistics/Statistics';
 const currencies = [
     {
         Id: 'REC',
@@ -27,13 +25,8 @@ const currencies = [
         Id: 'CHI',
         Name: 'מתאים לילדים',
     },
-    {
-        Id: 'FAM',
-        Name: 'מתאים למשפחות',
-    },
 ];
 export default function AttractionsList() {
-    const dispatch = useDispatch();
     const { type, area } = useParams();
     const [searchValue, setSearchValue] = useState('');
     const [max, setMax] = useState(0);
@@ -60,14 +53,16 @@ export default function AttractionsList() {
         const m = Math.max(...attractions.map(o => o.Price));
         setMax(m)
         handleChange({ target: { value: 'REC' } });
-    }, [attractions, type])
+    }, [attractions, type]);
+
     useEffect(() => {
-        if (area != undefined) { setAreaArr([parseInt(area)]); setCount(1) }
-    }, [type])
+        if (area) { setAreaArr([parseInt(area)]); setCount(1); }
+    }, [type]);
+
     const handleChange = ({ target }) => {
         let attractionCopy = [];
         if (type == 0)
-            attractionCopy = attractions.filter(x => x.Status == true && x.IsAvailable == true);
+            attractionCopy = attractions.filter(x => x.Status == true);
         else
             if (type == 2)
                 attractionCopy = [...attractions];
@@ -78,9 +73,7 @@ export default function AttractionsList() {
             case 'CHE': attractionCopy.sort((a, b) => a.Price - b.Price); break;
             case 'EXP': attractionCopy.sort((a, b) => b.Price - a.Price); break;
             case 'CHI':
-                attractionCopy = arr.filter(element => element.FromAge >= 5); break;
-            case 'FAM':
-                attractionCopy = arr.filter(element => element.FromAge >= 2 && element.TillAge <= 99); break;
+                attractionCopy = arr.filter(element => element.FromAge >= 2 && element.TillAge<=12); break;
         }
         setArr(attractionCopy)
     }
@@ -113,11 +106,12 @@ export default function AttractionsList() {
         }
         if (type != 4 && type != 5)
             setCount(x == "add" ? count + 1 : count - 1);
-    }
+    };
+
     const zero = () => {
         setCount(0);
         setMin(0);
-        setMax(Math.max(...attractions.map(o => o.Price)));
+        setMax(Math.max(...arr.map(o => o.Price)));
         setTillAge(99);
         setFromAge(0);
         setCategoryArr(null);
@@ -125,22 +119,25 @@ export default function AttractionsList() {
         setAreaArr(null);
         setFlag1(false);
         setFlag2(false);
-    }
-    return (<div >
-        {count > 0 && <div className='filterButton'>
+    };
+
+    return <div >
+        {count > 0 && <span className='filterButton'>
             <Button size="large" variant="contained" onClick={() => { setFlag(true); zero(); }} style={{ backgroundColor: "orange", color: "white" }}>
                 נקה הכל ({count}) </Button>
-        </div>}
+        </span>}
+
         <SideNavBar filterArr={filterArr} flag={flag} setFlag={setFlag} />
         <div className="selectButton">
             <SelectTextFields handleChange={handleChange} currencies={currencies} text={"סינון"} />
         </div>
+
         <div className="searchButton">
             <SearchButton search={({ target }) => setSearchValue(target.value)} />
         </div>
 
         <div className="product-list">
-            {arr != null ? arr.map(item => {
+            {arr.length > 0 ? arr.map(item => {
                 if (item.Name.includes(searchValue) &&
                     max >= item.Price && min <= item.Price &&
                     (fromAge == 0 || (fromAge >= item.FromAge && fromAge <= item.TillAge
@@ -150,7 +147,6 @@ export default function AttractionsList() {
                     (!areaArr || areaArr.includes(item.AreaId)))
                     return <div key={item.Id} className="container"> <SingleAttraction product={item} type={type} />
                     </div>
-            }) : null}</div>
+            }) : <div className="emptyMessage"> <p> רשימת האטרקציות שלך ריקה. </p> </div>}</div>
     </div>
-    );
 }
